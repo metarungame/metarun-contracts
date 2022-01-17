@@ -1,8 +1,9 @@
-# ERC-20 token for Metarun game and marketplace
+# MRUN ERC-20 token for Metarun game and marketplace
 
 ## Specification
 
 * Network: Polygon Mainnet
+* Contract address: [0x267DF8C1168C9d5aE8Ee97B48c7e86d8d43D88d2](https://polygonscan.com/address/0x267df8c1168c9d5ae8ee97b48c7e86d8d43d88d2#readContract)
 * Standard: ERC-20
 * Name: METARUN
 * Symbol: MRUN
