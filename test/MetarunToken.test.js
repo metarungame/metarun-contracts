@@ -35,6 +35,20 @@ describe("Metarun token", function () {
     expect(await this.token.balanceOf(this.deployer.address)).to.equal(initialSupply);
   });
 
+  it("user can burn his tokens", async function () {
+    const amountToBurn = ethers.utils.parseUnits("1000");
+    expect(await this.token.balanceOf(this.deployer.address)).to.equal(initialSupply);
+    await this.token.burn(amountToBurn);
+    expect(await this.token.balanceOf(this.deployer.address)).to.equal(initialSupply.sub(amountToBurn));
+  });
+
+  it("unable to burn more than balance", async function () {
+    expect(await this.token.balanceOf(this.deployer.address)).to.equal(initialSupply);
+    await expect(
+      this.token.burn(initialSupply.add("1"))
+    ).to.be.revertedWith("ERC20: burn amount exceeds balance");
+  });
+
   it("unable to exceed the cap", async function () {
     // it's possible to achieve cap value
     await this.token.mint(this.account1.address, cap.sub(initialSupply));
