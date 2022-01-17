@@ -2,7 +2,8 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("Metarun token", function () {
-  const totalSupplyAmount = ethers.utils.parseUnits("1000000000");
+  const initialSupply = ethers.utils.parseUnits("1000000");
+  const cap = ethers.utils.parseUnits("1000000000");
 
   beforeEach(async function () {
     this.signers = await ethers.getSigners();
@@ -11,7 +12,7 @@ describe("Metarun token", function () {
     this.account2 = this.signers[2];
     this.contract = await ethers.getContractFactory("MetarunToken");
     this.token = await this.contract.deploy();
-    await this.token.mint(this.deployer.address, totalSupplyAmount);
+    await this.token.mint(this.deployer.address, initialSupply);
   });
 
   it("has a name", async function () {
@@ -27,15 +28,25 @@ describe("Metarun token", function () {
   });
 
   it("returns the total amount of tokens", async function () {
-    expect(await this.token.totalSupply()).to.equal(totalSupplyAmount);
+    expect(await this.token.totalSupply()).to.equal(initialSupply);
   });
 
   it("returns the balance of deployer", async function () {
-    expect(await this.token.balanceOf(this.deployer.address)).to.equal(totalSupplyAmount);
+    expect(await this.token.balanceOf(this.deployer.address)).to.equal(initialSupply);
+  });
+
+  it("unable to exceed the cap", async function () {
+    // it's possible to achieve cap value
+    await this.token.mint(this.account1.address, cap.sub(initialSupply));
+    expect(await this.token.totalSupply()).to.equal(cap);
+    // then minting gets prohibited
+    await expect(
+      this.token.mint(this.account1.address, "1")
+    ).to.be.revertedWith("ERC20Capped: cap exceeded");
   });
 
   it("unable to mint without MINTER_ROLE", async function () {
-    expect(await this.token.balanceOf(this.deployer.address)).to.equal(totalSupplyAmount);
+    expect(await this.token.balanceOf(this.deployer.address)).to.equal(initialSupply);
     await expect(
       this.token.connect(this.account1).mint(this.account1.address, "1")
     ).to.be.revertedWith("METARUN: need MINTER_ROLE");
