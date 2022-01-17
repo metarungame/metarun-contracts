@@ -12,3 +12,13 @@
 * Pausable: No
 * Upgradeable: No
 * AccessControl: RoleBased: DEFAULT_ADMIN_ROLE, MINTER_ROLE
+
+## Deploy and verify
+
+```sh
+export MNEMONIC=<YOUR_MNEMONIC>
+export ETHERSCAN_API_KEY=<YOUR ETHERSCAN KEY>
+yarn
+yarn deploy:polygon
+yarn verify:polygon
+```

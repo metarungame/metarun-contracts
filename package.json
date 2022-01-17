@@ -6,9 +6,15 @@
     "chai": "^4.2.0",
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.0.0",
-    "hardhat": "^2.8.2"
+    "hardhat": "^2.8.2",
+    "hardhat-deploy": "^0.9.24"
   },
   "scripts": {
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "deploy:hardhat": "hardhat deploy",
+    "deploy:polygon": "hardhat deploy --network polygon",
+    "deploy:mumbai": "hardhat deploy --network mumbai",
+    "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
+    "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY"
   }
 }

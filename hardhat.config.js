@@ -1,4 +1,9 @@
 require("@nomiclabs/hardhat-waffle");
+require('hardhat-deploy');
+
+const accounts = {
+  mnemonic: `${process.env.MNEMONIC}`,
+}
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -18,4 +23,30 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.8.11",
+  namedAccounts: {
+    deployer: {
+      default: 0,
+    },
+  },
+  networks: {
+    polygon: {
+      url: 'https://rpc-mainnet.maticvigil.com',
+      accounts,
+      chainId: 137,
+      live: true,
+      saveDeployments: true,
+      gasPrice: 30000000000
+    },
+    mumbai: {
+      url: 'https://rpc-mumbai.maticvigil.com/',
+      accounts,
+      chainId: 80001,
+      live: true,
+      saveDeployments: true,
+      gasPrice: 39000000000
+    },
+    hardhat: {
+      chainId: 137
+    },
+  },
 };
