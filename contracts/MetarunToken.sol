@@ -2,12 +2,16 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
 import "hardhat/console.sol";
 
-contract MetarunToken is ERC20 {
+contract MetarunToken is AccessControl, ERC20 {
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     constructor() ERC20("METARUN", "MRUN") {
+        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _setupRole(MINTER_ROLE, _msgSender());
     }
 
     /**
@@ -17,7 +21,10 @@ contract MetarunToken is ERC20 {
      *
      */
     function mint(address to, uint256 amount) public virtual {
-        // todo: SECURITY ISSUE, should be protected by specific role!
+        require(
+            hasRole(MINTER_ROLE, _msgSender()),
+            "METARUN: need MINTER_ROLE"
+        );
         _mint(to, amount);
     }
     

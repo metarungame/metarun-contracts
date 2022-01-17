@@ -34,6 +34,13 @@ describe("Metarun token", function () {
     expect(await this.token.balanceOf(this.deployer.address)).to.equal(totalSupplyAmount);
   });
 
+  it("unable to mint without MINTER_ROLE", async function () {
+    expect(await this.token.balanceOf(this.deployer.address)).to.equal(totalSupplyAmount);
+    await expect(
+      this.token.connect(this.account1).mint(this.account1.address, "1")
+    ).to.be.revertedWith("METARUN: need MINTER_ROLE");
+  });
+
   describe("Checking token methods", function () {
     const amount = ethers.utils.parseUnits("1");
 
