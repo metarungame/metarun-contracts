@@ -9,9 +9,9 @@ describe("Metarun token", function () {
     this.deployer = this.signers[0];
     this.account1 = this.signers[1];
     this.account2 = this.signers[2];
-
     this.contract = await ethers.getContractFactory("MetarunToken");
     this.token = await this.contract.deploy();
+    await this.token.mint(this.deployer.address, totalSupplyAmount);
   });
 
   it("has a name", async function () {

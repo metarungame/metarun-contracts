@@ -8,7 +8,17 @@ import "hardhat/console.sol";
 contract MetarunToken is ERC20 {
 
     constructor() ERC20("METARUN", "MRUN") {
-        _mint(msg.sender, 1_000_000_000 * 10**decimals());
+    }
+
+    /**
+     * @dev Creates `amount` new tokens for `to`.
+     *
+     * See {ERC20-_mint}.
+     *
+     */
+    function mint(address to, uint256 amount) public virtual {
+        // todo: SECURITY ISSUE, should be protected by specific role!
+        _mint(to, amount);
     }
     
 }
