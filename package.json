@@ -15,6 +15,14 @@
     "deploy:polygon": "hardhat deploy --network polygon",
     "deploy:mumbai": "hardhat deploy --network mumbai",
     "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
-    "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY"
+    "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
+    "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
+    "solhint": "solhint -c .solhint.json contracts/*.sol",
+    "lint": "yarn prettier && yarn solhint"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "solhint": "^3.3.6"
   }
 }
