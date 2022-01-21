@@ -1,9 +1,11 @@
 require("@nomiclabs/hardhat-waffle");
-require('hardhat-deploy');
+require("hardhat-deploy");
+require("hardhat-deploy-ethers");
+require("./tasks/addBeneficary");
 
 const accounts = {
-  mnemonic: `${process.env.MNEMONIC}`,
-}
+  mnemonic: `depart bring detect easy erupt series sponsor any frown knock region prison`,
+};
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -30,23 +32,23 @@ module.exports = {
   },
   networks: {
     polygon: {
-      url: 'https://rpc-mainnet.maticvigil.com',
+      url: "https://rpc-mainnet.maticvigil.com",
       accounts,
       chainId: 137,
       live: true,
       saveDeployments: true,
-      gasPrice: 30000000000
+      gasPrice: 30000000000,
     },
     mumbai: {
-      url: 'https://rpc-mumbai.maticvigil.com/',
+      url: "https://rpc-mumbai.maticvigil.com/",
       accounts,
       chainId: 80001,
       live: true,
       saveDeployments: true,
-      gasPrice: 39000000000
+      gasPrice: 30000000000,
     },
     hardhat: {
-      chainId: 137
+      chainId: 137,
     },
   },
 };

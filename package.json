@@ -7,14 +7,15 @@
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.0.0",
     "hardhat": "^2.8.2",
-    "hardhat-deploy": "^0.9.24"
+    "hardhat-deploy": "^0.9.24",
+    "hardhat-deploy-ethers": "^0.3.0-beta.13"
   },
   "scripts": {
     "test": "hardhat test",
     "deploy:hardhat": "hardhat deploy",
     "deploy:polygon": "hardhat deploy --network polygon",
     "deploy:mumbai": "hardhat deploy --network mumbai",
-    "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
-    "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY"
+    "verify:polygon": "hardhat etherscan-verify --network polygon --api-key N7Q632I6RTHK3NPXC1WKNCKNZ3AA8PGNK1",
+    "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key N7Q632I6RTHK3NPXC1WKNCKNZ3AA8PGNK1"
   }
 }

@@ -1,4 +1,9 @@
-module.exports = async function ({ ethers, getNamedAccounts, deployments, hre }) {
+module.exports = async function ({
+  ethers,
+  getNamedAccounts,
+  deployments,
+  hre,
+}) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
@@ -9,11 +14,10 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
     args: [token.address],
     log: true,
     deterministicDeployment: false,
-    skipIfAlreadyDeployed: true
-  })
+    skipIfAlreadyDeployed: true,
+  });
 
   console.log("Vesting address:", vesting.address);
-
 };
 
 module.exports.tags = ["TokenVesting"];
