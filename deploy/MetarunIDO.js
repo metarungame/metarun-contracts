@@ -12,22 +12,14 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   const enableTierSystem = true;
 
   // IDO time and economic boundaries
-  const amount = ethers.utils.parseEther("1000000");
-  const tokenPrice = ethers.utils.parseEther("0.1");
-  const minEthPayment = ethers.utils.parseEther("0.1");
-  const maxEthPayment = ethers.utils.parseEther("1");
+  const amount = ethers.utils.parseEther("10000000"); // MRUN
+  const tokenPrice = ethers.utils.parseEther("0.000001"); // MATIC
+  const minEthPayment = ethers.utils.parseEther("0.000001"); // MATIC
+  const maxEthPayment = ethers.utils.parseEther("0.1"); // MATIC
   const maxDistributedTokenAmount = amount;
-  const startTimestamp = 1642757807;
-  const finishTimestamp = 1642787807;
+  const startTimestamp = 1642784400 // 2022-01-21T17:00:00+00:00
+  const finishTimestamp = 1642870800 // 2022-01-22T17:00:00+00:00
   const startClaimTimestamp = finishTimestamp;
-
-  // IDO TierSystem configuration
-  const vipDisAmount = ethers.utils.parseEther("100");
-  const vipPercent = 100;
-  const holdersDisAmount = ethers.utils.parseEther("10");
-  const holdersPercent = 25;
-  const publicDisAmount = ethers.utils.parseEther("0.001");
-  const publicPercent = 10;
 
   hardhatChainId = ethers.provider._hardhatProvider._provider._chainId;
   backupChainId = 80001;
@@ -49,14 +41,6 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
     { from: deployer, log: true },
     'mint',
     deployer,
-    amount
-  );
-
-  await execute(
-    'MetarunToken',
-    { from: deployer, log: true },
-    'approve',
-    this.idoCreator.address,
     amount
   );
 
