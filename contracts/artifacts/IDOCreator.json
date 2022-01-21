@@ -7322,12 +7322,12 @@
         }
       },
       "links": {},
-      "address": "0x188776030631711CBBAd265C4a9e4219FA5ad3e5",
-      "transactionHash": "0x41b1ce0c2edb0c3d587021d09201767056f535bed315c62542d3bed4d8daada2"
+      "address": "0xBAB17C2C8d4649Cd1cB378e3854B5dD8eDeEBaC2",
+      "transactionHash": "0x4ad612e3d7639140511a39df8e2ed505a34cd99b91d045f37d45abf0e8c96b11"
     }
   },
   "schemaVersion": "3.3.2",
-  "updatedAt": "2022-01-05T15:36:30.397Z",
+  "updatedAt": "2022-01-21T14:27:06.036Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
