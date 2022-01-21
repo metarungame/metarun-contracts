@@ -17,9 +17,17 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   const minEthPayment = ethers.utils.parseEther("0.000001"); // MATIC
   const maxEthPayment = ethers.utils.parseEther("0.1"); // MATIC
   const maxDistributedTokenAmount = amount;
-  const startTimestamp = 1642784400 // 2022-01-21T17:00:00+00:00
-  const finishTimestamp = 1642870800 // 2022-01-22T17:00:00+00:00
+  const startTimestamp = Date.parse("2022-01-21T19:00:00+00:00")/1000;
+  console.log("startTimestamp:", startTimestamp);
+  const finishTimestamp = Date.parse("2022-01-22T19:00:00+00:00")/1000;
+  console.log("finishTimestamp:", finishTimestamp);
   const startClaimTimestamp = finishTimestamp;
+  console.log("startClaimTimestamp:", startClaimTimestamp);
+
+  vestingPercent = 100;
+  vestingStart = startClaimTimestamp;
+  vestingInterval = 60 * 60; // hourly
+  vestingDuration = 60 * 60 * 24; 
 
   hardhatChainId = ethers.provider._hardhatProvider._provider._chainId;
   backupChainId = 80001;
@@ -52,7 +60,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
     amount
   );
 
-  const tx = await this.idoCreator.createIDO(
+  let tx = await this.idoCreator.createIDO(
     tokenPrice,
     token.address,
     startTimestamp,
@@ -73,6 +81,10 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   idoPoolAddress = this.idoMaster.interface.parseLog(txReceipt.logs[4]).args.idoPool;
   console.log("IDOPool created:", idoPoolAddress);
   this.idoPool = await ethers.getContractAt(IDOPool.abi, idoPoolAddress);
+  console.log("Setting vesting on IDO Pool:", idoPoolAddress);
+  tx = await this.idoPool.setVesting(vestingPercent, vestingStart, vestingInterval, vestingDuration);
+  console.log("Sent Tx:", tx.hash);
+  await tx.wait();
 };
 
 module.exports.tags = ["CreateIDO"];
