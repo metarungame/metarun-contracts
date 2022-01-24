@@ -1,5 +1,11 @@
 require("@nomiclabs/hardhat-waffle");
 require('hardhat-deploy');
+require('hardhat-deploy-ethers');
+
+require('./tasks/parse-csv-to-json.js');
+require('./tasks/get-balances.js');
+require('./tasks/summation-balances.js');
+require('./tasks/set-balances.js');
 require('./tasks/mint-tokens.js');
 require('solidity-coverage')
 
@@ -7,22 +13,6 @@ const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
 }
 
-// This is a sample Hardhat task. To learn how to create your own go to
-// https://hardhat.org/guides/create-task.html
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-
-  for (const account of accounts) {
-    console.log(account.address);
-  }
-});
-
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
-
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
 module.exports = {
   solidity: "0.8.11",
   namedAccounts: {
@@ -31,6 +21,27 @@ module.exports = {
     },
   },
   networks: {
+    ethereum: {
+      url: `https://mainnet.infura.io/v3/${process.env.API_KEY}`,
+      accounts,
+      chainId: 1,
+      live: true,
+      saveDeployments: true,
+    },
+    bsc: {
+      url: 'https://bsc-dataseed1.ninicoin.io/',
+      accounts,
+      chainId: 56,
+      live: true,
+      saveDeployments: true,
+    },
+    ftm: {
+      url: 'https://rpcapi-tracing.fantom.network/',
+      accounts,
+      chainId: 250,
+      live: true,
+      saveDeployments: true,
+    },
     polygon: {
       url: 'https://rpc-mainnet.maticvigil.com',
       accounts,
@@ -45,7 +56,8 @@ module.exports = {
       chainId: 80001,
       live: true,
       saveDeployments: true,
-      gasPrice: 39000000000
+      gasPrice: 2000000000,
+      gasLimit: 20000000
     },
     hardhat: {
       chainId: 137
