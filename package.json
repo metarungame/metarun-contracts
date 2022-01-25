@@ -31,7 +31,7 @@
     "getBalances:bsc": "hardhat getBalances --network bsc --json-path holders-chainId-56.json --token-address 0x57effde2759b68d86c544e88f7977e3314144859",
     "getBalances:ftm": "hardhat getBalances --network ftm --json-path holders-chainId-250.json --token-address 0x0e121961dd741c9d49c9a04379da944a9d2fac7a",
     "summationBalances": "hardhat summationBalances --json-path-ethereum holders-chainId-1.json --json-path-bsc holders-chainId-56.json --json-path-ftm holders-chainId-250.json",
-    "setBalances:mumbai": "hardhat setBalances --json-path summation-of-balances.json --network mumbai --contract-address 0x80Bc4253606f837896D7A7EBD9c6C16b01d72050",
+    "setBalances:mumbai": "hardhat setBalances --json-path summation-of-balances.json --network mumbai --contract-address 0x80Bc4253606f837896D7A7EBD9c6C16b01d72050 --balance-list-length 800",
     "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
     "solhint": "solhint -c .solhint.json contracts/*.sol",
     "lint": "yarn prettier && yarn solhint"

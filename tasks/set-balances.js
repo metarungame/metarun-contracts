@@ -9,6 +9,7 @@ const LIMIT = 800
 task('setBalances', 'set balances to TierSystem contract')
   .addParam('jsonPath', '.json file with holders and balances')
   .addParam('contractAddress', 'TierSystem contract address')
+  .addParam('balanceListLength', 'the length of the balance list that can be passed as an argument')
   .setAction(async(taskArgs, hre) => {
     console.log('start set balances to TierSystem contract')
 
@@ -23,7 +24,7 @@ task('setBalances', 'set balances to TierSystem contract')
       addresses.push(holder)
       balances.push(holders[holder])
 
-      if (balances.length == LIMIT) {
+      if (balances.length == taskArgs.balanceListLength) {
         bundleBalances.push(
           {
             addresses: addresses.slice(),
