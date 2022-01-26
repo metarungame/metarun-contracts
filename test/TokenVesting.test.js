@@ -4,8 +4,8 @@ const { ethers } = require("hardhat");
 describe("Metarun Token Vesting", function () {
   const initialSupply = ethers.utils.parseUnits("1000000");
   let start;
-  const interval = 3600;
-  const duration = interval * 4;
+  const interval = 60 * 60 * 24;
+  const duration = 3 * 30 * 60 * 60 * 24;
   const balance = ethers.utils.parseUnits("1");
 
   beforeEach(async function () {
@@ -15,7 +15,7 @@ describe("Metarun Token Vesting", function () {
 
     const blockNumber = await ethers.provider.getBlockNumber();
     const block = await ethers.provider.getBlock(blockNumber);
-    start = block.timestamp;
+    start = Date.parse("2022-02-10T00:00+00:00") / 1000;
 
     this.tokenFactory = await ethers.getContractFactory("MetarunToken");
     this.vestingFactory = await ethers.getContractFactory("TokenVesting");
