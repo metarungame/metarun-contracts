@@ -1,5 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
 require('hardhat-deploy');
+require('solidity-coverage')
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,

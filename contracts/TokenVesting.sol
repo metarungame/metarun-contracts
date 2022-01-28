@@ -37,6 +37,10 @@ contract TokenVesting is Context, ReentrancyGuard  {
         _token = IERC20(token);
     }
 
+    function _getCurrentBlockTime() internal virtual view returns (uint256) {
+        return block.timestamp;
+    }
+
     function getVesting(address beneficiary) public view returns (uint256, uint256, uint256, uint256, uint256) {
         Vesting memory v = _vestings[beneficiary];
         return (v.start, v.interval, v.duration, v.balance, v.released);
@@ -90,13 +94,16 @@ contract TokenVesting is Context, ReentrancyGuard  {
 
     function vestedAmount(address beneficiary) public view returns (uint256) {
         Vesting memory vest = _vestings[beneficiary];
+        if (_getCurrentBlockTime() < vest.start) {
+            return 0;
+        }
         uint256 currentBalance = vest.balance;
         uint256 totalBalance = currentBalance.add(vest.released);
 
-        if (block.timestamp >= vest.start.add(vest.duration)) {
+        if (_getCurrentBlockTime() >= vest.start.add(vest.duration)) {
             return totalBalance;
         } else {
-            uint256 numberOfInvervals = block.timestamp.sub(vest.start).div(vest.interval);
+            uint256 numberOfInvervals = _getCurrentBlockTime().sub(vest.start).div(vest.interval);
             uint256 totalIntervals = vest.duration.div(vest.interval);
             return totalBalance.mul(numberOfInvervals).div(totalIntervals);
         }

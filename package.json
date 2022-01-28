@@ -21,8 +21,10 @@
     "lint": "yarn prettier && yarn solhint"
   },
   "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15",
     "prettier": "^2.5.1",
     "prettier-plugin-solidity": "^1.0.0-beta.19",
-    "solhint": "^3.3.6"
+    "solhint": "^3.3.6",
+    "solidity-coverage": "^0.7.18"
   }
 }
