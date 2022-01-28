@@ -90,6 +90,9 @@ contract TokenVesting is Context, ReentrancyGuard  {
 
     function vestedAmount(address beneficiary) public view returns (uint256) {
         Vesting memory vest = _vestings[beneficiary];
+        if (block.timestamp < vest.start) {
+            return 0;
+        }
         uint256 currentBalance = vest.balance;
         uint256 totalBalance = currentBalance.add(vest.released);
 
