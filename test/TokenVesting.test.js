@@ -13,6 +13,7 @@ describe("TokenVesting", function () {
 
   beforeEach(async function () {
     this.token = await this.tokenFactory.deploy();
+    await this.token.mint(this.deployer.address, "1000000");
     this.vesting = await this.vestingFactory.deploy(this.token.address);
     await this.token.approve(this.vesting.address, await this.token.totalSupply());
   });
@@ -26,19 +27,23 @@ describe("TokenVesting", function () {
   });
 
   describe("after vesting configured", async function () {
-    const now = "1643707273";
     const day = 60 * 60 * 24;
 
     beforeEach(async function () {
-      this.vesting.createVesting(this.beneficiary.address, now, 1, day, 0);
+      this.now = (await ethers.provider.getBlock("latest")).timestamp;
+      await this.vesting.createVesting(this.beneficiary.address, this.now, 1, day, "1000000");
     });
 
     it("beneficiary has proper allocation", async function () {
       const vesting = await this.vesting.getVesting(this.beneficiary.address);
-      expect(vesting[0]).to.equal(now);
+      expect(vesting[0]).to.equal(this.now);
       expect(vesting[1]).to.equal("1");
       expect(vesting[2]).to.equal(day);
-      expect(vesting[3]).to.equal("0");
+      expect(vesting[3]).to.equal("1000000");
+    });
+
+    it("releasable amount is non-zero", async function () {
+      expect(await this.vesting.releasableAmount(this.beneficiary.address)).to.equal("11");
     });
   });
 });
