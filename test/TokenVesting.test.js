@@ -45,5 +45,16 @@ describe("TokenVesting", function () {
     it("releasable amount is non-zero", async function () {
       expect(await this.vesting.releasableAmount(this.beneficiary.address)).to.equal("11");
     });
+
+    it("releasable amount can be released", async function () {
+      // todo: subject for refactoring. Depends on hardhat's timing.
+      // should be mocked
+      expect(await this.vesting.releasableAmount(this.beneficiary.address)).to.equal("11");
+      tx = await this.vesting.release(this.beneficiary.address);
+      await expect(tx).to.emit(this.token, "Transfer").withArgs(this.vesting.address, this.beneficiary.address, "23");
+      expect(await this.vesting.releasableAmount(this.beneficiary.address)).to.equal("0");
+      tx = await this.vesting.release(this.beneficiary.address);
+      await expect(tx).to.emit(this.token, "Transfer").withArgs(this.vesting.address, this.beneficiary.address, "11");
+    });
   });
 });
