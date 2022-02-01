@@ -70,4 +70,33 @@ describe("Metarun token collection", function () {
 
     });
 
+
+    describe("Token roles", function () {
+        it("should deny minting for non-minter", async function () {
+            const attemptToMint = this.metarunCollection.connect(this.stranger)
+                .mint(this.stranger.address, this.firstTokenId, 10);
+            await expect(attemptToMint).to.be.revertedWith("METARUNCOLLECTION: need MINTER_ROLE");
+        });
+
+        it("should perform minting for minter", async function () {
+            const attemptToMint = this.metarunCollection
+                .mint(this.stranger.address, this.firstTokenId, 10);
+            await expect(attemptToMint).to.be.ok;
+        });
+
+        it("should deny changing uri for non-admin", async function () {
+            const attemptToChangeURI = this.metarunCollection.connect(this.stranger)
+                .changeUri("localhost:5050/api/tokens/{id}.json");
+            await expect(attemptToChangeURI).to.be.revertedWith("METARUNCOLLECTION: need ADMIN_ROLE");
+        });
+
+        it("should perform changing uri for admin", async function () {
+            const attemptToChangeURI = this.metarunCollection
+                .changeUri("localhost:5050/api/tokens/{id}.json");
+            await expect(attemptToChangeURI).to.be.ok;
+        });
+
+
+    });
+
 });
