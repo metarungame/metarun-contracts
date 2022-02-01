@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Context.sol";
@@ -35,6 +34,10 @@ contract TokenVesting is Context, ReentrancyGuard  {
     constructor (address token) {
         require(token != address(0), "token address cannot be zero");
         _token = IERC20(token);
+    }
+
+    function _getCurrentBlockTime() public virtual returns (uint256) {
+        return block.timestamp;
     }
 
     function getVesting(address beneficiary) public view returns (uint256, uint256, uint256, uint256, uint256) {
@@ -90,13 +93,16 @@ contract TokenVesting is Context, ReentrancyGuard  {
 
     function vestedAmount(address beneficiary) public view returns (uint256) {
         Vesting memory vest = _vestings[beneficiary];
+        if (_getCurrentBlockTime() < vest.start) {
+            return 0;
+        }
         uint256 currentBalance = vest.balance;
         uint256 totalBalance = currentBalance.add(vest.released);
 
-        if (block.timestamp >= vest.start.add(vest.duration)) {
+        if (_getCurrentBlockTime() >= vest.start.add(vest.duration)) {
             return totalBalance;
         } else {
-            uint256 numberOfInvervals = block.timestamp.sub(vest.start).div(vest.interval);
+            uint256 numberOfInvervals = _getCurrentBlockTime().sub(vest.start).div(vest.interval);
             uint256 totalIntervals = vest.duration.div(vest.interval);
             return totalBalance.mul(numberOfInvervals).div(totalIntervals);
         }
