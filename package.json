@@ -11,6 +11,7 @@
   },
   "scripts": {
     "test": "hardhat test",
+    "coverage": "hardhat coverage",
     "deploy:hardhat": "hardhat deploy",
     "deploy:polygon": "hardhat deploy --network polygon",
     "deploy:mumbai": "hardhat deploy --network mumbai",
