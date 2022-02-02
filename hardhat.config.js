@@ -1,5 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
 require('hardhat-deploy');
+require('./tasks/mint-tokens.js');
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
@@ -48,5 +49,12 @@ module.exports = {
     hardhat: {
       chainId: 137
     },
+    rinkeby: {
+        chainId: 4,
+        accounts,
+        url: `https://rinkeby.infura.io/v3/${process.env.INFURA_KEY}`,
+        live: true,
+        saveDeployments: true,
+    }
   },
 };

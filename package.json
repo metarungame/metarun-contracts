@@ -1,28 +1,31 @@
 {
-  "dependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.0",
-    "@nomiclabs/hardhat-waffle": "^2.0.0",
-    "@openzeppelin/contracts": "^4.4.2",
-    "chai": "^4.2.0",
-    "ethereum-waffle": "^3.0.0",
-    "ethers": "^5.0.0",
-    "hardhat": "^2.8.2",
-    "hardhat-deploy": "^0.9.24"
-  },
-  "scripts": {
-    "test": "hardhat test",
-    "deploy:hardhat": "hardhat deploy",
-    "deploy:polygon": "hardhat deploy --network polygon",
-    "deploy:mumbai": "hardhat deploy --network mumbai",
-    "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
-    "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
-    "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
-    "solhint": "solhint -c .solhint.json contracts/*.sol",
-    "lint": "yarn prettier && yarn solhint"
-  },
-  "devDependencies": {
-    "prettier": "^2.5.1",
-    "prettier-plugin-solidity": "^1.0.0-beta.19",
-    "solhint": "^3.3.6"
-  }
+    "dependencies": {
+        "@nomiclabs/hardhat-ethers": "^2.0.0",
+        "@nomiclabs/hardhat-waffle": "^2.0.0",
+        "@openzeppelin/contracts": "^4.4.2",
+        "chai": "^4.2.0",
+        "ethereum-waffle": "^3.0.0",
+        "ethers": "^5.0.0",
+        "hardhat": "^2.8.2",
+        "hardhat-deploy": "^0.9.24"
+    },
+    "scripts": {
+        "test": "hardhat test",
+        "mint-tokens:local": "hardhat mint-tokens --local --address $METARUN_COLLECTION_ADDRESS --amount $AMOUNT",
+        "mint-tokens:rinkeby": "hardhat mint-tokens --network rinkeby --address $METARUN_COLLECTION_ADDRESS --amount $AMOUNT",
+        "deploy:hardhat": "hardhat deploy",
+        "deploy:polygon": "hardhat deploy --network polygon",
+        "deploy:mumbai": "hardhat deploy --network mumbai",
+        "deploy-metarun-collection:rinkeby": "hardhat deploy --network rinkeby --tags MetarunCollection",
+        "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
+        "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
+        "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol && prettier --write tasks/*.js",
+        "solhint": "solhint -c .solhint.json contracts/*.sol",
+        "lint": "yarn prettier && yarn solhint"
+    },
+    "devDependencies": {
+        "prettier": "^2.5.1",
+        "prettier-plugin-solidity": "^1.0.0-beta.19",
+        "solhint": "^3.3.6"
+    }
 }
