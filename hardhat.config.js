@@ -1,10 +1,7 @@
 require("@nomiclabs/hardhat-waffle");
 require('hardhat-deploy');
-<<<<<<< HEAD
 require('./tasks/mint-tokens.js');
-=======
 require('solidity-coverage')
->>>>>>> 63dc532... WIP 102 Fix cliffs from future in vestedAmount function #102
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
