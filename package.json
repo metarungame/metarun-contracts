@@ -19,6 +19,7 @@
         "deploy-metarun-collection:rinkeby": "hardhat deploy --network rinkeby --tags MetarunCollection",
         "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
         "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
+        "verify:rinkeby": "hardhat etherscan-verify --network rinkeby --api-key $ETHERSCAN_API_KEY",
         "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol && prettier --write tasks/*.js",
         "solhint": "solhint -c .solhint.json contracts/*.sol",
         "lint": "yarn prettier && yarn solhint"
