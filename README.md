@@ -35,8 +35,8 @@ Task group in use (run by list):
 * Get the correct balances from the contract using the web3 provider.  In case of a task crash, you can restart and the balances will continue to be updated.  
 `yarn getBalances:<network>`  
 
-* Summation of all balances from several networks.  
-`yarn summationBalances`
+* Summarize of all balances from several networks.  
+`yarn summarizeBalances`
 
 * Adding balances to TierSystem contract. The value of balance-list-length is set based on gasLimit and gasPrice on the network.  
 `yarn setBalances:<network>`

@@ -4,7 +4,7 @@ require('hardhat-deploy-ethers');
 
 require('./tasks/parse-csv-to-json.js');
 require('./tasks/get-balances.js');
-require('./tasks/summation-balances.js');
+require('./tasks/summarize-balances.js');
 require('./tasks/set-balances.js');
 require('./tasks/mint-tokens.js');
 require('solidity-coverage')

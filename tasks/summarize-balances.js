@@ -6,12 +6,12 @@ function getHolders(path) {
   return JSON.parse(fs.readFileSync(path))
 }
 
-task('summationBalances', 'summation of balances from networks: 1, 56, 250')
+task('summarizeBalances', 'summarize of balances from networks: 1, 56, 250')
   .addParam('jsonPathEthereum', '.json file with holders from ethereum')
   .addParam('jsonPathBsc', '.json file with holders from bsc')
   .addParam('jsonPathFtm', '.json file with holders from frm')
   .setAction(async(taskArgs, hre) => {
-    console.log('start summation of balances')
+    console.log('start summarize of balances')
 
     const ethers = hre.ethers;
 
@@ -38,11 +38,11 @@ task('summationBalances', 'summation of balances from networks: 1, 56, 250')
     }
 
     data = JSON.stringify(generalBalances);
-    const jsonFileName = 'summation-of-balances.json'
+    const jsonFileName = 'summarize-of-balances.json'
     fs.writeFileSync(jsonFileName, data, function(err) {
       if (err) {
         console.log(err);
       }
     });
-    console.log('save summation of balances from networks: 1, 56, 250 to', jsonFileName);
+    console.log('save summarize of balances from networks: 1, 56, 250 to', jsonFileName);
 });
