@@ -64,3 +64,20 @@ task("mint-tokens", "Mint MetarunCollection tokens")
       console.log(`Added ${i + 1}th token. Tx hash: ${transaction.hash}`);
     }
   });
+
+task("simplified-mint-tokens", "Simplified Mint MetarunCollection tokens")
+  .addParam("addressToken")
+  .addParam("addressReceiver")
+  .setAction(async (taskArgs, hre) => {
+    const ethers = hre.ethers;
+    const metarunCollectionAddress = taskArgs.addressToken;
+    const addressReceiver = taskArgs.addressReceiver;
+    const metarunCollection = await ethers.getContractAt("MetarunCollection", metarunCollectionAddress);
+    const categories = await getTokenCategories(metarunCollection);
+    const amount = 1;
+    for (let i = 0; i < categories.length; i++) {
+      const tokenId = categories[i];
+      const transaction = await metarunCollection.mint(addressReceiver, tokenId, amount);
+      console.log(`Added ${i + 1}th token. Tx hash: ${transaction.hash}`);
+    }
+  });
