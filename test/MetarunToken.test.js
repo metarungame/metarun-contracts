@@ -1,15 +1,27 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const {web3} = require("@openzeppelin/test-helpers/src/setup");
+const {extendConfig} = require("hardhat/config");
+const {
+    BN, // Big Number support
+    constants, // Common constants, like the zero address and largest integers
+    expectEvent, // Assertions for emitted events
+    expectRevert, // Assertions for transactions that should fail
+} = require("@openzeppelin/test-helpers");
+const {ZERO_ADDRESS} = constants;
 
 describe("Metarun token", function () {
   const initialSupply = ethers.utils.parseUnits("1000000");
   const cap = ethers.utils.parseUnits("1000000000");
+
+  const MINTER_ROLE = web3.utils.soliditySha3('MINTER_ROLE');
 
   beforeEach(async function () {
     this.signers = await ethers.getSigners();
     this.deployer = this.signers[0];
     this.account1 = this.signers[1];
     this.account2 = this.signers[2];
+    this.account3 = this.signers[3];
     this.contract = await ethers.getContractFactory("MetarunToken");
     this.token = await this.contract.deploy();
     await this.token.mint(this.deployer.address, initialSupply);
@@ -202,6 +214,33 @@ describe("Metarun token", function () {
           ).to.be.revertedWith("ERC20: decreased allowance below zero");
         });
       });
+    });
+  });
+
+  describe("Only default admin can give MINTER_ROLE", function () {
+    it("Only DEFAULT_ADMIN_ROLE can grant MINTER_ROLE", async function () {
+      await expect(this.token.connect(this.account1).grantRole(MINTER_ROLE, this.account3.address)).to.be.revertedWith(
+          `AccessControl: account ${this.account1.address.toLowerCase()} is missing role 0x0000000000000000000000000000000000000000000000000000000000000000`);
+      await expect(this.token.connect(this.deployer).grantRole(MINTER_ROLE, this.account3.address)).to.emit(
+          this.token, "RoleGranted").withArgs(MINTER_ROLE, this.account3.address, this.deployer.address);
+    });
+    it("Only DEFAULT_ADMIN_ROLE can revoke MINTER_ROLE", async function () {
+        await expect(this.token.connect(this.deployer).grantRole(MINTER_ROLE, this.account3.address)).to.emit(
+            this.token, "RoleGranted").withArgs(MINTER_ROLE, this.account3.address, this.deployer.address);
+        await expect(this.token.connect(this.account1).revokeRole(MINTER_ROLE, this.account3.address)).to.be.revertedWith(
+            `AccessControl: account ${this.account1.address.toLowerCase()} is missing role 0x0000000000000000000000000000000000000000000000000000000000000000`);
+        await expect(this.token.connect(this.deployer).revokeRole(MINTER_ROLE, this.account3.address)).to.emit(
+            this.token,"RoleRevoked").withArgs(MINTER_ROLE, this.account3.address, this.deployer.address);
+    });
+    it("Minter cant mint after MINTER_ROLE revoke", async function () {
+      await expect(this.token.connect(this.deployer).grantRole(MINTER_ROLE, this.account3.address)).to.emit(
+          this.token, "RoleGranted").withArgs(MINTER_ROLE, this.account3.address, this.deployer.address);
+      await expect(this.token.connect(this.account3).mint(this.account2.address, "1")).to.emit(
+          this.token, "Transfer").withArgs(ZERO_ADDRESS, this.account2.address, "1");
+      await expect(this.token.connect(this.deployer).revokeRole(MINTER_ROLE, this.account3.address)).to.emit(
+          this.token,"RoleRevoked").withArgs(MINTER_ROLE, this.account3.address, this.deployer.address);
+      await expect(this.token.connect(this.account3).mint(this.account2.address, "1")).to.be.revertedWith(
+          "METARUN: need MINTER_ROLE");
     });
   });
 });
