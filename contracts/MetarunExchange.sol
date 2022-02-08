@@ -2,12 +2,13 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
 /**
  * @title Metarun ERC-1155 exchange
  * @dev Ensures the sale of tokens (exchanging them on Ether) by matching orders
  */
-contract MetarunExchange {
+contract MetarunExchange is EIP712 {
     IERC1155 public token;
 
     struct SellOrder {
@@ -25,17 +26,42 @@ contract MetarunExchange {
         uint256 salt;
     }
 
-    constructor(address _token) {
+    constructor(address _token) EIP712("metarun.game", "0.1") {
         require(_token != address(0), "token address cannot be zero");
         token = IERC1155(_token);
     }
 
     // todo: SECURITY! make non-reentrant!
-    function buy(SellOrder memory sellOrder) external payable {
+    function buy(SellOrder memory sellOrder, bytes memory signature) external payable {
+        bytes32 sellOrderHash = hashSellOrder(sellOrder);
+        address signer = ECDSA.recover(sellOrderHash, signature);
+        require(signer != address(0), "BAD_SIGNATURE");
+        require(signer == sellOrder.seller, "BAD SIGNER");
+        require(msg.value == sellOrder.price, "BAD VALUE");
         // check the order is actual (not traded already)
         // check the order is not expired and not too early
-        // check the value matches order's price
         // withdraw NFTs from seller and transfer to buyer
         // send value to seller
+    }
+
+    // Returns the hash of the fully encoded EIP712 SellOrder for this domain.
+    // todo: made public for debugging reasons.
+    // Need to make it internal to optimize gas consumption
+    function hashSellOrder(SellOrder memory sellOrder) public view returns (bytes32) {
+        bytes32 sellOrderTypeHash = keccak256(
+            "SellOrder(address seller,uint256 tokenId,uint256 amount,uint256 expirationTime,uint256 price,uint256 salt)"
+        );
+        bytes32 orderHash = keccak256(
+            abi.encode(
+                sellOrderTypeHash,
+                sellOrder.seller,
+                sellOrder.tokenId,
+                sellOrder.amount,
+                sellOrder.expirationTime,
+                sellOrder.price,
+                sellOrder.salt
+            )
+        );
+        return (_hashTypedDataV4(orderHash));
     }
 }
