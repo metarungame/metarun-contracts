@@ -40,7 +40,7 @@ contract MetarunExchange is EIP712 {
         require(msg.value == sellOrder.price, "BAD VALUE");
         // check the order is actual (not traded already)
         // check the order is not expired and not too early
-        // withdraw NFTs from seller and transfer to buyer
+        token.safeTransferFrom(sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, "");
         // send value to seller
     }
 
