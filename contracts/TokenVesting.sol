@@ -109,3 +109,19 @@ contract TokenVesting is Context, ReentrancyGuard  {
         }
     }
 }
+
+contract TokenVestingSeed is TokenVesting {
+    constructor(address token) TokenVesting(token) {}
+}
+
+contract TokenVestingPrivate1 is TokenVesting {
+    constructor(address token) TokenVesting(token) {}
+}
+
+contract TokenVestingPrivate2 is TokenVesting {
+    constructor(address token) TokenVesting(token) {}
+}
+
+contract TokenVestingStrategic is TokenVesting {
+    constructor(address token) TokenVesting(token) {}
+}
