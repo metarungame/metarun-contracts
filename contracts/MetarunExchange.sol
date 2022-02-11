@@ -13,7 +13,7 @@ contract MetarunExchange is EIP712 {
 
     struct SellOrder {
         // address of the current tokenholder
-        address seller;
+        address payable seller;
         // id of ERC-1155 token (kind)
         uint256 tokenId;
         // ERC155 amount of given Id user is going to sell
@@ -55,7 +55,7 @@ contract MetarunExchange is EIP712 {
         bytes32 orderHash = hashSellOrder(sellOrder);
         emit Purchase(orderHash, sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, sellOrder.price);
         token.safeTransferFrom(sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, "");
-        // send value to seller
+        sellOrder.seller.transfer(msg.value);
     }
 
     // Returns the hash of the fully encoded EIP712 SellOrder for this domain.

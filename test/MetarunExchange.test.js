@@ -65,7 +65,10 @@ describe("Metarun Exchange", function () {
     expect(await this.collection.balanceOf(this.seller.address, 0)).to.be.equal("1");
     expect(await this.collection.balanceOf(this.buyer.address, 0)).to.be.equal("0");
     const purchaseTx = await this.exchange.connect(this.buyer).buy(this.sellOrder, signature, { value: this.sellOrder.price });
-    await expect(purchaseTx).to.emit(this.exchange, "Purchase").withArgs(sellOrderHash, this.sellOrder.seller, this.buyer.address, this.sellOrder.tokenId, this.sellOrder.amount, this.sellOrder.price);
+    await expect(purchaseTx)
+      .to.emit(this.exchange, "Purchase")
+      .withArgs(sellOrderHash, this.sellOrder.seller, this.buyer.address, this.sellOrder.tokenId, this.sellOrder.amount, this.sellOrder.price);
+    await expect(purchaseTx).to.changeEtherBalance(this.seller, this.sellOrder.price);
     expect(await this.collection.balanceOf(this.seller.address, 0)).to.be.equal("0");
     expect(await this.collection.balanceOf(this.buyer.address, 0)).to.be.equal("1");
   });
