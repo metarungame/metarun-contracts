@@ -26,6 +26,18 @@ contract MetarunExchange is EIP712 {
         uint256 salt;
     }
 
+    /**
+     * @dev Gets emitted on token purchase
+     */
+    event Purchase(
+        bytes32 indexed orderHash,
+        address indexed seller,
+        address indexed buyer,
+        uint256 tokenId,
+        uint256 amount,
+        uint256 price
+    );
+
     constructor(address _token) EIP712("metarun.game", "0.1") {
         require(_token != address(0), "token address cannot be zero");
         token = IERC1155(_token);
@@ -40,6 +52,8 @@ contract MetarunExchange is EIP712 {
         require(msg.value == sellOrder.price, "BAD VALUE");
         // check the order is actual (not traded already)
         // check the order is not expired and not too early
+        bytes32 orderHash = hashSellOrder(sellOrder);
+        emit Purchase(orderHash, sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, sellOrder.price);
         token.safeTransferFrom(sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, "");
         // send value to seller
     }

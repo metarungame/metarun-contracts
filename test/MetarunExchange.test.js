@@ -60,10 +60,12 @@ describe("Metarun Exchange", function () {
   it("can buy", async function () {
     // seller should approve the token before submitting SellOrder
     await this.collection.connect(this.seller).setApprovalForAll(this.exchange.address, true);
+    const sellOrderHash = ethers.utils._TypedDataEncoder.hash(this.domain, this.types, this.sellOrder);
     const signature = await this.seller._signTypedData(this.domain, this.types, this.sellOrder);
     expect(await this.collection.balanceOf(this.seller.address, 0)).to.be.equal("1");
     expect(await this.collection.balanceOf(this.buyer.address, 0)).to.be.equal("0");
-    await this.exchange.connect(this.buyer).buy(this.sellOrder, signature, { value: this.sellOrder.price });
+    const purchaseTx = await this.exchange.connect(this.buyer).buy(this.sellOrder, signature, { value: this.sellOrder.price });
+    await expect(purchaseTx).to.emit(this.exchange, "Purchase").withArgs(sellOrderHash, this.sellOrder.seller, this.buyer.address, this.sellOrder.tokenId, this.sellOrder.amount, this.sellOrder.price);
     expect(await this.collection.balanceOf(this.seller.address, 0)).to.be.equal("0");
     expect(await this.collection.balanceOf(this.buyer.address, 0)).to.be.equal("1");
   });
