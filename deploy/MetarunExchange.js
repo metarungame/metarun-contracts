@@ -4,7 +4,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
 
   const collection = await deployments.get("MetarunCollection");
 
-  vesting = await deploy("MetarunExchange", {
+  exchange = await deploy("MetarunExchange", {
     from: deployer,
     args: [collection.address],
     log: true,
@@ -12,7 +12,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
     skipIfAlreadyDeployed: true
   })
 
-  console.log("Vesting address:", vesting.address);
+  console.log("Exchange address:", exchange.address);
 
 };
 
