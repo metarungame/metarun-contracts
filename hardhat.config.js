@@ -40,7 +40,7 @@ module.exports = {
       gasPrice: 30000000000
     },
     mumbai: {
-      url: 'https://rpc-mumbai.maticvigil.com/',
+      url: 'https://matic-mumbai.chainstacklabs.com/',
       accounts,
       chainId: 80001,
       live: true,
