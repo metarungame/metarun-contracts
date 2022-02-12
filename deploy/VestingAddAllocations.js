@@ -173,9 +173,10 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
 
   for (const category in allocations) {
     console.log("Processing Category:", category);
-    console.log("  start:", allocations[category].start);
+    console.log("  start:", new Date(allocations[category].start * 1000));
+    console.log("  end:", new Date((allocations[category].start + allocations[category].duration) * 1000));
     console.log("  interval:", allocations[category].interval);
-    console.log("  duration:", allocations[category].duration);
+    console.log("  duration:", allocations[category].duration, "or", allocations[category].duration/day/30, "months");
     console.log("  recipients:", allocations[category].recipients.length);
     let totalAmount = ethers.utils.parseEther('0')
     for (let i = 0; i < allocations[category].recipients.length; i++) {
