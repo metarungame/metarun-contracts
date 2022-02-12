@@ -119,8 +119,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   allocations.strategic.recipients.push(["0x339A4E11b89cc7753C5757c0556edc286462c4C5", "200000.00"]);
   allocations.strategic.recipients.push(["0xc0D773CA30871fEF7C21ceDfa60D380215d45A3D", "40000.00"]);
   allocations.strategic.recipients.push(["0x6cDAcd9cD2d4A824BCe5E91F4899c959F2693a9f", "80000.00"]);
-  // some typo?
-  // allocations.strategic.recipients.push(["0xCBC83a731E2baF8C26507EF952deE6889770c6f3f", "100000.00"]);
+  allocations.strategic.recipients.push(["0xCBC83a731E2baF8C26507EF952deE6889770c6f3", "100000.00"]);
   allocations.strategic.recipients.push(["0xebc7d99053c0AEA470d71C7A3bF80ff9C2f17789", "40000.00"]);
   allocations.strategic.recipients.push(["0xe5a610b8c6f45a9EF5dC749b4Ccd14a0E9149dFf", "600000.00"]);
   allocations.strategic.recipients.push(["0x5A2Aa44A41214f3870d2F7A2f78Db2Aa816a2053", "800000.00"]);
@@ -129,8 +128,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   allocations.strategic.recipients.push(["0x116de680624921cdb6295e232F18d9095F1fAf7C", "80000.00"]);
   allocations.strategic.recipients.push(["0x5c9A5CFA0385105dF9Ec850448524aA84aBE8C9d", "800000.00"]);
   allocations.strategic.recipients.push(["0xb86113e3804343D4C16A8663fc32abCb7b2F5DAf", "80000.00"]);
-  // some typo?
-  // allocations.strategic.recipients.push(["0xD9b92d1D8FA673dC0Bc66BAFCffd4A59d7344937c", "240000.00"]);
+  allocations.strategic.recipients.push(["0xD9b92d1D8FA673dC0Bc66BAFCffd4A59d7344937", "240000.00"]);
   allocations.strategic.recipients.push(["0xaD001052d0435E06Ba64602dA4c97268780fdC52", "300000.00"]);
   allocations.strategic.recipients.push(["0x87B97782DB0C00A6F241C6ED12588EE40BBD9D01", "80000.00"]);
   allocations.strategic.recipients.push(["0x24D01Ab711b7a7AE37798F6A9Adc8d6bA7017931", "120000.00"]);
