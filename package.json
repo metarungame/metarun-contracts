@@ -20,7 +20,7 @@
     "deploy:hardhat": "hardhat deploy",
     "deploy:polygon": "hardhat deploy --network polygon",
     "deploy:mumbai": "hardhat deploy --network mumbai",
-    "deploy:bsctestnet": "hardhat deploy --network bsctestnet",
+    "deploy:bsctestnet": "hardhat deploy --network bsctestnet", "create-sell-order": "hardhat create-sell-order --address-token $METARUN_COLLECTION_ADDRESS --exchange-contract $EXCHANGE_ADDRESS --token-id 0 --amount 999 --price 1000000 --private-key $PRIVET_KEY",
     "deploy-metarun-collection:rinkeby": "hardhat deploy --network rinkeby --tags MetarunCollection",
     "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
     "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
@@ -29,7 +29,8 @@
     "writeBalancesToTierSystem:polygon": "hardhat writeBalancesToTierSystem --json-path tokens-snapshot/holders.json --network polygon --contract-address 0x768563eB8Ab74C255FCb0479791F236341c49d13 --balance-list-length 500",
     "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
     "solhint": "solhint -c .solhint.json contracts/*.sol",
-    "lint": "yarn prettier && yarn solhint"
+    "lint": "yarn prettier && yarn solhint",
+    "create-sell-order": "hardhat create-sell-order --address-token $METARUN_COLLECTION_ADDRESS --exchange-contract $EXCHANGE_ADDRESS --token-id 0 --amount 999 --price 1000000 --private-key $PRIVET_KEY"
   },
   "devDependencies": {
     "@openzeppelin/test-helpers": "^0.5.15",

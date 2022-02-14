@@ -5,6 +5,9 @@ require('./tasks/mint-tokens.js');
 require('./tasks/ido-pool-client.js');
 require('solidity-coverage')
 
+require('./tasks/mint-tokens.js');
+require('./tasks/create-order.js');
+
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
 }
@@ -55,6 +58,8 @@ module.exports = {
       chainId: 80001,
       live: true,
       saveDeployments: true,
+      gasPrice: 2000000000,
+      gasLimit: 20000000
       gasPrice: 2000000000,
     },
     hardhat: {
