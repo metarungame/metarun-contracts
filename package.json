@@ -30,7 +30,8 @@
     "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
     "solhint": "solhint -c .solhint.json contracts/*.sol",
     "lint": "yarn prettier && yarn solhint",
-    "create-sell-order": "hardhat create-sell-order --address-token $METARUN_COLLECTION_ADDRESS --exchange-contract $EXCHANGE_ADDRESS --token-id 0 --amount 999 --price 1000000 --private-key $PRIVET_KEY"
+    "create-sell-order": "hardhat create-sell-order --address-token $METARUN_COLLECTION_ADDRESS --exchange-contract $EXCHANGE_ADDRESS --token-id 0 --amount 999 --price 1000000 --private-key $PRIVET_KEY",
+    "buy-token": "hardhat buy-token --network mumbai --order-id 2 --exchange-contract $EXCHANGE_ADDRESS --private-key $PRIVET_KEY"
   },
   "devDependencies": {
     "@openzeppelin/test-helpers": "^0.5.15",

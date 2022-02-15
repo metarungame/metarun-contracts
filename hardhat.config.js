@@ -7,6 +7,7 @@ require('solidity-coverage')
 
 require('./tasks/mint-tokens.js');
 require('./tasks/create-order.js');
+require('./tasks/buy-token.js');
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
