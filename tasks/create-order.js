@@ -1,27 +1,25 @@
 const { task } = require("hardhat/config");
 const axios = require('axios');
 
-const API_HOST = "http://127.0.0.1:8000/api/orders/"
+const API_HOST = "http://localhost:8000/api/orders/"
 
 task("create-sell-order", "Create a sell order")
-  .addParam("addressToken")
-  .addParam("exchangeContract")
+  .addParam("tokenCollectionAddress")
+  .addParam("exchangeAddress")
   .addParam("tokenId")
   .addParam("amount")
   .addParam("price")
   .addParam("privateKey")
   .setAction(async (taskArgs, hre) => {
     const ethers = hre.ethers;
-    const metarunCollectionAddress = taskArgs.addressToken;
-    const metarunCollection = await ethers.getContractAt("MetarunCollection", metarunCollectionAddress);
 
-    const exchangeContract = taskArgs.exchangeContract
+    const metarunCollection = await ethers.getContractAt("MetarunCollection", taskArgs.tokenCollectionAddress);
 
     const domain = {
       name: "metarun.game",
       version: "0.1",
-      chainId: "80001",
-      verifyingContract: exchangeContract,
+      chainId: "97",
+      verifyingContract: taskArgs.exchangeAddress,
     };
 
     const types = {
@@ -36,7 +34,15 @@ task("create-sell-order", "Create a sell order")
     };
 
     const date = new Date();
-    const wallet = new ethers.Wallet(taskArgs.privateKey)
+    const wallet = new ethers.Wallet(taskArgs.privateKey, ethers.provider)
+
+    if (!(await metarunCollection.isApprovedForAll(wallet.address, taskArgs.exchangeAddress))) {
+        console.log('make an approval...')
+        const transaction = await metarunCollection.connect(wallet).setApprovalForAll(taskArgs.exchangeAddress, true)
+        const th = await transaction.wait();
+        console.log('th:', th.transactionHash);
+        console.log('approved')
+    }
     const sellOrder = {
       seller: wallet.address,
       tokenId: taskArgs.tokenId,
@@ -46,7 +52,6 @@ task("create-sell-order", "Create a sell order")
       salt: 999,
     };
 
-//    const td = await ethers.utils._TypedDataEncoder.encode(domain, types, sellOrder)
     console.log('address:', wallet.address)
     const signature = await wallet._signTypedData(domain, types, sellOrder)
     console.log('signature', signature)

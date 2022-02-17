@@ -74,7 +74,7 @@ task("simplified-mint-tokens", "Simplified Mint MetarunCollection tokens")
     const addressReceiver = taskArgs.addressReceiver;
     const metarunCollection = await ethers.getContractAt("MetarunCollection", metarunCollectionAddress);
     const categories = await getTokenCategories(metarunCollection);
-    const amount = 1000000;
+    const amount = ethers.BigNumber.from('1000000000000000000');
     for (let i = 0; i < categories.length; i++) {
       const tokenId = categories[i];
       const transaction = await metarunCollection.mint(addressReceiver, tokenId, amount);

@@ -20,7 +20,7 @@
     "deploy:hardhat": "hardhat deploy",
     "deploy:polygon": "hardhat deploy --network polygon",
     "deploy:mumbai": "hardhat deploy --network mumbai",
-    "deploy:bsctestnet": "hardhat deploy --network bsctestnet", "create-sell-order": "hardhat create-sell-order --address-token $METARUN_COLLECTION_ADDRESS --exchange-contract $EXCHANGE_ADDRESS --token-id 0 --amount 999 --price 1000000 --private-key $PRIVET_KEY",
+    "deploy:bsctestnet": "hardhat deploy --network bsctestnet",
     "deploy-metarun-collection:rinkeby": "hardhat deploy --network rinkeby --tags MetarunCollection",
     "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
     "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
@@ -30,8 +30,8 @@
     "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
     "solhint": "solhint -c .solhint.json contracts/*.sol",
     "lint": "yarn prettier && yarn solhint",
-    "create-sell-order": "hardhat create-sell-order --address-token $METARUN_COLLECTION_ADDRESS --exchange-contract $EXCHANGE_ADDRESS --token-id 0 --amount 999 --price 1000000 --private-key $PRIVET_KEY",
-    "buy-token": "hardhat buy-token --network mumbai --order-id 2 --exchange-contract $EXCHANGE_ADDRESS --private-key $PRIVET_KEY"
+    "create-sell-order": "hardhat create-sell-order --network bsctestnet --token-collection-address $METARUN_COLLECTION_ADDRESS --exchange-address $EXCHANGE_ADDRESS --token-id 1 --amount 1000 --price 1000000 --private-key $PRIVET_KEY",
+    "buy-token": "hardhat buy-token --network bsctestnet --order-id 1984702c2b4fe3e5a4700d606d3aca48af6d729637d66fae3cb90d70163d3aae --exchange-address $EXCHANGE_ADDRESS --private-key $PRIVET_KEY"
   },
   "devDependencies": {
     "@openzeppelin/test-helpers": "^0.5.15",

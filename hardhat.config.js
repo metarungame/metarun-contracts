@@ -59,9 +59,7 @@ module.exports = {
       chainId: 80001,
       live: true,
       saveDeployments: true,
-      gasPrice: 2000000000,
-      gasLimit: 20000000
-      gasPrice: 2000000000,
+      gasPrice: 2000000000
     },
     hardhat: {
       chainId: 137
