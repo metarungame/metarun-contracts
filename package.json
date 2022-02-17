@@ -1,36 +1,46 @@
 {
-    "dependencies": {
-        "@nomiclabs/hardhat-ethers": "^2.0.0",
-        "@nomiclabs/hardhat-waffle": "^2.0.0",
-        "@openzeppelin/contracts": "^4.4.2",
-        "chai": "^4.2.0",
-        "ethereum-waffle": "^3.0.0",
-        "ethers": "^5.0.0",
-        "hardhat": "^2.8.2",
-        "hardhat-deploy": "^0.9.24"
-    },
-    "scripts": {
-        "test": "hardhat test",
-        "coverage": "hardhat coverage",
-        "mint-tokens:local": "hardhat mint-tokens --local --address $METARUN_COLLECTION_ADDRESS --amount $AMOUNT",
-        "mint-tokens:rinkeby": "hardhat mint-tokens --network rinkeby --address $METARUN_COLLECTION_ADDRESS --amount $AMOUNT",
-        "simplified-mint-tokens:mumbai": "hardhat simplified-mint-tokens --network mumbai --address-token $METARUN_COLLECTION_ADDRESS --address-receiver $RECEIVER_ADDRESS",
-        "deploy:hardhat": "hardhat deploy",
-        "deploy:polygon": "hardhat deploy --network polygon",
-        "deploy:mumbai": "hardhat deploy --network mumbai",
-        "deploy-metarun-collection:rinkeby": "hardhat deploy --network rinkeby --tags MetarunCollection",
-        "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
-        "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
-        "verify:rinkeby": "hardhat etherscan-verify --network rinkeby --api-key $ETHERSCAN_API_KEY",
-        "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol && prettier --write tasks/*.js",
-        "solhint": "solhint -c .solhint.json contracts/*.sol",
-        "lint": "yarn prettier && yarn solhint"
-    },
-    "devDependencies": {
-      "@openzeppelin/test-helpers": "^0.5.15",
-      "prettier": "^2.5.1",
-      "prettier-plugin-solidity": "^1.0.0-beta.19",
-      "solhint": "^3.3.6",
-      "solidity-coverage": "^0.7.18"
-    }
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.0",
+    "@nomiclabs/hardhat-waffle": "^2.0.0",
+    "@openzeppelin/contracts": "^4.4.2",
+    "chai": "^4.2.0",
+    "csvtojson": "^2.0.10",
+    "ethereum-waffle": "^3.0.0",
+    "ethers": "^5.0.0",
+    "hardhat": "^2.8.2",
+    "hardhat-deploy": "^0.9.24",
+    "hardhat-deploy-ethers": "^0.3.0-beta.13"
+  },
+  "scripts": {
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "mint-tokens:local": "hardhat mint-tokens --local --address $METARUN_COLLECTION_ADDRESS --amount $AMOUNT",
+    "mint-tokens:rinkeby": "hardhat mint-tokens --network rinkeby --address $METARUN_COLLECTION_ADDRESS --amount $AMOUNT",
+    "simplified-mint-tokens:mumbai": "hardhat simplified-mint-tokens --network mumbai --address-token $METARUN_COLLECTION_ADDRESS --address-receiver $RECEIVER_ADDRESS",
+    "deploy:hardhat": "hardhat deploy",
+    "deploy:polygon": "hardhat deploy --network polygon",
+    "deploy:mumbai": "hardhat deploy --network mumbai",
+    "deploy-metarun-collection:rinkeby": "hardhat deploy --network rinkeby --tags MetarunCollection",
+    "verify:polygon": "hardhat etherscan-verify --network polygon --api-key $ETHERSCAN_API_KEY",
+    "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
+    "verify:rinkeby": "hardhat etherscan-verify --network rinkeby --api-key $ETHERSCAN_API_KEY",
+    "parseCSVtoJSON:ethereum": "hardhat parseCSVtoJSON --csv-path holders-chainId-1.csv",
+    "parseCSVtoJSON:bsc": "hardhat parseCSVtoJSON --csv-path holders-chainId-56.csv",
+    "parseCSVtoJSON:ftm": "hardhat parseCSVtoJSON --csv-path holders-chainId-250.csv",
+    "getBalances:ethereum": "hardhat getBalances --network ethereum --json-path holders-chainId-1.json --token-address 0x220b71671b649c03714da9c621285943f3cbcdc6",
+    "getBalances:bsc": "hardhat getBalances --network bsc --json-path holders-chainId-56.json --token-address 0x57effde2759b68d86c544e88f7977e3314144859",
+    "getBalances:ftm": "hardhat getBalances --network ftm --json-path holders-chainId-250.json --token-address 0x0e121961dd741c9d49c9a04379da944a9d2fac7a",
+    "summarizeBalances": "hardhat summarizeBalances --json-path-ethereum holders-chainId-1.json --json-path-bsc holders-chainId-56.json --json-path-ftm holders-chainId-250.json",
+    "setBalances:mumbai": "hardhat setBalances --json-path summarize-of-balances.json --network mumbai --contract-address 0x80Bc4253606f837896D7A7EBD9c6C16b01d72050 --balance-list-length 800",
+    "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
+    "solhint": "solhint -c .solhint.json contracts/*.sol",
+    "lint": "yarn prettier && yarn solhint"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "prettier": "^2.5.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "solhint": "^3.3.6",
+    "solidity-coverage": "^0.7.18"
+  }
 }
