@@ -3,7 +3,7 @@ const fs = require('fs')
 
 const { task } = require('hardhat/config');
 
-task('parseCSVtoJSON', 'convert .csv to .json')
+task('convertCSVtoJSON', 'convert .csv to .json')
   .addParam('csvPath', '.csv file with holders')
   .setAction(async(taskArgs, hre) => {
     console.log('start convert')

@@ -2,7 +2,7 @@ require("@nomiclabs/hardhat-waffle");
 require('hardhat-deploy');
 require('hardhat-deploy-ethers');
 
-require('./tasks/parse-csv-to-json.js');
+require('./tasks/convert-csv-to-json.js');
 require('./tasks/get-balances.js');
 require('./tasks/summarize-balances.js');
 require('./tasks/set-balances.js');
