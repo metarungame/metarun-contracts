@@ -10,6 +10,7 @@ task('summarizeBalances', 'summarize of balances from networks: 1, 56, 250')
   .addParam('jsonPathEthereum', '.json file with holders from ethereum')
   .addParam('jsonPathBsc', '.json file with holders from bsc')
   .addParam('jsonPathFtm', '.json file with holders from frm')
+  .addParam('outFile', '.json file with summarized balances')
   .setAction(async(taskArgs, hre) => {
     console.log('start summarize of balances')
 
@@ -38,11 +39,10 @@ task('summarizeBalances', 'summarize of balances from networks: 1, 56, 250')
     }
 
     data = JSON.stringify(generalBalances);
-    const jsonFileName = 'summarize-of-balances.json'
-    fs.writeFileSync(jsonFileName, data, function(err) {
+    fs.writeFileSync(taskArgs.outFile, data, function(err) {
       if (err) {
         console.log(err);
       }
     });
-    console.log('save summarize of balances from networks: 1, 56, 250 to', jsonFileName);
+    console.log('Summarized balances saved to', taskArgs.outFile);
 });
