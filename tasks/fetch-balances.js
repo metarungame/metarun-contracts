@@ -21,7 +21,7 @@ function updatedBalances(path, holders) {
   console.log('updated json file with necessary balances:', path)
 }
 
-task('getBalances', 'get correct balances using .csv with holders')
+task('fetchBalances', 'get correct balances using .csv with holders')
   .addParam('jsonPath', '.json file with holders')
   .addParam('tokenAddress', 'Token Address')
   .setAction(async(taskArgs, hre) => {

@@ -30,10 +30,10 @@ yarn verify:polygon
 
 Task group in use (run by list):
 * Before starting it is necessary download the csv file with balances and rename it in the format holders-chainId-<chainId>.csv  
-`yarn parseCSVtoJSON:<network>`
+`yarn convertCSVtoJSON:<network>`
 
 * Get the correct balances from the contract using the web3 provider.  In case of a task crash, you can restart and the balances will continue to be updated.  
-`yarn getBalances:<network>`  
+`yarn fetchBalances:<network>`  
 
 * Summarize of all balances from several networks.  
 `yarn summarizeBalances`

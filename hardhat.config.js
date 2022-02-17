@@ -3,7 +3,7 @@ require('hardhat-deploy');
 require('hardhat-deploy-ethers');
 
 require('./tasks/convert-csv-to-json.js');
-require('./tasks/get-balances.js');
+require('./tasks/fetch-balances.js');
 require('./tasks/summarize-balances.js');
 require('./tasks/set-balances.js');
 require('./tasks/mint-tokens.js');
