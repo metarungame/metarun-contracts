@@ -6,12 +6,12 @@ const tierSystemArtifact = require("../contracts/artifacts/TierSystem.json");
 
 const LIMIT = 800
 
-task('setBalances', 'set balances to TierSystem contract')
+task('writeBalancesToTierSystem', 'submit balances to TierSystem contract')
   .addParam('jsonPath', '.json file with holders and balances')
   .addParam('contractAddress', 'TierSystem contract address')
-  .addParam('balanceListLength', 'the length of the balance list that can be passed as an argument')
+  .addParam('balanceListLength', 'the length of the balances submitted in a signle Tx')
   .setAction(async(taskArgs, hre) => {
-    console.log('start set balances to TierSystem contract')
+    console.log('submitting balances to TierSystem contract')
 
     const holders = JSON.parse(fs.readFileSync(taskArgs.jsonPath))
 
