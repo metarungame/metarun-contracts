@@ -44,11 +44,13 @@ module.exports = {
     },
     polygon: {
       url: 'https://rpc-mainnet.maticvigil.com',
+      timeout: 120000,
       accounts,
       chainId: 137,
       live: true,
       saveDeployments: true,
-      gasPrice: 30000000000
+      gasPrice: 1110000000, // 1.11 Gwei - a bit more than lowest gasPrice today
+      gas: 29000000 // a bit less than max gas usage today
     },
     mumbai: {
       url: 'https://matic-mumbai.chainstacklabs.com/',
