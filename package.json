@@ -31,7 +31,7 @@
     "fetchBalances:bsc": "hardhat fetchBalances --network bsc --json-path tokens-snapshot/holders-bsc.json --token-address 0x57effde2759b68d86c544e88f7977e3314144859",
     "fetchBalances:ftm": "hardhat fetchBalances --network ftm --json-path tokens-snapshot/holders-ftm.json --token-address 0x0e121961dd741c9d49c9a04379da944a9d2fac7a",
     "summarizeBalances": "hardhat summarizeBalances --json-path-ethereum tokens-snapshot/holders-ethereum.json --json-path-bsc tokens-snapshot/holders-bsc.json --json-path-ftm tokens-snapshot/holders-ftm.json --out-file tokens-snapshot/holders.json",
-    "writeBalancesToTierSystem:polygon": "hardhat writeBalancesToTierSystem --json-path tokens-snapshot/holders.json --network polygon --contract-address 0x916E7eaE8a4FaD2bDe018fF8d236C6de64996472 --balance-list-length 800",
+    "writeBalancesToTierSystem:polygon": "hardhat writeBalancesToTierSystem --json-path tokens-snapshot/holders.json --network polygon --contract-address 0x768563eB8Ab74C255FCb0479791F236341c49d13 --balance-list-length 500",
     "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
     "solhint": "solhint -c .solhint.json contracts/*.sol",
     "lint": "yarn prettier && yarn solhint"
