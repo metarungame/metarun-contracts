@@ -12,25 +12,25 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   const enableTierSystem = true;
 
   // IDO time and economic boundaries
-  const amount = ethers.utils.parseEther("10000000"); // MRUN
-  const tokenPrice = ethers.utils.parseEther("0.000001"); // MATIC
+  const amount = ethers.utils.parseEther("2000000"); // MRUN
+  const tokenPrice = ethers.utils.parseEther("0.01582278481"); // MATIC
   const minEthPayment = ethers.utils.parseEther("0.000001"); // MATIC
-  const maxEthPayment = ethers.utils.parseEther("0.1"); // MATIC
+  const maxEthPayment = ethers.utils.parseEther("316.4556962"); // MATIC
   const maxDistributedTokenAmount = amount;
-  const startTimestamp = Date.parse("2022-01-21T19:00:00+00:00")/1000;
+  const startTimestamp = Date.parse("2022-02-19T16:30:00+00:00")/1000;
   console.log("startTimestamp:", startTimestamp);
-  const finishTimestamp = Date.parse("2022-01-22T19:00:00+00:00")/1000;
+  const finishTimestamp = Date.parse("2022-02-20T16:00:00+00:00")/1000;
   console.log("finishTimestamp:", finishTimestamp);
-  const startClaimTimestamp = finishTimestamp;
+  const startClaimTimestamp = Date.parse("2022-02-22T16:00:00+00:00")/1000;
   console.log("startClaimTimestamp:", startClaimTimestamp);
 
-  vestingPercent = 100;
-  vestingStart = startClaimTimestamp;
-  vestingInterval = 60 * 60; // hourly
-  vestingDuration = 60 * 60 * 24; 
+  vestingPercent = 90;
+  vestingStart = Date.parse("2022-02-22T15:00:00+00:00")/1000;
+  vestingInterval = 60 * 60 * 24 * 30;
+  vestingDuration = 60 * 60 * 24 * 30 * 9; 
 
   hardhatChainId = ethers.provider._hardhatProvider._provider._chainId;
-  backupChainId = 80001;
+  backupChainId = 137;
   const chainId = hardhatChainId ?  hardhatChainId : backupChainId;
   
   console.log("Loading periphery contracts for chainID", chainId);
