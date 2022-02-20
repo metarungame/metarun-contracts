@@ -29,16 +29,17 @@ yarn verify:polygon
 * `idoPoolClient` - allows to pay, claim, release, withdrawNotSoldTokens and withdrawFunds. With time-traveling feature of hardhat this is useful for manual testing. The example snippet that illustrated IDO lifecycle:
 
 ```sh
-yarn hardhat buy --network polygon --amount 0.1 --action pay 
-yarn hardhat buy --network polygon --action timeForward --time 2022-02-19T16:30:00+00:00
-yarn hardhat buy --network polygon --amount 0.1 --action pay
-yarn hardhat buy --network polygon --action timeForward --time 2022-02-22T16:00:01+00:00
-yarn hardhat buy --network polygon --action claim
-yarn hardhat buy --network polygon --action timeForward --time 2022-08-22T16:00:00+00:00
-yarn hardhat buy --network polygon --action release
-yarn hardhat buy --network polygon --action timeForward --time 2022-12-22T16:00:00+00:00
-yarn hardhat buy --network polygon --action release
-yarn hardhat buy --network polygon --action withdrawFunds
+yarn hardhat idoPoolClient --network polygon --amount 700 --action pay
+# forward to start
+yarn hardhat idoPoolClient --network polygon --action timeForward --time 2022-02-20T17:00:00+00:00
+yarn hardhat idoPoolClient --network polygon --amount 651 --action pay
+# forward to end
+yarn hardhat idoPoolClient --network polygon --action timeForward --time 2022-02-22T16:00:00+00:00
+yarn hardhat idoPoolClient --network polygon --action claim
+# forward to release
+yarn hardhat idoPoolClient --network polygon --action timeForward --time 2023-02-20T19:00:00+00:00
+yarn hardhat idoPoolClient --network polygon --action release
+yarn hardhat idoPoolClient --network polygon --action withdrawFunds
 ```
 
 * `mint-tokens` and `simplified-mint-tokens` - mints MetarunCollection NFT tokens
