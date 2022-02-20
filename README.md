@@ -26,17 +26,30 @@ yarn verify:polygon
 
 ## Tasks
 
-### Preparing balances and sending a transaction to a TierSystem contract (methode addBalances)
+* `idoPoolClient` - allows to pay, claim, release, withdrawNotSoldTokens and withdrawFunds. With time-traveling feature of hardhat this is useful for manual testing. The example snippet that illustrated IDO lifecycle:
 
-Task group in use (run by list):
-* Before starting it is necessary download the csv file with balances and rename it in the format holders-chainId-<chainId>.csv  
-`yarn convertCSVtoJSON:<network>`
+```sh
+yarn hardhat buy --network polygon --amount 0.1 --action pay 
+yarn hardhat buy --network polygon --action timeForward --time 2022-02-19T16:30:00+00:00
+yarn hardhat buy --network polygon --amount 0.1 --action pay
+yarn hardhat buy --network polygon --action timeForward --time 2022-02-22T16:00:01+00:00
+yarn hardhat buy --network polygon --action claim
+yarn hardhat buy --network polygon --action timeForward --time 2022-08-22T16:00:00+00:00
+yarn hardhat buy --network polygon --action release
+yarn hardhat buy --network polygon --action timeForward --time 2022-12-22T16:00:00+00:00
+yarn hardhat buy --network polygon --action release
+yarn hardhat buy --network polygon --action withdrawFunds
+```
 
-* Get the correct balances from the contract using the web3 provider.  In case of a task crash, you can restart and the balances will continue to be updated.  
-`yarn fetchBalances:<network>`  
+* `mint-tokens` and `simplified-mint-tokens` - mints MetarunCollection NFT tokens
 
-* Summarize of all balances from several networks.  
-`yarn summarizeBalances`
+Also find some useful scripts in deployments like `SelfSend` and `MetarunIDO`
+### Submit balances snapshot to a TierSystem contract
 
-* Adding balances to TierSystem contract. The value of balance-list-length is set based on gasLimit and gasPrice on the network.  
-`yarn setBalances:<network>`
+To add balances snapshot to the TierSystem contract:
+* Put CSVs from etherscan and execute `scan_staking_farming_balances.py` in the root repo
+* Rut JSON file produced by the script to `tokens-snapshot` folder as `holders.json`
+* Run task `writeBalancesToTierSystem:polygon`. The value of balance-list-length is set based on gasLimit on the network
+
+Note: Hardhat tasks in this repo for balances parsing and snapshot preparation are deprecated and were removed because
+they accounted just ERC-20 balances, and farming/staking deposits were ignored.

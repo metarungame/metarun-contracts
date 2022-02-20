@@ -1,10 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
 require('hardhat-deploy');
 require('hardhat-deploy-ethers');
-
-require('./tasks/convert-csv-to-json.js');
-require('./tasks/fetch-balances.js');
-require('./tasks/summarize-balances.js');
 require('./tasks/write-balances-to-tiersystem.js');
 require('./tasks/mint-tokens.js');
 require('./tasks/ido-pool-client.js');
