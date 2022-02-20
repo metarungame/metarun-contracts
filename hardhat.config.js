@@ -7,6 +7,7 @@ require('./tasks/fetch-balances.js');
 require('./tasks/summarize-balances.js');
 require('./tasks/write-balances-to-tiersystem.js');
 require('./tasks/mint-tokens.js');
+require('./tasks/ido-pool-client.js');
 require('solidity-coverage')
 
 const accounts = {
@@ -49,6 +50,7 @@ module.exports = {
       chainId: 137,
       live: true,
       saveDeployments: true,
+      // gas: 30_000_000_000
       // for legacy txes:
       // gasPrice: 20_000_000_000
     },
