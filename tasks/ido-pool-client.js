@@ -3,7 +3,7 @@ const fs = require('fs')
 const { task } = require('hardhat/config');
 
 const idoPoolArtifact = require("../contracts/artifacts/IDOPool.json");
-const idoAddress = "0xd5Bd5013cfc95B679058F58071fdbB492e5C8049"
+const idoAddress = "0xc88785057988785531B0B031AF23A6D9243E9071"
 
 task('idoPoolClient', 'Execute IDO actions for manual testing')
   .addOptionalParam('amount', 'Amount of MATIC in dotted decimal 123.45')
