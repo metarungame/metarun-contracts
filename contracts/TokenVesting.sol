@@ -22,6 +22,21 @@ contract TokenVesting is Context, ReentrancyGuard {
 
     IERC20 private _token;
 
+    /**
+        @notice Vesting consists of 6 fields
+        Starting moment (UNIX timestamp)
+        Cliff moment before which release is impossible
+        Time period during which beneficiary can get tokens 
+        Total timespan of vesting 
+        Amount of tokens dedicated to vesting's beneficiary but not sent
+        Already released amount of tokens (they are aleady owned by beneficiary)
+
+        Duration is comprised of periods with length stored in interval field.
+        Total count of intervals = to duration / interval.
+        Intervals are used to indicate how much time passed since vesting has started.
+        This indication can help us to calculate vested amount of tokens.
+        These calculations are in function vestedAmount()
+     */
     struct Vesting {
         uint256 start;
         uint256 cliff;
@@ -38,15 +53,38 @@ contract TokenVesting is Context, ReentrancyGuard {
         _token = IERC20(token);
     }
 
+    /**
+        @notice Gives timestamp for current moment of time
+        @return UNIX timestamp of current block
+     */
     function _getCurrentBlockTime() internal virtual view returns (uint256) {
         return block.timestamp;
     }
 
+    /**
+        @notice Getter for vesting struct
+        @param beneficiary vesting holder
+        @return start
+        @return cliff
+        @return interval
+        @return duration
+        @return balance
+        @return released
+     */
     function getVesting(address beneficiary) public view returns (uint256, uint256, uint256, uint256, uint256, uint256) {
         Vesting memory v = _vestings[beneficiary];
         return (v.start, v.cliff, v.interval, v.duration, v.balance, v.released);
     }
 
+    /**
+        @notice Create a new vesting for beneficiary. If there's already one, creating will be rejected
+        @param beneficiary vesting holder
+        @param start timestamp when vesting is started
+        @param cliff timestamp before which it is impossible to accrue tokens
+        @param interval number of seconds comprising an interval of vesting.
+        @param duration whole period of vesting. started + duration is the moment when vesting is finished
+        @param amount how much tokens should be vested
+     */
     function createVesting(
         address beneficiary,
         uint256 start,
@@ -73,6 +111,10 @@ contract TokenVesting is Context, ReentrancyGuard {
         vest.released = uint256(0);
     }
 
+    /**
+        @notice Release (i.e. send) vested tokens to beneficiary
+        @param beneficiary owner of tokens
+     */
     function release(address beneficiary) external nonReentrant {
         uint256 unreleased = releasableAmount(beneficiary);
         require(unreleased > 0, "TokenVesting #release: nothing to release");
@@ -87,6 +129,13 @@ contract TokenVesting is Context, ReentrancyGuard {
         emit Released(unreleased);
     }
 
+    /**
+        @notice Give amount of tokens can be sent to beneficiary.
+        However, these tokens at this moment of time don't belong to beneficiary.
+        If current moment is before cliff then zero tokens can be sent.
+        @param beneficiary tokens' holder
+        @return releasable amount for holder
+     */
     function releasableAmount(address beneficiary) public view returns (uint256) {
         if (_getCurrentBlockTime() < _vestings[beneficiary].cliff) {
             return 0;
@@ -94,6 +143,16 @@ contract TokenVesting is Context, ReentrancyGuard {
         return vestedAmount(beneficiary).sub(_vestings[beneficiary].released);
     }
 
+     /**
+        @notice Give amount of tokens vested to beneficiary
+        Vested amount depends on block's timestamp linearly.
+        It depends on how much intervals has passed since the start.
+        Before the start of vesting amount is 0.
+        After the end (start+duration) amount is equal to total balance.
+        During the vesting amount is calculate with the help of intervals.
+        @param beneficiary tokens' holder
+        @return amount vested to holder
+     */
     function vestedAmount(address beneficiary) public view returns (uint256) {
         Vesting memory vest = _vestings[beneficiary];
         if (_getCurrentBlockTime() < vest.start) {
