@@ -88,7 +88,7 @@ contract TokenVesting is Context, ReentrancyGuard {
     }
 
     function releasableAmount(address beneficiary) public view returns (uint256) {
-        if (_getCurrentBlockTime() < _vestings[beneficiary].start) {
+        if (_getCurrentBlockTime() < _vestings[beneficiary].cliff) {
             return 0;
         }
         return vestedAmount(beneficiary).sub(_vestings[beneficiary].released);
