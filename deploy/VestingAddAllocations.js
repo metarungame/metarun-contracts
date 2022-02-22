@@ -6,6 +6,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
 
   const totalAmount = ethers.utils.parseEther("550000");
   const tge = Date.parse("2022-02-22T00:00:00+00:00")/1000;
+  const cliff = tge
   const day = 60 * 60 * 24;
   const month = 60 * 60 * 24 * 30;
 
@@ -222,6 +223,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
         'createVesting',
         recipient,
         allocations[category].start,
+        cliff,
         allocations[category].interval,
         allocations[category].duration,
         amount

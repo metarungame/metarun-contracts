@@ -14,7 +14,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  * typical vesting scheme, with a cliff and vesting period. Optionally revocable by the
  * owner.
  */
-contract TokenVesting is Context, ReentrancyGuard  {
+contract TokenVesting is Context, ReentrancyGuard {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
@@ -24,13 +24,14 @@ contract TokenVesting is Context, ReentrancyGuard  {
 
     struct Vesting {
         uint256 start;
+        uint256 cliff;
         uint256 interval;
         uint256 duration;
         uint256 balance;
         uint256 released;
     }
 
-    mapping (address => Vesting) private _vestings;
+    mapping(address => Vesting) private _vestings;
 
     constructor (address token) {
         require(token != address(0), "token address cannot be zero");
@@ -41,20 +42,23 @@ contract TokenVesting is Context, ReentrancyGuard  {
         return block.timestamp;
     }
 
-    function getVesting(address beneficiary) public view returns (uint256, uint256, uint256, uint256, uint256) {
+    function getVesting(address beneficiary) public view returns (uint256, uint256, uint256, uint256, uint256, uint256) {
         Vesting memory v = _vestings[beneficiary];
-        return (v.start, v.interval, v.duration, v.balance, v.released);
+        return (v.start, v.cliff, v.interval, v.duration, v.balance, v.released);
     }
 
     function createVesting(
         address beneficiary,
         uint256 start,
+        uint256 cliff,
         uint256 interval,
         uint256 duration,
         uint256 amount
     ) external nonReentrant {
-        require(interval > 0 , "TokenVesting #createVesting: interval must be greater than 0");
+        require(interval > 0, "TokenVesting #createVesting: interval must be greater than 0");
         require(duration >= interval, "TokenVesting #createVesting: interval cannot be bigger than duration");
+        require(cliff >= start, "TokenVesting #createVesting: cliff must be greater or equal to start");
+        require(start + duration > cliff, "TokenVesting #createVesting: cliff exceeds duration");
 
         Vesting storage vest = _vestings[beneficiary];
         require(vest.balance == 0, "TokenVesting #createVesting: vesting for beneficiary already created");
@@ -62,17 +66,11 @@ contract TokenVesting is Context, ReentrancyGuard  {
         _token.safeTransferFrom(_msgSender(), address(this), amount);
 
         vest.start = start;
+        vest.cliff = cliff;
         vest.interval = interval;
         vest.duration = duration;
         vest.balance = amount;
         vest.released = uint256(0);
-    }
-
-    function postponeVesting(uint256 start) external {
-        Vesting storage vest = _vestings[_msgSender()];
-        require(vest.balance != 0, "TokenVesting #postponeVesting: vesting for beneficiary does not exist");
-        require(vest.start < start, "TokenVesting #postponeVesting: new start date cannot be earlier than original start date");
-        vest.start = start;
     }
 
     function release(address beneficiary) external nonReentrant {
@@ -80,6 +78,7 @@ contract TokenVesting is Context, ReentrancyGuard  {
         require(unreleased > 0, "TokenVesting #release: nothing to release");
 
         Vesting storage vest = _vestings[beneficiary];
+        require(_getCurrentBlockTime() >= vest.cliff, "TokenVesting #release: before cliff date");
 
         vest.released = vest.released.add(unreleased);
         vest.balance = vest.balance.sub(unreleased);
@@ -89,6 +88,9 @@ contract TokenVesting is Context, ReentrancyGuard  {
     }
 
     function releasableAmount(address beneficiary) public view returns (uint256) {
+        if (_getCurrentBlockTime() < _vestings[beneficiary].start) {
+            return 0;
+        }
         return vestedAmount(beneficiary).sub(_vestings[beneficiary].released);
     }
 
