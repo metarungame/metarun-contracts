@@ -112,18 +112,30 @@ contract TokenVesting is Context, ReentrancyGuard {
     }
 }
 
-contract TokenVestingSeed is TokenVesting {
+contract VestingSeed is TokenVesting {
     constructor(address token) TokenVesting(token) {}
 }
 
-contract TokenVestingPrivate1 is TokenVesting {
+contract VestingPrivate1 is TokenVesting {
     constructor(address token) TokenVesting(token) {}
 }
 
-contract TokenVestingPrivate2 is TokenVesting {
+contract VestingPrivate2 is TokenVesting {
     constructor(address token) TokenVesting(token) {}
 }
 
-contract TokenVestingStrategic is TokenVesting {
+contract VestingStrategic is TokenVesting {
+    constructor(address token) TokenVesting(token) {}
+}
+
+contract VestingTosdis is TokenVesting {
+    constructor(address token) TokenVesting(token) {}
+}
+
+contract VestingGameStarter is TokenVesting {
+    constructor(address token) TokenVesting(token) {}
+}
+
+contract VestingScaleSwap is TokenVesting {
     constructor(address token) TokenVesting(token) {}
 }
