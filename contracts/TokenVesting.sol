@@ -3,7 +3,6 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
@@ -15,7 +14,6 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  * owner.
  */
 contract TokenVesting is Context, ReentrancyGuard {
-    using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
     event Released(uint256 amount);
@@ -122,8 +120,8 @@ contract TokenVesting is Context, ReentrancyGuard {
         Vesting storage vest = _vestings[beneficiary];
         require(_getCurrentBlockTime() >= vest.cliff, "TokenVesting #release: before cliff date");
 
-        vest.released = vest.released.add(unreleased);
-        vest.balance = vest.balance.sub(unreleased);
+        vest.released += unreleased;
+        vest.balance -= unreleased;
 
         _token.safeTransfer(beneficiary, unreleased);
         emit Released(unreleased);
@@ -140,7 +138,7 @@ contract TokenVesting is Context, ReentrancyGuard {
         if (_getCurrentBlockTime() < _vestings[beneficiary].cliff) {
             return 0;
         }
-        return vestedAmount(beneficiary).sub(_vestings[beneficiary].released);
+        return vestedAmount(beneficiary) - _vestings[beneficiary].released;
     }
 
      /**
@@ -159,14 +157,14 @@ contract TokenVesting is Context, ReentrancyGuard {
             return 0;
         }
         uint256 currentBalance = vest.balance;
-        uint256 totalBalance = currentBalance.add(vest.released);
+        uint256 totalBalance = currentBalance + vest.released;
 
-        if (_getCurrentBlockTime() >= vest.start.add(vest.duration)) {
+        if (_getCurrentBlockTime() >= vest.start + vest.duration) {
             return totalBalance;
         } else {
-            uint256 numberOfInvervals = _getCurrentBlockTime().sub(vest.start).div(vest.interval);
-            uint256 totalIntervals = vest.duration.div(vest.interval);
-            return totalBalance.mul(numberOfInvervals).div(totalIntervals);
+            uint256 numberOfInvervals = (_getCurrentBlockTime() - vest.start) / vest.interval;
+            uint256 totalIntervals = vest.duration / vest.interval;
+            return totalBalance * numberOfInvervals  / totalIntervals;
         }
     }
 }
