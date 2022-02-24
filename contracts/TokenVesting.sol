@@ -134,7 +134,7 @@ contract TokenVesting is Context, ReentrancyGuard {
         @param beneficiary tokens' holder
         @return releasable amount for holder
      */
-    function releasableAmount(address beneficiary) public view returns (uint256) {
+    function releasableAmount(address beneficiary) public virtual  view returns (uint256) {
         if (_getCurrentBlockTime() < _vestings[beneficiary].cliff) {
             return 0;
         }
@@ -151,7 +151,7 @@ contract TokenVesting is Context, ReentrancyGuard {
         @param beneficiary tokens' holder
         @return amount vested to holder
      */
-    function vestedAmount(address beneficiary) public view returns (uint256) {
+    function vestedAmount(address beneficiary) public virtual view returns (uint256) {
         Vesting memory vest = _vestings[beneficiary];
         if (_getCurrentBlockTime() < vest.start) {
             return 0;
