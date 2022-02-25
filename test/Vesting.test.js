@@ -7,7 +7,7 @@ describe("Vesting", function () {
     this.deployer = this.signers[0];
     this.beneficiary = this.signers[1];
     this.MetarunToken = await ethers.getContractFactory("MetarunToken");
-    this.TokenVesting = await ethers.getContractFactory("TokenVestingMock");
+    this.TokenVesting = await ethers.getContractFactory("VestingMock");
   });
 
   describe("deploy", function () {

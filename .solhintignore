@@ -1,3 +1,3 @@
 node_modules
 contracts/MetarunToken.sol
-contracts/TokenVesting.sol
+contracts/Vesting.sol

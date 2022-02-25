@@ -491,14 +491,14 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   console.log("      vestEnd:", new Date((vestStart + vestDuration) * 1000));
   console.log("  Recipients:", allocations.length);
 
-  tokenVesting = await deploy(vestingContractName, {
+  vesting = await deploy(vestingContractName, {
     from: deployer,
     args: [token.address, lockBps, vestBps, lockClaimTime, vestStart, vestDuration, vestInterval],
     log: true,
     deterministicDeployment: false,
     skipIfAlreadyDeployed: true,
   });
-  console.log(vestingName, "vesting address:", tokenVesting.address);
+  console.log(vestingName, "vesting address:", vesting.address);
 
   await execute("MetarunToken", { from: deployer, log: true }, "mint", deployer, totalAmount);
 
@@ -506,7 +506,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
 
   await execute(vestingContractName, { from: deployer, log: true }, "setAllocations", encodedAllocations);
 
-  let balanceOnVesting = await read("MetarunToken", "balanceOf", tokenVesting.address);
+  let balanceOnVesting = await read("MetarunToken", "balanceOf", vesting.address);
   console.log("Planned to allocate for ", vestingName, ":", formatEther(balanceOnVesting), "MRUN");
   console.log("Actually allocated for ", vestingName, ":", formatEther(totalAmount), "MRUN");
 };

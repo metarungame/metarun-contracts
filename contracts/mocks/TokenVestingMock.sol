@@ -1,8 +1,8 @@
 pragma solidity ^0.8.0;
 
-import "../TokenVesting.sol";
+import "../Vesting.sol";
 
-contract TokenVestingMock is TokenVesting {
+contract VestingMock is Vesting {
     uint256 private currentBlockTime;
 
     constructor(
@@ -13,7 +13,7 @@ contract TokenVestingMock is TokenVesting {
         uint256 _vestStart,
         uint256 _vestDuration,
         uint256 _vestInterval
-    ) TokenVesting(_token, _lockBps, _vestBps, _lockClaimTime, _vestStart, _vestDuration, _vestInterval) {}
+    ) Vesting(_token, _lockBps, _vestBps, _lockClaimTime, _vestStart, _vestDuration, _vestInterval) {}
 
     function setLockBps(uint256 _lockBps) public {
         lockBps = _lockBps;
