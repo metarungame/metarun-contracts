@@ -64,6 +64,10 @@ describe("Vesting", function () {
         await this.vesting.setAllocations(this.encodedAllocations);
       });
 
+      it("unable to add same allocation again", async function () {
+        await expect(this.vesting.setAllocations(this.encodedAllocations)).to.be.revertedWith("Already allocated");
+      });
+
       it("allocation was properly set", async function () {
         const allocation = await this.vesting.allocations(this.beneficiary.address);
         expect(allocation[0]).to.be.eq(this.beneficiaryAmount);

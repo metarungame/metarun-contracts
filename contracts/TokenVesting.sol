@@ -116,6 +116,8 @@ contract TokenVesting is Context, ReentrancyGuard {
         for (uint256 i = 0; i < _allocations.length; i++) {
             (address beneficiary, uint256 amount) = abi.decode(_allocations[i], (address, uint256));
             totalAmount += amount;
+            require(allocations[beneficiary].amount == 0, "Already allocated");
+            require(allocations[beneficiary].released == 0, "Already released");
             allocations[beneficiary].amount = amount;
             emit Allocate(beneficiary, amount);
         }
