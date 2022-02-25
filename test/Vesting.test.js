@@ -208,23 +208,24 @@ describe("Vesting", function () {
         vestUnfrozen = await this.vesting.getVestUnfrozen("100");
         expect(vestUnfrozen).to.be.eq("0");
 
-        // next second first interval gets unlocked
-        await this.vesting.setCurrentBlockTime(vestStart + 1);
-        vestUnfrozen = await this.vesting.getVestUnfrozen("100");
-        expect(vestUnfrozen).to.be.eq("10");
-
-        // nothing changed within same interval
+        // first interval still locked
+        // because it's not finished
         await this.vesting.setCurrentBlockTime(vestStart + vestInterval - 1);
         vestUnfrozen = await this.vesting.getVestUnfrozen("100");
+        expect(vestUnfrozen).to.be.eq("0");
+
+        // after interval finished it gets unfrozen
+        await this.vesting.setCurrentBlockTime(vestStart + vestInterval);
+        vestUnfrozen = await this.vesting.getVestUnfrozen("100");
         expect(vestUnfrozen).to.be.eq("10");
 
-        // second interval happened
-        await this.vesting.setCurrentBlockTime(vestStart + vestInterval);
+        // second interval ended
+        await this.vesting.setCurrentBlockTime(vestStart + vestInterval * 2);
         vestUnfrozen = await this.vesting.getVestUnfrozen("100");
         expect(vestUnfrozen).to.be.eq("20");
 
         // entire vesting unlocked when last interval started
-        await this.vesting.setCurrentBlockTime(vestStart + vestInterval * 9);
+        await this.vesting.setCurrentBlockTime(vestStart + vestInterval * 10);
         vestUnfrozen = await this.vesting.getVestUnfrozen("100");
         expect(vestUnfrozen).to.be.eq("100");
 
@@ -250,7 +251,6 @@ describe("Vesting", function () {
           await this.vesting.setCurrentBlockTime(vestStart + 1);
           const tx = this.vesting.release(this.beneficiary.address);
           await expect(tx).to.emit(this.vesting, "LockRelease").withArgs(this.beneficiary.address, "100");
-          await expect(tx).to.emit(this.vesting, "VestRelease").withArgs(this.beneficiary.address, "90");
           await expect(this.vesting.release(this.beneficiary.address)).to.be.revertedWith("Nothing to release yet");
         });
 
@@ -260,18 +260,22 @@ describe("Vesting", function () {
           await expect(tx).to.emit(this.vesting, "LockRelease").withArgs(this.beneficiary.address, "100");
           await expect(this.vesting.release(this.beneficiary.address)).to.be.revertedWith("Nothing to release yet");
           await this.vesting.setCurrentBlockTime(vestStart + 1);
+          await expect(this.vesting.release(this.beneficiary.address)).to.be.revertedWith("Nothing to release yet");
+          await this.vesting.setCurrentBlockTime(vestStart + vestInterval);
           tx = this.vesting.release(this.beneficiary.address);
           await expect(tx).to.emit(this.vesting, "VestRelease").withArgs(this.beneficiary.address, "90");
           await expect(this.vesting.release(this.beneficiary.address)).to.be.revertedWith("Nothing to release yet");
           await this.vesting.setCurrentBlockTime(vestStart + vestInterval + 1);
+          await expect(this.vesting.release(this.beneficiary.address)).to.be.revertedWith("Nothing to release yet");
+          await this.vesting.setCurrentBlockTime(vestStart + vestInterval * 2);
           tx = this.vesting.release(this.beneficiary.address);
           await expect(tx).to.emit(this.vesting, "VestRelease").withArgs(this.beneficiary.address, "90");
           await expect(this.vesting.release(this.beneficiary.address)).to.be.revertedWith("Nothing to release yet");
-          await this.vesting.setCurrentBlockTime(vestStart + vestInterval * 2 + 1);
+          await this.vesting.setCurrentBlockTime(vestStart + vestInterval * 3);
           tx = this.vesting.release(this.beneficiary.address);
           await expect(tx).to.emit(this.vesting, "VestRelease").withArgs(this.beneficiary.address, "90");
           await expect(this.vesting.release(this.beneficiary.address)).to.be.revertedWith("Nothing to release yet");
-          await this.vesting.setCurrentBlockTime(vestStart + vestInterval * 3 + 1);
+          await this.vesting.setCurrentBlockTime(vestStart + vestInterval * 4);
           tx = this.vesting.release(this.beneficiary.address);
           await expect(tx).to.emit(this.vesting, "VestRelease").withArgs(this.beneficiary.address, "90");
           await expect(this.vesting.release(this.beneficiary.address)).to.be.revertedWith("Nothing to release yet");

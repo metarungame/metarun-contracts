@@ -153,9 +153,9 @@ contract Vesting is Context, ReentrancyGuard {
         if (_getCurrentBlockTime() >= vestEnd) {
             return vestAmount;
         }
-        uint256 startedInvervals = (_getCurrentBlockTime() - vestStart) / vestInterval + 1;
+        uint256 passedInvervals = (_getCurrentBlockTime() - vestStart) / vestInterval;
         uint256 totalIntervals = vestDuration / vestInterval;
-        uint256 vestUnfrozenAmount = (vestAmount * startedInvervals) / totalIntervals;
+        uint256 vestUnfrozenAmount = (vestAmount * passedInvervals) / totalIntervals;
         return vestUnfrozenAmount;
     }
 
