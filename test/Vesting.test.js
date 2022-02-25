@@ -299,8 +299,11 @@ describe("Vesting", function () {
       });
 
       it("allocations were properly set", async function () {
-        const allocation = await this.vesting.allocations("0xe20dcDBB6B1B77B6f0E6a3D9d7a58Bc8BD04062B");
+        let allocation = await this.vesting.allocations("0xe20dcDBB6B1B77B6f0E6a3D9d7a58Bc8BD04062B");
         expect(allocation[0]).to.be.eq(ethers.utils.parseEther("300"));
+        expect(allocation[1]).to.be.eq("0"); // released
+        allocation = await this.vesting.allocations("0x0B423BE803987C3885EC9b3D4d17f38858B22351");
+        expect(allocation[0]).to.be.eq(ethers.utils.parseEther("400"));
         expect(allocation[1]).to.be.eq("0"); // released
       });
     });

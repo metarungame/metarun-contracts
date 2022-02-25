@@ -17,6 +17,7 @@ contract TokenVesting is Context, ReentrancyGuard {
 
     event LockRelease(address beneficiary, uint256 amount);
     event VestRelease(address beneficiary, uint256 amount);
+    event Allocate(address beneficiary, uint256 amount);
 
     IERC20 public token;
 
@@ -116,6 +117,7 @@ contract TokenVesting is Context, ReentrancyGuard {
             (address beneficiary, uint256 amount) = abi.decode(_allocations[i], (address, uint256));
             totalAmount += amount;
             allocations[beneficiary].amount = amount;
+            emit Allocate(beneficiary, amount);
         }
 
         token.safeTransferFrom(_msgSender(), address(this), totalAmount);
