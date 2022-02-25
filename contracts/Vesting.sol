@@ -57,9 +57,10 @@ contract Vesting is Context, ReentrancyGuard {
     ) {
         require(_token != address(0), "token address cannot be zero");
         token = IERC20(_token);
+        require(_lockBps + _vestBps == 10000, "sum of Lock and Vest bps should be 10000");
         lockBps = _lockBps;
         vestBps = _vestBps;
-        // todo: check sum of them equals to 10000
+        require(_lockClaimTime > _getCurrentBlockTime(), "lockClaimTime should be in the future");
         lockClaimTime = _lockClaimTime;
         vestStart = _vestStart;
         // todo: check lockClaimTime goes first
