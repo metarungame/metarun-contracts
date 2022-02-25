@@ -90,7 +90,10 @@ contract Vesting is Context, ReentrancyGuard {
             uint256 vestReleased,
             uint256 unfrozen,
             uint256 lockUnfrozen,
-            uint256 vestUnfrozen
+            uint256 vestUnfrozen,
+            uint256 releasable,
+            uint256 lockReleasable,
+            uint256 vestReleasable
         )
     {
         amount = allocations[beneficiary].amount;
@@ -109,6 +112,15 @@ contract Vesting is Context, ReentrancyGuard {
         lockUnfrozen = getLockUnfrozen(lockAmount);
         vestUnfrozen = getVestUnfrozen(vestAmount);
         unfrozen = lockUnfrozen + vestUnfrozen;
+
+        if (lockUnfrozen > lockReleased) {
+            lockReleasable = lockUnfrozen - lockReleased;
+        }
+
+        if (vestUnfrozen > vestReleased) {
+            vestReleasable = vestUnfrozen - vestReleased;
+        }
+        releasable = lockReleasable + vestReleasable;
     }
 
     function setAllocations(bytes[] memory _allocations) external nonReentrant {
@@ -160,14 +172,14 @@ contract Vesting is Context, ReentrancyGuard {
             uint256 vestReleased,
             uint256 unfrozen,
             uint256 lockUnfrozen,
-            uint256 vestUnfrozen
+            uint256 vestUnfrozen,
+            uint256 releasable,
+            uint256 lockReleasable,
+            uint256 vestReleasable
         ) = getAllocation(beneficiary);
 
-        uint256 lockReleasable = lockUnfrozen - lockReleased;
-        uint256 vestReleasable = vestUnfrozen - vestReleased;
-
         require(released < amount, "Amount already released");
-        require(lockReleasable + vestReleasable > 0, "Nothing to release yet");
+        require(releasable > 0, "Nothing to release yet");
 
         if (lockReleasable > 0) {
             allocations[beneficiary].released += lockReleasable;
