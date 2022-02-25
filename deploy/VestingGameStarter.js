@@ -472,6 +472,13 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
     totalAmount = totalAmount.add(amount);
   }
 
+  let encodedAllocations = [];
+  const abiEncoder = new ethers.utils.AbiCoder();
+  for (let i = 0; i < allocations.length; i++) {
+    let beneficiary = allocations[i][0];
+    let amount = ethers.utils.parseEther(allocations[i][1]);
+    encodedAllocations.push(abiEncoder.encode(["address", "uint256"], [beneficiary, amount]));
+  }
 
   console.log("Parameters for", vestingName, "Vesting:")
   console.log("  Total allocation:", ethers.utils.formatEther(totalAmount), "MRUN");
@@ -497,19 +504,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
 
   await execute("MetarunToken", { from: deployer, log: true }, "approve", (await deployments.get(vestingContractName)).address, totalAmount);
 
-  for (let i = 0; i < allocations.length; i++) {
-    let recipient = allocations[i][0];
-    let amount = ethers.utils.parseEther(allocations[i][1]);
-    console.log(" Vesting for", recipient, ethers.utils.formatEther(amount));
-
-    let vested = await read(vestingContractName, "getAllocation", recipient);
-    if (!vested[0].eq("0")) {
-      console.log("Already vested?", vested[0].toString());
-      return;
-    }
-
-    await execute(vestingContractName, { from: deployer, log: true }, "setAllocation", recipient, amount);
-  }
+  await execute(vestingContractName, { from: deployer, log: true }, "setAllocations", encodedAllocations);
 
   let balanceOnVesting = await read("MetarunToken", "balanceOf", tokenVesting.address);
   console.log("Planned to allocate for ", vestingName, ":", formatEther(balanceOnVesting), "MRUN");
