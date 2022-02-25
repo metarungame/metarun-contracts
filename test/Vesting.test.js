@@ -40,18 +40,33 @@ describe("Vesting", function () {
     });
 
     describe("add allocation", function () {
-      const amount = "1000"; // MRUN
+      before(async function () {
+        this.totalAmount = "1700"; // MRUN
+        this.beneficiaryAmount = "1000"; // MRUN
+        let allocations = [];
+        allocations.push(["0x36295d38F407C53FF19B9a69D291659CFd4852bd", "100"]);
+        allocations.push(["0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", "200"]);
+        allocations.push([this.beneficiary.address, this.beneficiaryAmount]);
+        allocations.push(["0x0B423BE803987C3885EC9b3D4d17f38858B22351", "400"]);
+        this.encodedAllocations = [];
+        const abiEncoder = new ethers.utils.AbiCoder();
+        for (let i = 0; i < allocations.length; i++) {
+          let beneficiary = allocations[i][0];
+          let amount = allocations[i][1];
+          this.encodedAllocations.push(abiEncoder.encode(["address", "uint256"], [beneficiary, amount]));
+        }
+      });
 
       beforeEach(async function () {
-        await this.token.mint(this.deployer.address, amount);
-        await this.token.approve(this.vesting.address, amount);
+        await this.token.mint(this.deployer.address, this.totalAmount);
+        await this.token.approve(this.vesting.address, this.totalAmount);
 
-        await this.vesting.setAllocation(this.beneficiary.address, amount);
+        await this.vesting.setAllocations(this.encodedAllocations);
       });
 
       it("allocation was properly set", async function () {
         const allocation = await this.vesting.allocations(this.beneficiary.address);
-        expect(allocation[0]).to.be.eq(amount);
+        expect(allocation[0]).to.be.eq(this.beneficiaryAmount);
         expect(allocation[1]).to.be.eq("0"); // released
       });
 
@@ -63,7 +78,7 @@ describe("Vesting", function () {
         const alcReleased = allocation[3];
         const alcTimeLockedReleased = allocation[4];
         const alcVestedReleased = allocation[5];
-        expect(alcAmount).to.be.eq(amount);
+        expect(alcAmount).to.be.eq(this.beneficiaryAmount);
         expect(alcTimeLockedAmount).to.be.eq("100");
         expect(alcVestedAmount).to.be.eq("900");
         expect(alcReleased).to.be.eq("0");
@@ -81,7 +96,7 @@ describe("Vesting", function () {
         const alcReleased = allocation[3];
         const alcTimeLockedReleased = allocation[4];
         const alcVestedReleased = allocation[5];
-        expect(alcAmount).to.be.eq(amount);
+        expect(alcAmount).to.be.eq(this.beneficiaryAmount);
         expect(alcTimeLockedAmount).to.be.eq("400");
         expect(alcVestedAmount).to.be.eq("600");
         expect(alcReleased).to.be.eq("0");
@@ -258,6 +273,35 @@ describe("Vesting", function () {
           await expect(tx).to.emit(this.vesting, "VestRelease").withArgs(this.beneficiary.address, "900");
           await expect(this.vesting.release(this.beneficiary.address)).to.be.revertedWith("Amount already released");
         });
+      });
+    });
+
+    describe("add allocations", function () {
+      const amount = ethers.utils.parseEther("1000");
+      let allocations = [];
+      allocations.push(["0x36295d38F407C53FF19B9a69D291659CFd4852bd", "100"]);
+      allocations.push(["0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", "200"]);
+      allocations.push(["0xe20dcDBB6B1B77B6f0E6a3D9d7a58Bc8BD04062B", "300"]);
+      allocations.push(["0x0B423BE803987C3885EC9b3D4d17f38858B22351", "400"]);
+      let encodedAllocations = [];
+      const abiEncoder = new ethers.utils.AbiCoder();
+      for (let i = 0; i < allocations.length; i++) {
+        let beneficiary = allocations[i][0];
+        let amount = ethers.utils.parseEther(allocations[i][1]);
+        encodedAllocations.push(abiEncoder.encode(["address", "uint256"], [beneficiary, amount]));
+      }
+
+      beforeEach(async function () {
+        await this.token.mint(this.deployer.address, amount);
+        await this.token.approve(this.vesting.address, amount);
+
+        await this.vesting.setAllocations(encodedAllocations);
+      });
+
+      it("allocations were properly set", async function () {
+        const allocation = await this.vesting.allocations("0xe20dcDBB6B1B77B6f0E6a3D9d7a58Bc8BD04062B");
+        expect(allocation[0]).to.be.eq(ethers.utils.parseEther("300"));
+        expect(allocation[1]).to.be.eq("0"); // released
       });
     });
   });

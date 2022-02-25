@@ -110,11 +110,15 @@ contract TokenVesting is Context, ReentrancyGuard {
         unfrozen = lockUnfrozen + vestUnfrozen;
     }
 
-    function setAllocation(address _beneficiary, uint256 _amount) external nonReentrant {
-        allocations[_beneficiary].amount = _amount;
-        // todo: move to the separate method to call it once and save gas
-        // this will need to add onlyOwner modifier or another protection
-        token.safeTransferFrom(_msgSender(), address(this), _amount);
+    function setAllocations(bytes[] memory _allocations) external nonReentrant {
+        uint256 totalAmount;
+        for (uint256 i = 0; i < _allocations.length; i++) {
+            (address beneficiary, uint256 amount) = abi.decode(_allocations[i], (address, uint256));
+            totalAmount += amount;
+            allocations[beneficiary].amount = amount;
+        }
+
+        token.safeTransferFrom(_msgSender(), address(this), totalAmount);
     }
 
     function getLockUnfrozen(uint256 lockAmount) public view returns (uint256) {
