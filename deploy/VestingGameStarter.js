@@ -12,7 +12,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   const vestBps = 9000; // 90%
   const lockClaimTime = tge;
   const vestStart = tge;
-  const vestDuration = 100 * day;
+  const vestDuration = 3 * month;
   const vestInterval = month
   
 
