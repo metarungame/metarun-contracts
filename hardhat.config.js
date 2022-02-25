@@ -66,6 +66,13 @@ module.exports = {
         url: `https://rinkeby.infura.io/v3/${process.env.INFURA_KEY}`,
         live: true,
         saveDeployments: true,
-    }
+    },
+    bsctestnet: {
+        chainId: 97,
+        accounts,
+        url: `https://data-seed-prebsc-1-s2.binance.org:8545/`,
+        live: true,
+        saveDeployments: true,
+  }
   },
 };
