@@ -220,6 +220,18 @@ contract VestingPrivate1 is Vesting {
     ) Vesting(_token, _lockBps, _vestBps, _lockClaimTime, _vestStart, _vestDuration, _vestInterval) {}
 }
 
+contract VestingPrivate2 is Vesting {
+    constructor(
+        address _token,
+        uint256 _lockBps,
+        uint256 _vestBps,
+        uint256 _lockClaimTime,
+        uint256 _vestStart,
+        uint256 _vestDuration,
+        uint256 _vestInterval
+    ) Vesting(_token, _lockBps, _vestBps, _lockClaimTime, _vestStart, _vestDuration, _vestInterval) {}
+}
+
 contract VestingGameStarter is Vesting {
     constructor(
         address _token,
