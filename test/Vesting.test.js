@@ -26,6 +26,12 @@ describe("Vesting", function () {
     );
   });
 
+  it("should not deploy with vestStart earlier than lockClaimTime", async function () {
+    await expect(this.Vesting.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 6000, 4000, 1800000000, 1700000000, 2, 3)).to.be.revertedWith(
+      "vestStart earlier than lockClaimTime"
+    );
+  });
+
   describe("deploy", function () {
     const timeLockedBps = "1000"; // 10$
     const vestedBps = "9000"; // 90$

@@ -61,9 +61,9 @@ contract Vesting is Context, ReentrancyGuard {
         lockBps = _lockBps;
         vestBps = _vestBps;
         require(_lockClaimTime > _getCurrentBlockTime(), "lockClaimTime should be in the future");
+        require(_vestStart >= _lockClaimTime, "vestStart earlier than lockClaimTime");
         lockClaimTime = _lockClaimTime;
         vestStart = _vestStart;
-        // todo: check lockClaimTime goes first
         vestDuration = _vestDuration;
         vestInterval = _vestInterval;
         // todo: check vestingDuration > vestingInterval;
