@@ -5,15 +5,16 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   const vestingName = "GameStarter";
   const vestingContractName = "Vesting" + vestingName;
   const token = await deployments.get("MetarunToken");
+  const hour = 60 * 60;
   const day = 60 * 60 * 24;
   const month = 30 * day;
-  const tge = Date.parse("2022-02-28T15:00:00+00:00") / 1000;
+  const tge = Date.parse("2022-02-27T13:00:00+00:00") / 1000;
   const lockBps = 1000; // 10%
   const vestBps = 9000; // 90%
   const lockClaimTime = tge;
-  const vestStart = tge;
-  const vestDuration = 3 * month;
-  const vestInterval = month
+  const vestStart = tge + 1;
+  const vestDuration = 3 * hour;
+  const vestInterval = hour
   
 
   let allocations = [];

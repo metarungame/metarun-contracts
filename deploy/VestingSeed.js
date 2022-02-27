@@ -8,13 +8,13 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   const hour = 60 * 60;
   const day = hour * 24;
   const month = 30 * day;
-  const tge = Date.parse("2022-02-28T15:00:00+00:00") / 1000;
+  const tge = Date.parse("2022-02-27T13:00:00+00:00") / 1000;
   const lockBps = 250; // 2.5$
   const vestBps = 9750; // 97.5%
   const lockClaimTime = tge + 1 * hour;
-  const vestStart = Date.parse("2022-04-28T15:00:00+00:00") / 1000; // TGE + 2 months
-  const vestDuration = 18 * month;
-  const vestInterval = day;
+  const vestStart = tge + 3 * hour;
+  const vestDuration = 18 * hour;
+  const vestInterval = 10 * 60;
   
 
   let allocations = [];
