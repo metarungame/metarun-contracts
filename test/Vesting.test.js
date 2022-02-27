@@ -11,25 +11,45 @@ describe("Vesting", function () {
     this.Vesting = await ethers.getContractFactory("Vesting");
   });
 
-  it("should not deploy with wrong bps parameters", async function () {
-    await expect(this.VestingMock.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 60001, 40000, 0, 0, 2, 3)).to.be.revertedWith(
-      "sum of Lock and Vest bps should be 10000"
-    );
-    await expect(this.VestingMock.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 60001, 34567, 0, 0, 2, 3)).to.be.revertedWith(
-      "sum of Lock and Vest bps should be 10000"
-    );
-  });
+  describe("corrupted data is reverted", function () {
+    this.beforeAll(async function () {
+      this.dummyAddress = "0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0";
+      this.dummyDuration = 6;
+      this.dummyInterval = 3;
+    });
 
-  it("should not deploy with wrong times", async function () {
-    await expect(this.Vesting.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 6000, 4000, 123, 0, 2, 3)).to.be.revertedWith(
-      "lockClaimTime should be in the future"
-    );
-  });
+    it("should not deploy with wrong bps parameters", async function () {
+      await expect(this.VestingMock.deploy(this.dummyAddress, 60001, 40000, 0, 0, this.dummyDuration, this.dummyInterval)).to.be.revertedWith(
+        "sum of Lock and Vest bps should be 10000"
+      );
+      await expect(this.VestingMock.deploy(this.dummyAddress, 60001, 34567, 0, 0, this.dummyDuration, this.dummyInterval)).to.be.revertedWith(
+        "sum of Lock and Vest bps should be 10000"
+      );
+    });
 
-  it("should not deploy with vestStart earlier than lockClaimTime", async function () {
-    await expect(this.Vesting.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 6000, 4000, 1800000000, 1700000000, 2, 3)).to.be.revertedWith(
-      "vestStart earlier than lockClaimTime"
-    );
+    it("should not deploy with wrong times", async function () {
+      await expect(this.Vesting.deploy(this.dummyAddress, 6000, 4000, 123, 0, this.dummyDuration, this.dummyInterval)).to.be.revertedWith(
+        "lockClaimTime should be in the future"
+      );
+    });
+
+    it("should not deploy with vestStart earlier than lockClaimTime", async function () {
+      await expect(
+        this.Vesting.deploy(this.dummyAddress, 6000, 4000, 1800000000, 1700000000, this.dummyDuration, this.dummyInterval)
+      ).to.be.revertedWith("vestStart earlier than lockClaimTime");
+    });
+
+    it("should not deploy with interval == 0", async function () {
+      await expect(this.Vesting.deploy(this.dummyAddress, 6000, 4000, 1800000000, 1900000000, this.dummyDuration, 0)).to.be.revertedWith(
+        "interval should be greater than 0"
+      );
+    });
+
+    it("should not deploy with interval > duration", async function () {
+      await expect(
+        this.Vesting.deploy(this.dummyAddress, 6000, 4000, 1800000000, 1900000000, this.dummyDuration, this.dummyDuration + 10)
+      ).to.be.revertedWith("duration should be greater than interval");
+    });
   });
 
   describe("deploy", function () {
@@ -38,7 +58,7 @@ describe("Vesting", function () {
     const lockClaimTime = "1700000000";
     const vestStart = 1800000000;
     const vestDuration = 100000000;
-    const vestInterval = 10000000;
+    const vestInterval = 10000000000;
 
     beforeEach(async function () {
       this.token = await this.MetarunToken.deploy();

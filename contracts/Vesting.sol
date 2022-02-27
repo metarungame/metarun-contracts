@@ -56,6 +56,8 @@ contract Vesting is Context, ReentrancyGuard {
         uint256 _vestInterval
     ) {
         require(_token != address(0), "token address cannot be zero");
+        require(_vestInterval > 0, "interval should be greater than 0");
+        require(_vestDuration > _vestInterval, "duration should be greater than interval");
         token = IERC20(_token);
         require(_lockBps + _vestBps == 10000, "sum of Lock and Vest bps should be 10000");
         lockBps = _lockBps;
@@ -66,8 +68,6 @@ contract Vesting is Context, ReentrancyGuard {
         vestStart = _vestStart;
         vestDuration = _vestDuration;
         vestInterval = _vestInterval;
-        // todo: check vestingDuration > vestingInterval;
-        // todo: check vestingInterval > 0;
     }
 
     /**
