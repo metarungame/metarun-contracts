@@ -41,7 +41,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   allocations.push(["0xD4d0487f1fEAAf7F13887B52b3179bEAdABAFCF4", "1500000.00"]);
   allocations.push(["0xEFa10ed446E41a1815b20B0108e35fbd74C2AD77", "500000.00"]);
   allocations.push(["0x4553eD5d8d3731E629f67BD86abd021175F31848", "1000000.00"]);
-  allocations.push(["0x50899582199c06d5264edDCD12879E5210783Ba8", "1000000.00"]);
+  allocations.push(["0xdCe9dD5a50E1Eb83cD0e49Fa0fF3Ce3Eed21AcEA", "1000000.00"]);
   allocations.push(["0x1AD0E68302a348888fD7fEFe8b677b46bBF6e9aa", "7500000.00"]);
   allocations.push(["0xc2511c232bfcCfAD4048d51920da004cF17db0b2", "5000000.00"]);
   allocations.push(["0xAB7618A71CfD7f62be30bB977f3C3F6198721299", "750000.00"]);
