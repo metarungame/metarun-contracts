@@ -84,17 +84,75 @@ contract Vesting is Context, ReentrancyGuard {
     }
 
     /**
-     * @dev This function introduced for testing purposes and allows time mocking in tests
-     * @return current timestamp
+     * @dev submit multiple records of beneficiaries and their allocations in one transaction
+     * @param _allocations ABI-encoded array of beneficiaries and amounts
      **/
-    function _getCurrentBlockTime() internal view virtual returns (uint256) {
-        return block.timestamp;
+    function setAllocations(bytes[] memory _allocations) external nonReentrant {
+        uint256 totalAmount;
+        for (uint256 i = 0; i < _allocations.length; i++) {
+            (address beneficiary, uint256 amount) = abi.decode(_allocations[i], (address, uint256));
+            totalAmount += amount;
+            require(allocations[beneficiary].amount == 0, "Already allocated");
+            require(allocations[beneficiary].released == 0, "Already released");
+            allocations[beneficiary].amount = amount;
+            emit Allocate(beneficiary, amount);
+        }
+
+        token.safeTransferFrom(_msgSender(), address(this), totalAmount);
+    }
+
+    /**
+     * @dev submit the single allocation record
+     * @param beneficiary address of holder
+     * @param beneficiary amount
+     **/
+    function setAllocation(address beneficiary, uint256 amount) external nonReentrant {
+        require(allocations[beneficiary].amount == 0, "Already allocated");
+        require(allocations[beneficiary].released == 0, "Already released");
+        allocations[beneficiary].amount = amount;
+        emit Allocate(beneficiary, amount);
+        token.safeTransferFrom(_msgSender(), address(this), amount);
+    }
+
+    /**
+     * @dev called to send unfrozen tokens to the beneficiary.
+     * @param beneficiary account to whom tokens were allocated
+     **/
+    function release(address beneficiary) external nonReentrant {
+        (
+            uint256 amount,
+            uint256 lockAmount,
+            uint256 vestAmount,
+            uint256 released,
+            uint256 lockReleased,
+            uint256 vestReleased,
+            uint256 unfrozen,
+            uint256 lockUnfrozen,
+            uint256 vestUnfrozen,
+            uint256 releasable,
+            uint256 lockReleasable,
+            uint256 vestReleasable
+        ) = getAllocation(beneficiary);
+
+        require(released < amount, "Amount already released");
+        require(releasable > 0, "Nothing to release yet");
+
+        if (lockReleasable > 0) {
+            allocations[beneficiary].released += lockReleasable;
+            emit LockRelease(beneficiary, lockReleasable);
+            token.safeTransfer(beneficiary, lockReleasable);
+        }
+
+        if (vestReleasable > 0) {
+            allocations[beneficiary].released += vestReleasable;
+            emit VestRelease(beneficiary, vestReleasable);
+            token.safeTransfer(beneficiary, vestReleasable);
+        }
     }
 
     /**
      * @dev calculates and returns the full information about beneficiary's allocation
      * @param beneficiary address of beneficiary (holder)
-     * @return allocation of given beneficiary
      **/
     function getAllocation(address beneficiary)
         public
@@ -143,37 +201,6 @@ contract Vesting is Context, ReentrancyGuard {
     }
 
     /**
-     * @dev submit multiple records of beneficiaries and their allocations in one transaction
-     * @param _allocations ABI-encoded array of beneficiaries and amounts
-     **/
-    function setAllocations(bytes[] memory _allocations) external nonReentrant {
-        uint256 totalAmount;
-        for (uint256 i = 0; i < _allocations.length; i++) {
-            (address beneficiary, uint256 amount) = abi.decode(_allocations[i], (address, uint256));
-            totalAmount += amount;
-            require(allocations[beneficiary].amount == 0, "Already allocated");
-            require(allocations[beneficiary].released == 0, "Already released");
-            allocations[beneficiary].amount = amount;
-            emit Allocate(beneficiary, amount);
-        }
-
-        token.safeTransferFrom(_msgSender(), address(this), totalAmount);
-    }
-
-    /**
-     * @dev submit the single allocation record
-     * @param beneficiary address of holder
-     * @param beneficiary amount
-     **/
-    function setAllocation(address beneficiary, uint256 amount) external nonReentrant {
-        require(allocations[beneficiary].amount == 0, "Already allocated");
-        require(allocations[beneficiary].released == 0, "Already released");
-        allocations[beneficiary].amount = amount;
-        emit Allocate(beneficiary, amount);
-        token.safeTransferFrom(_msgSender(), address(this), amount);
-    }
-
-    /**
      * @dev calculates how much of given TimeLock-ed amount is unfrozen to the moment.
      * depends on time (is lockClaimTime happened or not).
      * @param lockAmount the total amount of Time_Locked tokens
@@ -207,39 +234,11 @@ contract Vesting is Context, ReentrancyGuard {
     }
 
     /**
-     * @dev called to send unfrozen tokens to the beneficiary.
-     * @param beneficiary account to whom tokens were allocated
+     * @dev This function introduced for testing purposes and allows time mocking in tests
+     * @return current timestamp
      **/
-    function release(address beneficiary) external nonReentrant {
-        (
-            uint256 amount,
-            uint256 lockAmount,
-            uint256 vestAmount,
-            uint256 released,
-            uint256 lockReleased,
-            uint256 vestReleased,
-            uint256 unfrozen,
-            uint256 lockUnfrozen,
-            uint256 vestUnfrozen,
-            uint256 releasable,
-            uint256 lockReleasable,
-            uint256 vestReleasable
-        ) = getAllocation(beneficiary);
-
-        require(released < amount, "Amount already released");
-        require(releasable > 0, "Nothing to release yet");
-
-        if (lockReleasable > 0) {
-            allocations[beneficiary].released += lockReleasable;
-            emit LockRelease(beneficiary, lockReleasable);
-            token.safeTransfer(beneficiary, lockReleasable);
-        }
-
-        if (vestReleasable > 0) {
-            allocations[beneficiary].released += vestReleasable;
-            emit VestRelease(beneficiary, vestReleasable);
-            token.safeTransfer(beneficiary, vestReleasable);
-        }
+    function _getCurrentBlockTime() internal view virtual returns (uint256) {
+        return block.timestamp;
     }
 }
 
