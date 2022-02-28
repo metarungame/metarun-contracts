@@ -10,8 +10,11 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "hardhat/console.sol";
 
 /**
- * @title Vesting
- */
+ * @title Vesting and timelock contract
+ * @dev Keeps tokens allocated for beneficiaries and releases them over time.
+ * The Lock'ed portion gets released after lockClaimTime.
+ * Vested portion gets released gradually after vestStart.
+ **/
 contract Vesting is Context, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
@@ -46,6 +49,16 @@ contract Vesting is Context, ReentrancyGuard {
 
     mapping(address => Allocation) public allocations;
 
+    /**
+     * @dev common parameters are given through constructor.
+     * @param _token ERC-20 token that gets allocated
+     * @param _lockBps relative part that gets Lock-ed by time. Nominated in bps (1/10000)
+     * @param _vestBps part that gets Lock-ed by time. Nominated in bps (1/10000).
+     * @param _lockClaimTime moment after which the time-Locked part is unlocked
+     * @param _vestStart moment after which the gradual unlocking of the Vested amount begins
+     * @param _vestDuration how long does a gradual unlock last. After _vestStart + _vestDuration Vesting part is fully unlocked
+     * @param _vestInterval time interval within which the unlock is calculated
+     **/
     constructor(
         address _token,
         uint256 _lockBps,
@@ -71,13 +84,18 @@ contract Vesting is Context, ReentrancyGuard {
     }
 
     /**
-    @notice Returns current timestamp
-    @return timestamp of current block
-     */
+     * @dev This function introduced for testing purposes and allows time mocking in tests
+     * @return current timestamp
+     **/
     function _getCurrentBlockTime() internal view virtual returns (uint256) {
         return block.timestamp;
     }
 
+    /**
+     * @dev calculates and returns the full information about beneficiary's allocation
+     * @param beneficiary address of beneficiary (holder)
+     * @return allocation of given beneficiary
+     **/
     function getAllocation(address beneficiary)
         public
         view
@@ -124,6 +142,10 @@ contract Vesting is Context, ReentrancyGuard {
         releasable = lockReleasable + vestReleasable;
     }
 
+    /**
+     * @dev submit multiple records of beneficiaries and their allocations in one transaction
+     * @param _allocations ABI-encoded array of beneficiaries and amounts
+     **/
     function setAllocations(bytes[] memory _allocations) external nonReentrant {
         uint256 totalAmount;
         for (uint256 i = 0; i < _allocations.length; i++) {
@@ -138,6 +160,11 @@ contract Vesting is Context, ReentrancyGuard {
         token.safeTransferFrom(_msgSender(), address(this), totalAmount);
     }
 
+    /**
+     * @dev submit the single allocation record
+     * @param beneficiary address of holder
+     * @param beneficiary amount
+     **/
     function setAllocation(address beneficiary, uint256 amount) external nonReentrant {
         require(allocations[beneficiary].amount == 0, "Already allocated");
         require(allocations[beneficiary].released == 0, "Already released");
@@ -146,6 +173,12 @@ contract Vesting is Context, ReentrancyGuard {
         token.safeTransferFrom(_msgSender(), address(this), amount);
     }
 
+    /**
+     * @dev calculates how much of given TimeLock-ed amount is unfrozen to the moment.
+     * depends on time (is lockClaimTime happened or not).
+     * @param lockAmount the total amount of Time_Locked tokens
+     * @return unfrozen amount
+     **/
     function getLockUnfrozen(uint256 lockAmount) public view returns (uint256) {
         if (_getCurrentBlockTime() >= lockClaimTime) {
             return lockAmount;
@@ -153,6 +186,12 @@ contract Vesting is Context, ReentrancyGuard {
         return 0;
     }
 
+    /**
+     * @dev calculates how much of given Vest-ed amount is unfrozen to the moment.
+     * depends on time (is vestStart happened, is vestDurationPassed or how much intervals passed to the moment).
+     * @param vestAmount the total amount of Vest-ed tokens
+     * @return unfrozen amount
+     **/
     function getVestUnfrozen(uint256 vestAmount) public view returns (uint256) {
         uint256 vestEnd = vestStart + vestDuration;
         if (_getCurrentBlockTime() <= vestStart) {
@@ -168,9 +207,9 @@ contract Vesting is Context, ReentrancyGuard {
     }
 
     /**
-        @notice Release (i.e. send) vested tokens to beneficiary
-        @param beneficiary owner of tokens
-     */
+     * @dev called to send unfrozen tokens to the beneficiary.
+     * @param beneficiary account to whom tokens were allocated
+     **/
     function release(address beneficiary) external nonReentrant {
         (
             uint256 amount,
