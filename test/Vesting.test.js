@@ -306,7 +306,24 @@ describe("Vesting", function () {
       });
     });
 
-    describe("add allocations", function () {
+    describe("add single allocation", function () {
+
+      allocatedAmount = ethers.utils.parseEther("400");
+      
+      beforeEach(async function () {
+        await this.token.mint(this.deployer.address, allocatedAmount);
+        await this.token.approve(this.vesting.address, allocatedAmount);
+        await this.vesting.setAllocation(this.beneficiary.address, allocatedAmount);
+      });
+
+      it("allocations were properly set", async function () {
+        let allocation = await this.vesting.allocations(this.beneficiary.address);
+        expect(allocation[0]).to.be.eq(allocatedAmount);
+        expect(allocation[1]).to.be.eq("0"); // released
+      });
+    });
+
+    describe("add multiple allocations", function () {
       const amount = ethers.utils.parseEther("1000");
       let allocations = [];
       allocations.push(["0x36295d38F407C53FF19B9a69D291659CFd4852bd", "100"]);

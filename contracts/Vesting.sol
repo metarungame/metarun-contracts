@@ -138,6 +138,14 @@ contract Vesting is Context, ReentrancyGuard {
         token.safeTransferFrom(_msgSender(), address(this), totalAmount);
     }
 
+    function setAllocation(address beneficiary, uint256 amount) external nonReentrant {
+        require(allocations[beneficiary].amount == 0, "Already allocated");
+        require(allocations[beneficiary].released == 0, "Already released");
+        allocations[beneficiary].amount = amount;
+        emit Allocate(beneficiary, amount);
+        token.safeTransferFrom(_msgSender(), address(this), amount);
+    }
+
     function getLockUnfrozen(uint256 lockAmount) public view returns (uint256) {
         if (_getCurrentBlockTime() >= lockClaimTime) {
             return lockAmount;
