@@ -34,7 +34,7 @@ describe("Metarun Exchange", function () {
       seller: this.seller.address,
       tokenId: 0,
       amount: 1,
-      expirationTime: 2,
+      expirationTime: Math.floor(new Date().getTime() / 1000) + 3600,
       price: 3,
       salt: 4,
     };
@@ -71,5 +71,23 @@ describe("Metarun Exchange", function () {
     await expect(purchaseTx).to.changeEtherBalance(this.seller, this.sellOrder.price);
     expect(await this.collection.balanceOf(this.seller.address, 0)).to.be.equal("0");
     expect(await this.collection.balanceOf(this.buyer.address, 0)).to.be.equal("1");
+  });
+
+  it("reverts an expired sell order", async function () {
+    let dummySellOrder = {};
+    Object.assign(dummySellOrder, this.sellOrder);
+    dummySellOrder.expirationTime = Math.floor(new Date().getTime() / 1000);
+    await this.collection.connect(this.seller).setApprovalForAll(this.exchange.address, true);
+    const signature = await this.seller._signTypedData(this.domain, this.types, dummySellOrder);
+    const purchaseTx = this.exchange.connect(this.buyer).buy(dummySellOrder, signature, { value: this.sellOrder.price });
+    await expect(purchaseTx).to.be.revertedWith("EXPIRED");
+  });
+
+  it("reverts whether sell order is already done", async function () {
+    await this.collection.connect(this.seller).setApprovalForAll(this.exchange.address, true);
+    const signature = await this.seller._signTypedData(this.domain, this.types, this.sellOrder);
+    await this.exchange.connect(this.buyer).buy(this.sellOrder, signature, { value: this.sellOrder.price });
+    const secondTx = this.exchange.connect(this.buyer).buy(this.sellOrder, signature, { value: this.sellOrder.price });
+    await expect(secondTx).to.be.revertedWith("ALREADY_DONE");
   });
 });

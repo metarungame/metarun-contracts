@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
  */
 contract MetarunExchange is EIP712 {
     IERC1155 public token;
-
+    mapping(bytes32 => bool) sellOrderPerformed;
     struct SellOrder {
         // address of the current tokenholder
         address payable seller;
@@ -50,12 +50,13 @@ contract MetarunExchange is EIP712 {
         require(signer != address(0), "BAD_SIGNATURE");
         require(signer == sellOrder.seller, "BAD SIGNER");
         require(msg.value == sellOrder.price, "BAD VALUE");
-        // check the order is actual (not traded already)
-        // check the order is not expired and not too early
+        require(!sellOrderPerformed[sellOrderHash], "ALREADY_DONE");
+        require(block.timestamp < sellOrder.expirationTime, "EXPIRED");
         bytes32 orderHash = hashSellOrder(sellOrder);
         emit Purchase(orderHash, sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, sellOrder.price);
         token.safeTransferFrom(sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, "");
         sellOrder.seller.transfer(msg.value);
+        sellOrderPerformed[sellOrderHash] = true;
     }
 
     // Returns the hash of the fully encoded EIP712 SellOrder for this domain.
