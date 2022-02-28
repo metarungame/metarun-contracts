@@ -12,22 +12,22 @@ describe("Vesting", function () {
   });
 
   it("should not deploy with wrong bps parameters", async function () {
-    await expect(this.VestingMock.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 60001, 40000, 0, 0, 2, 3)).to.be.revertedWith(
+    await expect(this.VestingMock.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 60001, 40000, 0, 0, 3, 2)).to.be.revertedWith(
       "sum of Lock and Vest bps should be 10000"
     );
-    await expect(this.VestingMock.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 60001, 34567, 0, 0, 2, 3)).to.be.revertedWith(
+    await expect(this.VestingMock.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 60001, 34567, 0, 0, 3, 2)).to.be.revertedWith(
       "sum of Lock and Vest bps should be 10000"
     );
   });
 
   it("should not deploy with wrong times", async function () {
-    await expect(this.Vesting.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 6000, 4000, 123, 0, 2, 3)).to.be.revertedWith(
+    await expect(this.Vesting.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 6000, 4000, 123, 0, 3, 2)).to.be.revertedWith(
       "lockClaimTime should be in the future"
     );
   });
 
   it("should not deploy with vestStart earlier than lockClaimTime", async function () {
-    await expect(this.Vesting.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 6000, 4000, 1800000000, 1700000000, 2, 3)).to.be.revertedWith(
+    await expect(this.Vesting.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 6000, 4000, 1800000000, 1700000000, 3, 2)).to.be.revertedWith(
       "vestStart earlier than lockClaimTime"
     );
   });

@@ -56,18 +56,18 @@ contract Vesting is Context, ReentrancyGuard {
         uint256 _vestInterval
     ) {
         require(_token != address(0), "token address cannot be zero");
-        token = IERC20(_token);
+        require(_vestInterval > 0, "interval should be greater than 0");
+        require(_vestDuration > _vestInterval, "duration should be greater than interval");
         require(_lockBps + _vestBps == 10000, "sum of Lock and Vest bps should be 10000");
-        lockBps = _lockBps;
-        vestBps = _vestBps;
         require(_lockClaimTime > _getCurrentBlockTime(), "lockClaimTime should be in the future");
         require(_vestStart >= _lockClaimTime, "vestStart earlier than lockClaimTime");
+        token = IERC20(_token);
+        lockBps = _lockBps;
+        vestBps = _vestBps;
         lockClaimTime = _lockClaimTime;
         vestStart = _vestStart;
         vestDuration = _vestDuration;
         vestInterval = _vestInterval;
-        // todo: check vestingDuration > vestingInterval;
-        // todo: check vestingInterval > 0;
     }
 
     /**
