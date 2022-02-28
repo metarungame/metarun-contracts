@@ -158,7 +158,6 @@ contract Vesting is Context, ReentrancyGuard {
         public
         view
         returns (
-            // todo: reorder in more structured way
             uint256 amount,
             uint256 lockAmount,
             uint256 vestAmount,
