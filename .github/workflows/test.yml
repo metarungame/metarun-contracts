@@ -18,7 +18,7 @@ jobs:
           restore-keys: yarn-v2-
       - run: yarn
         if: steps.cache.outputs.cache-hit != 'true'
-      - run: yarn deploy:hardhat
+      - run: yarn hardhat deploy --tags MetarunExchange,MetarunCollection,MetarunToken
       - run: yarn test
         env:
           FORCE_COLOR: 1
