@@ -2,9 +2,10 @@
 
 ## Specification
 
-* Network: Polygon Mainnet
-* Contract address: [0x267DF8C1168C9d5aE8Ee97B48c7e86d8d43D88d2](https://polygonscan.com/address/0x267df8c1168c9d5ae8ee97b48c7e86d8d43d88d2#readContract)
-* Standard: ERC-20
+* Networks: BSC and Polygon
+* BSC contract address: [0xCa0D640a401406f3405b4C252a5d0c4d17F38EBb](https://bscscan.com/token/0xCa0D640a401406f3405b4C252a5d0c4d17F38EBb)
+* Polygon contract address: [0x267DF8C1168C9d5aE8Ee97B48c7e86d8d43D88d2](https://polygonscan.com/address/0x267df8c1168c9d5ae8ee97b48c7e86d8d43d88d2#readContract)
+* Standard: BEP-20/ERC-20
 * Name: METARUN
 * Symbol: MRUN
 * Supply: dynamic, capped at 1,000,000,000. It will be minted as per requirement. At the time of deployment there should be no supply minted.
@@ -20,8 +21,8 @@
 export MNEMONIC=<YOUR_MNEMONIC>
 export ETHERSCAN_API_KEY=<YOUR ETHERSCAN KEY>
 yarn
-yarn deploy:polygon
-yarn verify:polygon
+yarn hardhat deploy --network <bsc or polygon>
+yarn hardhat etherscan-verify --network <bsc or polygon>
 ```
 
 ## Tasks
@@ -45,7 +46,7 @@ yarn hardhat idoPoolClient --network polygon --action withdrawFunds
 * `mint-tokens` and `simplified-mint-tokens` - mints MetarunCollection NFT tokens
 
 Also find some useful scripts in deployments like `SelfSend` and `MetarunIDO`
-### Submit balances snapshot to a TierSystem contract
+### Submit balances snapshot to a TierSystem contract (0bsolete)
 
 To add balances snapshot to the TierSystem contract:
 * Put CSVs from etherscan and execute `scan_staking_farming_balances.py` in the root repo
