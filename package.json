@@ -16,6 +16,7 @@
     "mint-tokens:local": "hardhat mint-tokens --local --address $METARUN_COLLECTION_ADDRESS --amount $AMOUNT",
     "mint-tokens:rinkeby": "hardhat mint-tokens --network rinkeby --address $METARUN_COLLECTION_ADDRESS --amount $AMOUNT",
     "simplified-mint-tokens:mumbai": "hardhat simplified-mint-tokens --network mumbai --address-token $METARUN_COLLECTION_ADDRESS --address-receiver $RECEIVER_ADDRESS",
+    "simplified-mint-tokens:bsctestnet": "hardhat simplified-mint-tokens --network bsctestnet --address-token $METARUN_COLLECTION_ADDRESS --address-receiver $RECEIVER_ADDRESS",
     "deploy:hardhat": "hardhat deploy",
     "deploy:polygon": "hardhat deploy --network polygon",
     "deploy:mumbai": "hardhat deploy --network mumbai",
