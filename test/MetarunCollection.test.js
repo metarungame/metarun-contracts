@@ -3,134 +3,73 @@ const { ethers } = require("hardhat");
 
 const URI_TOKEN = "https://app-staging.metarun.game/metadata/{id}.json";
 
-describe("Metarun token collection", function () {
-  it("is deployed", async function () {
-    this.metarunCollectionFactory = await ethers.getContractFactory("MetarunCollection");
-    this.metarunCollection = await this.metarunCollectionFactory.deploy(URI_TOKEN);
-    await this.metarunCollection.deployed();
+describe("MetarunCollection", function () {
+  const amount = ethers.utils.parseEther("1.0");
+  const firstTokenID = 0;
+
+  beforeEach(async function () {
     this.signers = await ethers.getSigners();
     this.deployer = this.signers[0];
-    this.stranger = this.signers[1];
-    this.recepient = this.signers[2];
-    this.characterToken = await this.metarunCollection.CHARACTER();
-    this.petToken = await this.metarunCollection.PET();
-    this.artifactToken = await this.metarunCollection.ARTIFACT();
-    this.skinToken = await this.metarunCollection.SKIN();
+    this.account1 = this.signers[1];
+    this.account2 = this.signers[2];
+    this.contract = await ethers.getContractFactory("MetarunCollection");
+    this.token = await this.contract.deploy(URI_TOKEN);
+
   });
-
-  describe("Token creation", function () {
-    async function testTokenCreation(collectionToken, address, tokenId, expectedAmount) {
-      const balanceOfFirstToken = await collectionToken.balanceOf(address, tokenId);
-      expect(balanceOfFirstToken).to.be.eq(expectedAmount);
-    }
-
-    async function mintToken(collectionToken, minter, receiver, tokenId, amount) {
-      await collectionToken.connect(minter).mint(receiver, tokenId, amount);
-    }
-
-    it("should create character token", async function () {
-      await mintToken(this.metarunCollection, this.deployer, this.stranger.address, this.characterToken, 1);
-      await testTokenCreation(this.metarunCollection, this.stranger.address, this.characterToken, "1");
+  describe("Checking for currentTokenID increase after every mint", function () {
+    it("balance equals 0", async function () {
+      expect(await this.token.balanceOf(this.deployer.address, firstTokenID)).to.equal(0);
     });
-
-    it("should create pet token", async function () {
-      await mintToken(this.metarunCollection, this.deployer, this.stranger.address, this.petToken, 1);
-      await testTokenCreation(this.metarunCollection, this.stranger.address, this.petToken, "1");
+    describe("Mint first character token", function () {
+      beforeEach(async function () {
+        await this.token.mint(this.deployer.address, 1, 0, 0, 0);
+      });
+      it("balance equals 1", async function () {
+        expect(await this.token.balanceOf(this.deployer.address, firstTokenID)).to.equal(1);
+      });
+      it("check currentTokenID increased by 1", async function () {
+        expect(await this.token.currentTokenID()).to.equal(firstTokenID+1);
+      });
+      describe("Mint second token", function () {
+        beforeEach(async function () {
+          await this.token.mint(this.deployer.address, 1, 0, 0, 0);
+        });
+        it("balance equals 1", async function () {
+          expect(await this.token.balanceOf(this.deployer.address, firstTokenID+1)).to.equal(1);
+        });
+        it("check currentTokenID increased by 1", async function () {
+          expect(await this.token.currentTokenID()).to.equal(firstTokenID+2);
+        });
+      });
+      describe("Checking the addition of characteristics for the character", function () {
+        it("check character exists", async function () {
+          expect(await this.token.balanceOf(this.deployer.address, firstTokenID)).to.equal(1);
+        });
+        it("check that character does not has characteristics", async function () {
+          const characteristics = await this.token.getCharacteristics(firstTokenID);
+          expect(characteristics.length).to.equal(0);
+        });
+        describe("Add characteristic a Skin", function () {
+          beforeEach(async function () {
+            await this.token.addCharacteristic(this.deployer.address, 10, 2, 1, 0, firstTokenID);
+          });
+          it("check that character characteristics", async function () {
+            const characteristics = await this.token.getCharacteristics(firstTokenID);
+            expect(characteristics.length).to.equal(1);
+          });
+          it("check characteristic type")
+          it("check number of amount for characteristic")
+          describe("Add characteristic a Skin", function () {
+            it("check that character characteristics")
+            it("check characteristic type")
+            it("check number of amount for characteristic")
+          });
+        });
+        describe("Checking the change in the number of fungible tokens", function () {
+        });
+      });
     });
-
-    it("should create artifact token", async function () {
-      await mintToken(this.metarunCollection, this.deployer, this.stranger.address, this.artifactToken, 1);
-      await testTokenCreation(this.metarunCollection, this.stranger.address, this.artifactToken, "1");
-    });
-
-    it("should create skin token", async function () {
-      await mintToken(this.metarunCollection, this.deployer, this.stranger.address, this.skinToken, 1);
-      await testTokenCreation(this.metarunCollection, this.stranger.address, this.skinToken, "1");
-    });
-
-    it("should give zero if token does not exist", async function () {
-      const dummyBalance = await this.metarunCollection.balanceOf(this.deployer.address, 9999);
-      expect(dummyBalance).to.be.eq(0);
-    });
-  });
-
-  describe("Token transfer", async function () {
-    before(async function () {
-      this.senderAddress = this.stranger.address;
-      this.recepientAddress = this.recepient.address;
-    });
-
-    async function checkBalancesAfterTx(collectionToken, tokenId, senderAddress, recepientAddress) {
-      const recipientBalanceAfterTx = await collectionToken.balanceOf(recepientAddress, tokenId);
-      const senderBalanceAfterTx = await collectionToken.balanceOf(senderAddress, tokenId);
-      expect(recipientBalanceAfterTx).to.be.eq(1);
-      expect(senderBalanceAfterTx).to.be.eq(0);
-    }
-
-    it("should transfer character token", async function () {
-      await this.metarunCollection
-        .connect(this.stranger)
-        .safeTransferFrom(this.senderAddress, this.recepientAddress, this.characterToken, 1, []);
-      checkBalancesAfterTx(this.metarunCollection, this.characterToken, this.senderAddress, this.recepientAddress);
-    });
-
-    it("should transfer pet token", async function () {
-      await this.metarunCollection.connect(this.stranger).safeTransferFrom(this.senderAddress, this.recepientAddress, this.petToken, 1, []);
-      checkBalancesAfterTx(this.metarunCollection, this.petToken, this.senderAddress, this.recepientAddress);
-    });
-
-    it("should transfer artifact token", async function () {
-      await this.metarunCollection.connect(this.stranger).safeTransferFrom(this.senderAddress, this.recepientAddress, this.artifactToken, 1, []);
-      checkBalancesAfterTx(this.metarunCollection, this.artifactToken, this.senderAddress, this.recepientAddress);
-    });
-
-    it("should transfer skin token", async function () {
-      await this.metarunCollection.connect(this.stranger).safeTransferFrom(this.senderAddress, this.recepientAddress, this.skinToken, 1, []);
-      checkBalancesAfterTx(this.metarunCollection, this.skinToken, this.senderAddress, this.recepientAddress);
-    });
-
-    it("should revert transfer of non-existing token", async function () {
-      const nonExistingToken = 99999;
-      const badTransfer = this.metarunCollection
-        .connect(this.stranger)
-        .safeTransferFrom(this.senderAddress, this.recepientAddress, nonExistingToken, 1, []);
-      await expect(badTransfer).to.be.reverted;
-    });
-  });
-
-  describe("Token uri", function () {
-    async function testUriGiving(collectionToken, tokenId) {
-      const uri = await collectionToken.uri(tokenId);
-      expect(uri).to.be.eq(URI_TOKEN);
-    }
-
-    it("should correctly give uri for tokens", async function () {
-      testUriGiving(this.metarunCollection, this.characterToken);
-      testUriGiving(this.metarunCollection, this.petToken);
-      testUriGiving(this.metarunCollection, this.artifactToken);
-      testUriGiving(this.metarunCollection, this.skinToken);
-    });
-  });
-
-  describe("Token roles", function () {
-    it("should deny minting for non-minter", async function () {
-      const attemptToMint = this.metarunCollection.connect(this.stranger).mint(this.stranger.address, this.characterToken, 10);
-      await expect(attemptToMint).to.be.revertedWith("METARUNCOLLECTION: need MINTER_ROLE");
-    });
-
-    it("should perform minting for minter", async function () {
-      const attemptToMint = this.metarunCollection.mint(this.stranger.address, this.characterToken, 10);
-      await expect(attemptToMint).to.be.ok;
-    });
-
-    it("should deny changing uri for non-admin", async function () {
-      const attemptTosetURI = this.metarunCollection.connect(this.stranger).setURI("localhost:5050/api/tokens/{id}.json");
-      await expect(attemptTosetURI).to.be.revertedWith("METARUNCOLLECTION: need DEFAULT_ADMIN_ROLE");
-    });
-
-    it("should perform changing uri for admin", async function () {
-      const attemptTosetURI = this.metarunCollection.setURI("localhost:5050/api/tokens/{id}.json");
-      await expect(attemptTosetURI).to.be.ok;
+    describe("Verification of the transfer of tokens", function () {
     });
   });
 });
