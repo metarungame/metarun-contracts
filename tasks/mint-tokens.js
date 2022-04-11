@@ -6,8 +6,10 @@ async function getTokenCategories(metarunCollection) {
   const artifactToken = await metarunCollection.ARTIFACT();
   const skinToken = await metarunCollection.SKIN();
 
-  const categories = [characterToken, petToken, artifactToken, skinToken];
+//  const categories = [characterToken, petToken, artifactToken, skinToken];
+    const categories = [skinToken];
   return categories;
+
 }
 
 const addresses = [
@@ -74,10 +76,10 @@ task("simplified-mint-tokens", "Simplified Mint MetarunCollection tokens")
     const addressReceiver = taskArgs.addressReceiver;
     const metarunCollection = await ethers.getContractAt("MetarunCollection", metarunCollectionAddress);
     const categories = await getTokenCategories(metarunCollection);
-    const amount = ethers.BigNumber.from('1000000000000000000');
+    const amount = ethers.BigNumber.from('1000');
     for (let i = 0; i < categories.length; i++) {
       const tokenId = categories[i];
-      const transaction = await metarunCollection.mint(addressReceiver, tokenId, amount);
+      const transaction = await metarunCollection.mint(addressReceiver, tokenId, 10);
       console.log(`Added ${i + 1}th token. Tx hash: ${transaction.hash}`);
     }
   });

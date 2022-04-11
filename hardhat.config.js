@@ -1,8 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
 require('hardhat-deploy');
-require('./tasks/write-balances-to-tiersystem.js');
 require('./tasks/mint-tokens.js');
-require('./tasks/ido-pool-client.js');
 require('solidity-coverage')
 
 require('./tasks/mint-tokens.js');

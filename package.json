@@ -26,12 +26,11 @@
     "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
     "verify:rinkeby": "hardhat etherscan-verify --network rinkeby --api-key $ETHERSCAN_API_KEY",
     "verify:bsctestnet": "hardhat etherscan-verify --network bsctestnet --api-key $ETHERSCAN_API_KEY",
-    "writeBalancesToTierSystem:polygon": "hardhat writeBalancesToTierSystem --json-path tokens-snapshot/holders.json --network polygon --contract-address 0x768563eB8Ab74C255FCb0479791F236341c49d13 --balance-list-length 500",
     "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
     "solhint": "solhint -c .solhint.json contracts/*.sol",
     "lint": "yarn prettier && yarn solhint",
-    "create-sell-order": "hardhat create-sell-order --network bsctestnet --token-collection-address $METARUN_COLLECTION_ADDRESS --exchange-address $EXCHANGE_ADDRESS --token-id 1 --amount 1000 --price 1000000 --private-key $PRIVET_KEY",
-    "buy-token": "hardhat buy-token --network bsctestnet --order-id 1984702c2b4fe3e5a4700d606d3aca48af6d729637d66fae3cb90d70163d3aae --exchange-address $EXCHANGE_ADDRESS --private-key $PRIVET_KEY"
+    "create-sell-order": "hardhat create-sell-order --network bsctestnet --token-collection-address $METARUN_COLLECTION_ADDRESS --exchange-address $EXCHANGE_ADDRESS --token-id 2 --amount 100 --price 10000 --private-key $PRIVET_KEY",
+    "buy-token": "hardhat buy-token --network bsctestnet --order-id a67852dd20203a0203318c52780d06e80f23f10dad138a7ada091a82724c61c7 --exchange-address $EXCHANGE_ADDRESS --private-key $PRIVET_KEY"
   },
   "devDependencies": {
     "@openzeppelin/test-helpers": "^0.5.15",
