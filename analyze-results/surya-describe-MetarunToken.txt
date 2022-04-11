@@ -1,0 +1,9 @@
+ +  MetarunToken (AccessControl, ERC20Capped, ERC20Burnable)
+    - [Pub] <Constructor> #
+       - modifiers: ERC20,ERC20Capped
+    - [Int] _mint #
+    - [Pub] mint #
+
+
+ ($) = payable function
+ # = non-constant function

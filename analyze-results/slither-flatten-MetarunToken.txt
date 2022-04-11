@@ -1,0 +1,40 @@
+AccessControl._setRoleAdmin(bytes32,bytes32) (flatMetarunToken.sol#854-858) is never used and should be removed
+Context._msgData() (flatMetarunToken.sol#121-123) is never used and should be removed
+Strings.toHexString(uint256) (flatMetarunToken.sol#595-606) is never used and should be removed
+Strings.toString(uint256) (flatMetarunToken.sol#570-590) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code
+
+Pragma version^0.8.0 (flatMetarunToken.sol#2) allows old versions
+solc-0.8.13 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+
+name() should be declared external:
+        - ERC20.name() (flatMetarunToken.sol#179-181)
+symbol() should be declared external:
+        - ERC20.symbol() (flatMetarunToken.sol#187-189)
+balanceOf(address) should be declared external:
+        - ERC20.balanceOf(address) (flatMetarunToken.sol#218-220)
+transfer(address,uint256) should be declared external:
+        - ERC20.transfer(address,uint256) (flatMetarunToken.sol#230-233)
+approve(address,uint256) should be declared external:
+        - ERC20.approve(address,uint256) (flatMetarunToken.sol#249-252)
+transferFrom(address,address,uint256) should be declared external:
+        - ERC20.transferFrom(address,address,uint256) (flatMetarunToken.sol#267-281)
+increaseAllowance(address,uint256) should be declared external:
+        - ERC20.increaseAllowance(address,uint256) (flatMetarunToken.sol#295-298)
+decreaseAllowance(address,uint256) should be declared external:
+        - ERC20.decreaseAllowance(address,uint256) (flatMetarunToken.sol#314-322)
+grantRole(bytes32,address) should be declared external:
+        - AccessControl.grantRole(bytes32,address) (flatMetarunToken.sol#790-792)
+revokeRole(bytes32,address) should be declared external:
+        - AccessControl.revokeRole(bytes32,address) (flatMetarunToken.sol#803-805)
+renounceRole(bytes32,address) should be declared external:
+        - AccessControl.renounceRole(bytes32,address) (flatMetarunToken.sol#821-825)
+burn(uint256) should be declared external:
+        - ERC20Burnable.burn(uint256) (flatMetarunToken.sol#929-931)
+burnFrom(address,uint256) should be declared external:
+        - ERC20Burnable.burnFrom(address,uint256) (flatMetarunToken.sol#944-951)
+mint(address,uint256) should be declared external:
+        - MetarunToken.mint(address,uint256) (flatMetarunToken.sol#977-983)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-function-that-could-be-declared-external
+flatMetarunToken.sol analyzed (12 contracts with 77 detectors), 20 result(s) found
