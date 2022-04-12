@@ -1,0 +1,281 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+
+Contract AccessControl
++-------------------------------------+-------------------------+--------------------------+
+|               Function              | State variables written | Conditions on msg.sender |
++-------------------------------------+-------------------------+--------------------------+
+|          supportsInterface          |            []           |            []            |
+|          supportsInterface          |            []           |            []            |
+|               hasRole               |            []           |            []            |
+|             getRoleAdmin            |            []           |            []            |
+|              grantRole              |            []           |            []            |
+|              revokeRole             |            []           |            []            |
+|             renounceRole            |            []           |            []            |
+|              _msgSender             |            []           |            []            |
+|               _msgData              |            []           |            []            |
+|          supportsInterface          |            []           |            []            |
+|               hasRole               |            []           |            []            |
+|              _checkRole             |            []           |            []            |
+|             getRoleAdmin            |            []           |            []            |
+|              grantRole              |        ['_roles']       |            []            |
+|              revokeRole             |        ['_roles']       |            []            |
+|             renounceRole            |        ['_roles']       |            []            |
+|              _setupRole             |        ['_roles']       |            []            |
+|            _setRoleAdmin            |        ['_roles']       |            []            |
+|              _grantRole             |        ['_roles']       |            []            |
+|             _revokeRole             |        ['_roles']       |            []            |
+| slitherConstructorConstantVariables |  ['DEFAULT_ADMIN_ROLE'] |            []            |
++-------------------------------------+-------------------------+--------------------------+
+
+Contract IAccessControl
++--------------+-------------------------+--------------------------+
+|   Function   | State variables written | Conditions on msg.sender |
++--------------+-------------------------+--------------------------+
+|   hasRole    |            []           |            []            |
+| getRoleAdmin |            []           |            []            |
+|  grantRole   |            []           |            []            |
+|  revokeRole  |            []           |            []            |
+| renounceRole |            []           |            []            |
++--------------+-------------------------+--------------------------+
+
+Contract ERC20
++----------------------+-------------------------------+--------------------------+
+|       Function       |    State variables written    | Conditions on msg.sender |
++----------------------+-------------------------------+--------------------------+
+|         name         |               []              |            []            |
+|        symbol        |               []              |            []            |
+|       decimals       |               []              |            []            |
+|     totalSupply      |               []              |            []            |
+|      balanceOf       |               []              |            []            |
+|       transfer       |               []              |            []            |
+|      allowance       |               []              |            []            |
+|       approve        |               []              |            []            |
+|     transferFrom     |               []              |            []            |
+|      _msgSender      |               []              |            []            |
+|       _msgData       |               []              |            []            |
+|     constructor      |      ['_name', '_symbol']     |            []            |
+|         name         |               []              |            []            |
+|        symbol        |               []              |            []            |
+|       decimals       |               []              |            []            |
+|     totalSupply      |               []              |            []            |
+|      balanceOf       |               []              |            []            |
+|       transfer       |         ['_balances']         |            []            |
+|      allowance       |               []              |            []            |
+|       approve        |        ['_allowances']        |            []            |
+|     transferFrom     |  ['_allowances', '_balances'] |            []            |
+|  increaseAllowance   |        ['_allowances']        |            []            |
+|  decreaseAllowance   |        ['_allowances']        |            []            |
+|      _transfer       |         ['_balances']         |            []            |
+|        _mint         | ['_totalSupply', '_balances'] |            []            |
+|        _burn         | ['_totalSupply', '_balances'] |            []            |
+|       _approve       |        ['_allowances']        |            []            |
+| _beforeTokenTransfer |               []              |            []            |
+| _afterTokenTransfer  |               []              |            []            |
++----------------------+-------------------------------+--------------------------+
+
+Contract IERC20
++--------------+-------------------------+--------------------------+
+|   Function   | State variables written | Conditions on msg.sender |
++--------------+-------------------------+--------------------------+
+| totalSupply  |            []           |            []            |
+|  balanceOf   |            []           |            []            |
+|   transfer   |            []           |            []            |
+|  allowance   |            []           |            []            |
+|   approve    |            []           |            []            |
+| transferFrom |            []           |            []            |
++--------------+-------------------------+--------------------------+
+
+Contract ERC20Burnable
++----------------------+----------------------------------------------+--------------------------+
+|       Function       |           State variables written            | Conditions on msg.sender |
++----------------------+----------------------------------------------+--------------------------+
+|     constructor      |             ['_name', '_symbol']             |            []            |
+|         name         |                      []                      |            []            |
+|        symbol        |                      []                      |            []            |
+|       decimals       |                      []                      |            []            |
+|     totalSupply      |                      []                      |            []            |
+|      balanceOf       |                      []                      |            []            |
+|       transfer       |                ['_balances']                 |            []            |
+|      allowance       |                      []                      |            []            |
+|       approve        |               ['_allowances']                |            []            |
+|     transferFrom     |         ['_allowances', '_balances']         |            []            |
+|  increaseAllowance   |               ['_allowances']                |            []            |
+|  decreaseAllowance   |               ['_allowances']                |            []            |
+|      _transfer       |                ['_balances']                 |            []            |
+|        _mint         |        ['_totalSupply', '_balances']         |            []            |
+|        _burn         |        ['_totalSupply', '_balances']         |            []            |
+|       _approve       |               ['_allowances']                |            []            |
+| _beforeTokenTransfer |                      []                      |            []            |
+| _afterTokenTransfer  |                      []                      |            []            |
+|         name         |                      []                      |            []            |
+|        symbol        |                      []                      |            []            |
+|       decimals       |                      []                      |            []            |
+|     totalSupply      |                      []                      |            []            |
+|      balanceOf       |                      []                      |            []            |
+|       transfer       |                      []                      |            []            |
+|      allowance       |                      []                      |            []            |
+|       approve        |                      []                      |            []            |
+|     transferFrom     |                      []                      |            []            |
+|      _msgSender      |                      []                      |            []            |
+|       _msgData       |                      []                      |            []            |
+|         burn         |        ['_totalSupply', '_balances']         |            []            |
+|       burnFrom       | ['_totalSupply', '_allowances', '_balances'] |            []            |
++----------------------+----------------------------------------------+--------------------------+
+
+Contract ERC20Capped
++----------------------+-------------------------------+--------------------------+
+|       Function       |    State variables written    | Conditions on msg.sender |
++----------------------+-------------------------------+--------------------------+
+|     constructor      |      ['_name', '_symbol']     |            []            |
+|         name         |               []              |            []            |
+|        symbol        |               []              |            []            |
+|       decimals       |               []              |            []            |
+|     totalSupply      |               []              |            []            |
+|      balanceOf       |               []              |            []            |
+|       transfer       |         ['_balances']         |            []            |
+|      allowance       |               []              |            []            |
+|       approve        |        ['_allowances']        |            []            |
+|     transferFrom     |  ['_allowances', '_balances'] |            []            |
+|  increaseAllowance   |        ['_allowances']        |            []            |
+|  decreaseAllowance   |        ['_allowances']        |            []            |
+|      _transfer       |         ['_balances']         |            []            |
+|        _mint         | ['_totalSupply', '_balances'] |            []            |
+|        _burn         | ['_totalSupply', '_balances'] |            []            |
+|       _approve       |        ['_allowances']        |            []            |
+| _beforeTokenTransfer |               []              |            []            |
+| _afterTokenTransfer  |               []              |            []            |
+|         name         |               []              |            []            |
+|        symbol        |               []              |            []            |
+|       decimals       |               []              |            []            |
+|     totalSupply      |               []              |            []            |
+|      balanceOf       |               []              |            []            |
+|       transfer       |               []              |            []            |
+|      allowance       |               []              |            []            |
+|       approve        |               []              |            []            |
+|     transferFrom     |               []              |            []            |
+|      _msgSender      |               []              |            []            |
+|       _msgData       |               []              |            []            |
+|     constructor      |            ['_cap']           |            []            |
+|         cap          |               []              |            []            |
+|        _mint         | ['_totalSupply', '_balances'] |            []            |
++----------------------+-------------------------------+--------------------------+
+
+Contract IERC20Metadata
++--------------+-------------------------+--------------------------+
+|   Function   | State variables written | Conditions on msg.sender |
++--------------+-------------------------+--------------------------+
+| totalSupply  |            []           |            []            |
+|  balanceOf   |            []           |            []            |
+|   transfer   |            []           |            []            |
+|  allowance   |            []           |            []            |
+|   approve    |            []           |            []            |
+| transferFrom |            []           |            []            |
+|     name     |            []           |            []            |
+|    symbol    |            []           |            []            |
+|   decimals   |            []           |            []            |
++--------------+-------------------------+--------------------------+
+
+Contract Context
++------------+-------------------------+--------------------------+
+|  Function  | State variables written | Conditions on msg.sender |
++------------+-------------------------+--------------------------+
+| _msgSender |            []           |            []            |
+|  _msgData  |            []           |            []            |
++------------+-------------------------+--------------------------+
+
+Contract Strings
++-------------------------------------+-------------------------+--------------------------+
+|               Function              | State variables written | Conditions on msg.sender |
++-------------------------------------+-------------------------+--------------------------+
+|               toString              |            []           |            []            |
+|             toHexString             |            []           |            []            |
+|             toHexString             |            []           |            []            |
+| slitherConstructorConstantVariables |     ['_HEX_SYMBOLS']    |            []            |
++-------------------------------------+-------------------------+--------------------------+
+
+Contract ERC165
++-------------------+-------------------------+--------------------------+
+|      Function     | State variables written | Conditions on msg.sender |
++-------------------+-------------------------+--------------------------+
+| supportsInterface |            []           |            []            |
+| supportsInterface |            []           |            []            |
++-------------------+-------------------------+--------------------------+
+
+Contract IERC165
++-------------------+-------------------------+--------------------------+
+|      Function     | State variables written | Conditions on msg.sender |
++-------------------+-------------------------+--------------------------+
+| supportsInterface |            []           |            []            |
++-------------------+-------------------------+--------------------------+
+
+Contract MetarunToken
++-------------------------------------+----------------------------------------------+--------------------------+
+|               Function              |           State variables written            | Conditions on msg.sender |
++-------------------------------------+----------------------------------------------+--------------------------+
+|                 burn                |        ['_totalSupply', '_balances']         |            []            |
+|               burnFrom              | ['_totalSupply', '_allowances', '_balances'] |            []            |
+|             constructor             |             ['_name', '_symbol']             |            []            |
+|                 name                |                      []                      |            []            |
+|                symbol               |                      []                      |            []            |
+|               decimals              |                      []                      |            []            |
+|             totalSupply             |                      []                      |            []            |
+|              balanceOf              |                      []                      |            []            |
+|               transfer              |                ['_balances']                 |            []            |
+|              allowance              |                      []                      |            []            |
+|               approve               |               ['_allowances']                |            []            |
+|             transferFrom            |         ['_allowances', '_balances']         |            []            |
+|          increaseAllowance          |               ['_allowances']                |            []            |
+|          decreaseAllowance          |               ['_allowances']                |            []            |
+|              _transfer              |                ['_balances']                 |            []            |
+|                _mint                |        ['_totalSupply', '_balances']         |            []            |
+|                _burn                |        ['_totalSupply', '_balances']         |            []            |
+|               _approve              |               ['_allowances']                |            []            |
+|         _beforeTokenTransfer        |                      []                      |            []            |
+|         _afterTokenTransfer         |                      []                      |            []            |
+|                 name                |                      []                      |            []            |
+|                symbol               |                      []                      |            []            |
+|               decimals              |                      []                      |            []            |
+|             totalSupply             |                      []                      |            []            |
+|              balanceOf              |                      []                      |            []            |
+|               transfer              |                      []                      |            []            |
+|              allowance              |                      []                      |            []            |
+|               approve               |                      []                      |            []            |
+|             transferFrom            |                      []                      |            []            |
+|              _msgSender             |                      []                      |            []            |
+|               _msgData              |                      []                      |            []            |
+|             constructor             |                   ['_cap']                   |            []            |
+|                 cap                 |                      []                      |            []            |
+|                _mint                |        ['_totalSupply', '_balances']         |            []            |
+|          supportsInterface          |                      []                      |            []            |
+|               hasRole               |                      []                      |            []            |
+|              _checkRole             |                      []                      |            []            |
+|             getRoleAdmin            |                      []                      |            []            |
+|              grantRole              |                  ['_roles']                  |            []            |
+|              revokeRole             |                  ['_roles']                  |            []            |
+|             renounceRole            |                  ['_roles']                  |            []            |
+|              _setupRole             |                  ['_roles']                  |            []            |
+|            _setRoleAdmin            |                  ['_roles']                  |            []            |
+|              _grantRole             |                  ['_roles']                  |            []            |
+|             _revokeRole             |                  ['_roles']                  |            []            |
+|          supportsInterface          |                      []                      |            []            |
+|          supportsInterface          |                      []                      |            []            |
+|               hasRole               |                      []                      |            []            |
+|             getRoleAdmin            |                      []                      |            []            |
+|              grantRole              |                      []                      |            []            |
+|              revokeRole             |                      []                      |            []            |
+|             renounceRole            |                      []                      |            []            |
+|             constructor             |    ['_name', '_symbol', '_roles', '_cap']    |            []            |
+|                _mint                |        ['_totalSupply', '_balances']         |            []            |
+|                 mint                |        ['_totalSupply', '_balances']         |            []            |
+| slitherConstructorConstantVariables |    ['DEFAULT_ADMIN_ROLE', 'MINTER_ROLE']     |            []            |
++-------------------------------------+----------------------------------------------+--------------------------+
+
+. analyzed (12 contracts)

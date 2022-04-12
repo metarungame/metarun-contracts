@@ -1,0 +1,1556 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+Contract AccessControl
+	Function ERC165.supportsInterface(bytes4) 
+		Expression: interfaceId == type()(IERC165).interfaceId
+		IRs:
+			TMP_0(type(IERC165)) = SOLIDITY_CALL type()(IERC165)
+			REF_0 (->None) := 33540519(bytes4)
+			TMP_1(bool) = interfaceId == REF_0
+			RETURN TMP_1
+	Function IERC165.supportsInterface(bytes4) 
+	Function IAccessControl.hasRole(bytes32,address) 
+	Function IAccessControl.getRoleAdmin(bytes32) 
+	Function IAccessControl.grantRole(bytes32,address) 
+	Function IAccessControl.revokeRole(bytes32,address) 
+	Function IAccessControl.renounceRole(bytes32,address) 
+	Function Context._msgSender() (*)
+		Expression: msg.sender
+		IRs:
+			RETURN msg.sender
+	Function Context._msgData() (*)
+		Expression: msg.data
+		IRs:
+			RETURN msg.data
+	Function AccessControl.supportsInterface(bytes4) (*)
+		Expression: interfaceId == type()(IAccessControl).interfaceId || super.supportsInterface(interfaceId)
+		IRs:
+			TMP_2(type(IAccessControl)) = SOLIDITY_CALL type()(IAccessControl)
+			REF_1 (->None) := 2036718347(bytes4)
+			TMP_3(bool) = interfaceId == REF_1
+			TMP_4(bool) = INTERNAL_CALL, ERC165.supportsInterface(bytes4)(interfaceId)
+			TMP_5(bool) = TMP_3 || TMP_4
+			RETURN TMP_5
+	Function AccessControl.hasRole(bytes32,address) (*)
+		Expression: _roles[role].members[account]
+		IRs:
+			REF_2(AccessControl.RoleData) -> _roles[role]
+			REF_3(mapping(address => bool)) -> REF_2.members
+			REF_4(bool) -> REF_3[account]
+			RETURN REF_4
+	Function AccessControl._checkRole(bytes32,address) (*)
+		Expression: ! hasRole(role,account)
+		IRs:
+			TMP_6(bool) = INTERNAL_CALL, AccessControl.hasRole(bytes32,address)(role,account)
+			TMP_7 = ! TMP_6 
+			CONDITION TMP_7
+		Expression: revert(string)(string(abi.encodePacked(AccessControl: account ,Strings.toHexString(uint160(account),20), is missing role ,Strings.toHexString(uint256(role),32))))
+		IRs:
+			TMP_8 = CONVERT account to uint160
+			TMP_9(string) = LIBRARY_CALL, dest:Strings, function:Strings.toHexString(uint256,uint256), arguments:['TMP_8', '20'] 
+			TMP_10 = CONVERT role to uint256
+			TMP_11(string) = LIBRARY_CALL, dest:Strings, function:Strings.toHexString(uint256,uint256), arguments:['TMP_10', '32'] 
+			TMP_12(bytes) = SOLIDITY_CALL abi.encodePacked()(AccessControl: account ,TMP_9, is missing role ,TMP_11)
+			TMP_13 = CONVERT TMP_12 to string
+			TMP_14(None) = SOLIDITY_CALL revert(string)(TMP_13)
+	Function AccessControl.getRoleAdmin(bytes32) (*)
+		Expression: _roles[role].adminRole
+		IRs:
+			REF_8(AccessControl.RoleData) -> _roles[role]
+			REF_9(bytes32) -> REF_8.adminRole
+			RETURN REF_9
+	Function AccessControl.grantRole(bytes32,address) (*)
+		Expression: _grantRole(role,account)
+		IRs:
+			INTERNAL_CALL, AccessControl._grantRole(bytes32,address)(role,account)
+		Expression: onlyRole(getRoleAdmin(role))
+		IRs:
+			TMP_16(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_16)
+		Expression: onlyRole(getRoleAdmin(role))
+		IRs:
+			TMP_18(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_18)
+	Function AccessControl.revokeRole(bytes32,address) (*)
+		Expression: _revokeRole(role,account)
+		IRs:
+			INTERNAL_CALL, AccessControl._revokeRole(bytes32,address)(role,account)
+		Expression: onlyRole(getRoleAdmin(role))
+		IRs:
+			TMP_21(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_21)
+		Expression: onlyRole(getRoleAdmin(role))
+		IRs:
+			TMP_23(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_23)
+	Function AccessControl.renounceRole(bytes32,address) (*)
+		Expression: require(bool,string)(account == _msgSender(),AccessControl: can only renounce roles for self)
+		IRs:
+			TMP_25(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_26(bool) = account == TMP_25
+			TMP_27(None) = SOLIDITY_CALL require(bool,string)(TMP_26,AccessControl: can only renounce roles for self)
+		Expression: _revokeRole(role,account)
+		IRs:
+			INTERNAL_CALL, AccessControl._revokeRole(bytes32,address)(role,account)
+	Function AccessControl._setupRole(bytes32,address) (*)
+		Expression: _grantRole(role,account)
+		IRs:
+			INTERNAL_CALL, AccessControl._grantRole(bytes32,address)(role,account)
+	Function AccessControl._setRoleAdmin(bytes32,bytes32) (*)
+		Expression: previousAdminRole = getRoleAdmin(role)
+		IRs:
+			TMP_30(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			previousAdminRole(bytes32) := TMP_30(bytes32)
+		Expression: _roles[role].adminRole = adminRole
+		IRs:
+			REF_10(AccessControl.RoleData) -> _roles[role]
+			REF_11(bytes32) -> REF_10.adminRole
+			REF_11 (->_roles) := adminRole(bytes32)
+		Expression: RoleAdminChanged(role,previousAdminRole,adminRole)
+		IRs:
+			Emit RoleAdminChanged(role.previousAdminRole.adminRole)
+	Function AccessControl._grantRole(bytes32,address) (*)
+		Expression: ! hasRole(role,account)
+		IRs:
+			TMP_32(bool) = INTERNAL_CALL, AccessControl.hasRole(bytes32,address)(role,account)
+			TMP_33 = ! TMP_32 
+			CONDITION TMP_33
+		Expression: _roles[role].members[account] = true
+		IRs:
+			REF_12(AccessControl.RoleData) -> _roles[role]
+			REF_13(mapping(address => bool)) -> REF_12.members
+			REF_14(bool) -> REF_13[account]
+			REF_14 (->_roles) := True(bool)
+		Expression: RoleGranted(role,account,_msgSender())
+		IRs:
+			TMP_34(address) = INTERNAL_CALL, Context._msgSender()()
+			Emit RoleGranted(role.account.TMP_34)
+	Function AccessControl._revokeRole(bytes32,address) (*)
+		Expression: hasRole(role,account)
+		IRs:
+			TMP_36(bool) = INTERNAL_CALL, AccessControl.hasRole(bytes32,address)(role,account)
+			CONDITION TMP_36
+		Expression: _roles[role].members[account] = false
+		IRs:
+			REF_15(AccessControl.RoleData) -> _roles[role]
+			REF_16(mapping(address => bool)) -> REF_15.members
+			REF_17(bool) -> REF_16[account]
+			REF_17 (->_roles) := False(bool)
+		Expression: RoleRevoked(role,account,_msgSender())
+		IRs:
+			TMP_37(address) = INTERNAL_CALL, Context._msgSender()()
+			Emit RoleRevoked(role.account.TMP_37)
+	Function AccessControl.slitherConstructorConstantVariables() (*)
+		Expression: DEFAULT_ADMIN_ROLE = 0x00
+		IRs:
+			DEFAULT_ADMIN_ROLE(bytes32) := 0(uint256)
+	Modifier AccessControl.onlyRole(bytes32)
+		Expression: _checkRole(role,_msgSender())
+		IRs:
+			TMP_39(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, AccessControl._checkRole(bytes32,address)(role,TMP_39)
+Contract IAccessControl
+	Function IAccessControl.hasRole(bytes32,address) (*)
+	Function IAccessControl.getRoleAdmin(bytes32) (*)
+	Function IAccessControl.grantRole(bytes32,address) (*)
+	Function IAccessControl.revokeRole(bytes32,address) (*)
+	Function IAccessControl.renounceRole(bytes32,address) (*)
+Contract ERC20
+	Function IERC20Metadata.name() 
+	Function IERC20Metadata.symbol() 
+	Function IERC20Metadata.decimals() 
+	Function IERC20.totalSupply() 
+	Function IERC20.balanceOf(address) 
+	Function IERC20.transfer(address,uint256) 
+	Function IERC20.allowance(address,address) 
+	Function IERC20.approve(address,uint256) 
+	Function IERC20.transferFrom(address,address,uint256) 
+	Function Context._msgSender() (*)
+		Expression: msg.sender
+		IRs:
+			RETURN msg.sender
+	Function Context._msgData() (*)
+		Expression: msg.data
+		IRs:
+			RETURN msg.data
+	Function ERC20.constructor(string,string) (*)
+		Expression: _name = name_
+		IRs:
+			_name(string) := name_(string)
+		Expression: _symbol = symbol_
+		IRs:
+			_symbol(string) := symbol_(string)
+	Function ERC20.name() (*)
+		Expression: _name
+		IRs:
+			RETURN _name
+	Function ERC20.symbol() (*)
+		Expression: _symbol
+		IRs:
+			RETURN _symbol
+	Function ERC20.decimals() (*)
+		Expression: 18
+		IRs:
+			RETURN 18
+	Function ERC20.totalSupply() (*)
+		Expression: _totalSupply
+		IRs:
+			RETURN _totalSupply
+	Function ERC20.balanceOf(address) (*)
+		Expression: _balances[account]
+		IRs:
+			REF_18(uint256) -> _balances[account]
+			RETURN REF_18
+	Function ERC20.transfer(address,uint256) (*)
+		Expression: _transfer(_msgSender(),recipient,amount)
+		IRs:
+			TMP_41(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._transfer(address,address,uint256)(TMP_41,recipient,amount)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.allowance(address,address) (*)
+		Expression: _allowances[owner][spender]
+		IRs:
+			REF_19(mapping(address => uint256)) -> _allowances[owner]
+			REF_20(uint256) -> REF_19[spender]
+			RETURN REF_20
+	Function ERC20.approve(address,uint256) (*)
+		Expression: _approve(_msgSender(),spender,amount)
+		IRs:
+			TMP_43(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_43,spender,amount)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.transferFrom(address,address,uint256) (*)
+		Expression: _transfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._transfer(address,address,uint256)(sender,recipient,amount)
+		Expression: currentAllowance = _allowances[sender][_msgSender()]
+		IRs:
+			REF_21(mapping(address => uint256)) -> _allowances[sender]
+			TMP_46(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_22(uint256) -> REF_21[TMP_46]
+			currentAllowance(uint256) := REF_22(uint256)
+		Expression: require(bool,string)(currentAllowance >= amount,ERC20: transfer amount exceeds allowance)
+		IRs:
+			TMP_47(bool) = currentAllowance >= amount
+			TMP_48(None) = SOLIDITY_CALL require(bool,string)(TMP_47,ERC20: transfer amount exceeds allowance)
+		Expression: _approve(sender,_msgSender(),currentAllowance - amount)
+		IRs:
+			TMP_49(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_50(uint256) = currentAllowance - amount
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(sender,TMP_49,TMP_50)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.increaseAllowance(address,uint256) (*)
+		Expression: _approve(_msgSender(),spender,_allowances[_msgSender()][spender] + addedValue)
+		IRs:
+			TMP_52(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_53(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_23(mapping(address => uint256)) -> _allowances[TMP_53]
+			REF_24(uint256) -> REF_23[spender]
+			TMP_54(uint256) = REF_24 (c)+ addedValue
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_52,spender,TMP_54)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.decreaseAllowance(address,uint256) (*)
+		Expression: currentAllowance = _allowances[_msgSender()][spender]
+		IRs:
+			TMP_56(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_25(mapping(address => uint256)) -> _allowances[TMP_56]
+			REF_26(uint256) -> REF_25[spender]
+			currentAllowance(uint256) := REF_26(uint256)
+		Expression: require(bool,string)(currentAllowance >= subtractedValue,ERC20: decreased allowance below zero)
+		IRs:
+			TMP_57(bool) = currentAllowance >= subtractedValue
+			TMP_58(None) = SOLIDITY_CALL require(bool,string)(TMP_57,ERC20: decreased allowance below zero)
+		Expression: _approve(_msgSender(),spender,currentAllowance - subtractedValue)
+		IRs:
+			TMP_59(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_60(uint256) = currentAllowance - subtractedValue
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_59,spender,TMP_60)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20._transfer(address,address,uint256) (*)
+		Expression: require(bool,string)(sender != address(0),ERC20: transfer from the zero address)
+		IRs:
+			TMP_62 = CONVERT 0 to address
+			TMP_63(bool) = sender != TMP_62
+			TMP_64(None) = SOLIDITY_CALL require(bool,string)(TMP_63,ERC20: transfer from the zero address)
+		Expression: require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+		IRs:
+			TMP_65 = CONVERT 0 to address
+			TMP_66(bool) = recipient != TMP_65
+			TMP_67(None) = SOLIDITY_CALL require(bool,string)(TMP_66,ERC20: transfer to the zero address)
+		Expression: _beforeTokenTransfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(sender,recipient,amount)
+		Expression: senderBalance = _balances[sender]
+		IRs:
+			REF_27(uint256) -> _balances[sender]
+			senderBalance(uint256) := REF_27(uint256)
+		Expression: require(bool,string)(senderBalance >= amount,ERC20: transfer amount exceeds balance)
+		IRs:
+			TMP_69(bool) = senderBalance >= amount
+			TMP_70(None) = SOLIDITY_CALL require(bool,string)(TMP_69,ERC20: transfer amount exceeds balance)
+		Expression: _balances[sender] = senderBalance - amount
+		IRs:
+			REF_28(uint256) -> _balances[sender]
+			TMP_71(uint256) = senderBalance - amount
+			REF_28 (->_balances) := TMP_71(uint256)
+		Expression: _balances[recipient] += amount
+		IRs:
+			REF_29(uint256) -> _balances[recipient]
+			REF_29(-> _balances) = REF_29 (c)+ amount
+		Expression: Transfer(sender,recipient,amount)
+		IRs:
+			Emit Transfer(sender.recipient.amount)
+		Expression: _afterTokenTransfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(sender,recipient,amount)
+	Function ERC20._mint(address,uint256) (*)
+		Expression: require(bool,string)(account != address(0),ERC20: mint to the zero address)
+		IRs:
+			TMP_74 = CONVERT 0 to address
+			TMP_75(bool) = account != TMP_74
+			TMP_76(None) = SOLIDITY_CALL require(bool,string)(TMP_75,ERC20: mint to the zero address)
+		Expression: _beforeTokenTransfer(address(0),account,amount)
+		IRs:
+			TMP_77 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(TMP_77,account,amount)
+		Expression: _totalSupply += amount
+		IRs:
+			_totalSupply(uint256) = _totalSupply (c)+ amount
+		Expression: _balances[account] += amount
+		IRs:
+			REF_30(uint256) -> _balances[account]
+			REF_30(-> _balances) = REF_30 (c)+ amount
+		Expression: Transfer(address(0),account,amount)
+		IRs:
+			TMP_79 = CONVERT 0 to address
+			Emit Transfer(TMP_79.account.amount)
+		Expression: _afterTokenTransfer(address(0),account,amount)
+		IRs:
+			TMP_81 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(TMP_81,account,amount)
+	Function ERC20._burn(address,uint256) (*)
+		Expression: require(bool,string)(account != address(0),ERC20: burn from the zero address)
+		IRs:
+			TMP_83 = CONVERT 0 to address
+			TMP_84(bool) = account != TMP_83
+			TMP_85(None) = SOLIDITY_CALL require(bool,string)(TMP_84,ERC20: burn from the zero address)
+		Expression: _beforeTokenTransfer(account,address(0),amount)
+		IRs:
+			TMP_86 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(account,TMP_86,amount)
+		Expression: accountBalance = _balances[account]
+		IRs:
+			REF_31(uint256) -> _balances[account]
+			accountBalance(uint256) := REF_31(uint256)
+		Expression: require(bool,string)(accountBalance >= amount,ERC20: burn amount exceeds balance)
+		IRs:
+			TMP_88(bool) = accountBalance >= amount
+			TMP_89(None) = SOLIDITY_CALL require(bool,string)(TMP_88,ERC20: burn amount exceeds balance)
+		Expression: _balances[account] = accountBalance - amount
+		IRs:
+			REF_32(uint256) -> _balances[account]
+			TMP_90(uint256) = accountBalance - amount
+			REF_32 (->_balances) := TMP_90(uint256)
+		Expression: _totalSupply -= amount
+		IRs:
+			_totalSupply(uint256) = _totalSupply (c)- amount
+		Expression: Transfer(account,address(0),amount)
+		IRs:
+			TMP_91 = CONVERT 0 to address
+			Emit Transfer(account.TMP_91.amount)
+		Expression: _afterTokenTransfer(account,address(0),amount)
+		IRs:
+			TMP_93 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(account,TMP_93,amount)
+	Function ERC20._approve(address,address,uint256) (*)
+		Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+		IRs:
+			TMP_95 = CONVERT 0 to address
+			TMP_96(bool) = owner != TMP_95
+			TMP_97(None) = SOLIDITY_CALL require(bool,string)(TMP_96,ERC20: approve from the zero address)
+		Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+		IRs:
+			TMP_98 = CONVERT 0 to address
+			TMP_99(bool) = spender != TMP_98
+			TMP_100(None) = SOLIDITY_CALL require(bool,string)(TMP_99,ERC20: approve to the zero address)
+		Expression: _allowances[owner][spender] = amount
+		IRs:
+			REF_33(mapping(address => uint256)) -> _allowances[owner]
+			REF_34(uint256) -> REF_33[spender]
+			REF_34 (->_allowances) := amount(uint256)
+		Expression: Approval(owner,spender,amount)
+		IRs:
+			Emit Approval(owner.spender.amount)
+	Function ERC20._beforeTokenTransfer(address,address,uint256) (*)
+	Function ERC20._afterTokenTransfer(address,address,uint256) (*)
+Contract IERC20
+	Function IERC20.totalSupply() (*)
+	Function IERC20.balanceOf(address) (*)
+	Function IERC20.transfer(address,uint256) (*)
+	Function IERC20.allowance(address,address) (*)
+	Function IERC20.approve(address,uint256) (*)
+	Function IERC20.transferFrom(address,address,uint256) (*)
+Contract ERC20Burnable
+	Function ERC20.constructor(string,string) (*)
+		Expression: _name = name_
+		IRs:
+			_name(string) := name_(string)
+		Expression: _symbol = symbol_
+		IRs:
+			_symbol(string) := symbol_(string)
+	Function ERC20.name() (*)
+		Expression: _name
+		IRs:
+			RETURN _name
+	Function ERC20.symbol() (*)
+		Expression: _symbol
+		IRs:
+			RETURN _symbol
+	Function ERC20.decimals() (*)
+		Expression: 18
+		IRs:
+			RETURN 18
+	Function ERC20.totalSupply() (*)
+		Expression: _totalSupply
+		IRs:
+			RETURN _totalSupply
+	Function ERC20.balanceOf(address) (*)
+		Expression: _balances[account]
+		IRs:
+			REF_35(uint256) -> _balances[account]
+			RETURN REF_35
+	Function ERC20.transfer(address,uint256) (*)
+		Expression: _transfer(_msgSender(),recipient,amount)
+		IRs:
+			TMP_102(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._transfer(address,address,uint256)(TMP_102,recipient,amount)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.allowance(address,address) (*)
+		Expression: _allowances[owner][spender]
+		IRs:
+			REF_36(mapping(address => uint256)) -> _allowances[owner]
+			REF_37(uint256) -> REF_36[spender]
+			RETURN REF_37
+	Function ERC20.approve(address,uint256) (*)
+		Expression: _approve(_msgSender(),spender,amount)
+		IRs:
+			TMP_104(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_104,spender,amount)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.transferFrom(address,address,uint256) (*)
+		Expression: _transfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._transfer(address,address,uint256)(sender,recipient,amount)
+		Expression: currentAllowance = _allowances[sender][_msgSender()]
+		IRs:
+			REF_38(mapping(address => uint256)) -> _allowances[sender]
+			TMP_107(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_39(uint256) -> REF_38[TMP_107]
+			currentAllowance(uint256) := REF_39(uint256)
+		Expression: require(bool,string)(currentAllowance >= amount,ERC20: transfer amount exceeds allowance)
+		IRs:
+			TMP_108(bool) = currentAllowance >= amount
+			TMP_109(None) = SOLIDITY_CALL require(bool,string)(TMP_108,ERC20: transfer amount exceeds allowance)
+		Expression: _approve(sender,_msgSender(),currentAllowance - amount)
+		IRs:
+			TMP_110(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_111(uint256) = currentAllowance - amount
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(sender,TMP_110,TMP_111)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.increaseAllowance(address,uint256) (*)
+		Expression: _approve(_msgSender(),spender,_allowances[_msgSender()][spender] + addedValue)
+		IRs:
+			TMP_113(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_114(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_40(mapping(address => uint256)) -> _allowances[TMP_114]
+			REF_41(uint256) -> REF_40[spender]
+			TMP_115(uint256) = REF_41 (c)+ addedValue
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_113,spender,TMP_115)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.decreaseAllowance(address,uint256) (*)
+		Expression: currentAllowance = _allowances[_msgSender()][spender]
+		IRs:
+			TMP_117(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_42(mapping(address => uint256)) -> _allowances[TMP_117]
+			REF_43(uint256) -> REF_42[spender]
+			currentAllowance(uint256) := REF_43(uint256)
+		Expression: require(bool,string)(currentAllowance >= subtractedValue,ERC20: decreased allowance below zero)
+		IRs:
+			TMP_118(bool) = currentAllowance >= subtractedValue
+			TMP_119(None) = SOLIDITY_CALL require(bool,string)(TMP_118,ERC20: decreased allowance below zero)
+		Expression: _approve(_msgSender(),spender,currentAllowance - subtractedValue)
+		IRs:
+			TMP_120(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_121(uint256) = currentAllowance - subtractedValue
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_120,spender,TMP_121)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20._transfer(address,address,uint256) (*)
+		Expression: require(bool,string)(sender != address(0),ERC20: transfer from the zero address)
+		IRs:
+			TMP_123 = CONVERT 0 to address
+			TMP_124(bool) = sender != TMP_123
+			TMP_125(None) = SOLIDITY_CALL require(bool,string)(TMP_124,ERC20: transfer from the zero address)
+		Expression: require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+		IRs:
+			TMP_126 = CONVERT 0 to address
+			TMP_127(bool) = recipient != TMP_126
+			TMP_128(None) = SOLIDITY_CALL require(bool,string)(TMP_127,ERC20: transfer to the zero address)
+		Expression: _beforeTokenTransfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(sender,recipient,amount)
+		Expression: senderBalance = _balances[sender]
+		IRs:
+			REF_44(uint256) -> _balances[sender]
+			senderBalance(uint256) := REF_44(uint256)
+		Expression: require(bool,string)(senderBalance >= amount,ERC20: transfer amount exceeds balance)
+		IRs:
+			TMP_130(bool) = senderBalance >= amount
+			TMP_131(None) = SOLIDITY_CALL require(bool,string)(TMP_130,ERC20: transfer amount exceeds balance)
+		Expression: _balances[sender] = senderBalance - amount
+		IRs:
+			REF_45(uint256) -> _balances[sender]
+			TMP_132(uint256) = senderBalance - amount
+			REF_45 (->_balances) := TMP_132(uint256)
+		Expression: _balances[recipient] += amount
+		IRs:
+			REF_46(uint256) -> _balances[recipient]
+			REF_46(-> _balances) = REF_46 (c)+ amount
+		Expression: Transfer(sender,recipient,amount)
+		IRs:
+			Emit Transfer(sender.recipient.amount)
+		Expression: _afterTokenTransfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(sender,recipient,amount)
+	Function ERC20._mint(address,uint256) (*)
+		Expression: require(bool,string)(account != address(0),ERC20: mint to the zero address)
+		IRs:
+			TMP_135 = CONVERT 0 to address
+			TMP_136(bool) = account != TMP_135
+			TMP_137(None) = SOLIDITY_CALL require(bool,string)(TMP_136,ERC20: mint to the zero address)
+		Expression: _beforeTokenTransfer(address(0),account,amount)
+		IRs:
+			TMP_138 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(TMP_138,account,amount)
+		Expression: _totalSupply += amount
+		IRs:
+			_totalSupply(uint256) = _totalSupply (c)+ amount
+		Expression: _balances[account] += amount
+		IRs:
+			REF_47(uint256) -> _balances[account]
+			REF_47(-> _balances) = REF_47 (c)+ amount
+		Expression: Transfer(address(0),account,amount)
+		IRs:
+			TMP_140 = CONVERT 0 to address
+			Emit Transfer(TMP_140.account.amount)
+		Expression: _afterTokenTransfer(address(0),account,amount)
+		IRs:
+			TMP_142 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(TMP_142,account,amount)
+	Function ERC20._burn(address,uint256) (*)
+		Expression: require(bool,string)(account != address(0),ERC20: burn from the zero address)
+		IRs:
+			TMP_144 = CONVERT 0 to address
+			TMP_145(bool) = account != TMP_144
+			TMP_146(None) = SOLIDITY_CALL require(bool,string)(TMP_145,ERC20: burn from the zero address)
+		Expression: _beforeTokenTransfer(account,address(0),amount)
+		IRs:
+			TMP_147 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(account,TMP_147,amount)
+		Expression: accountBalance = _balances[account]
+		IRs:
+			REF_48(uint256) -> _balances[account]
+			accountBalance(uint256) := REF_48(uint256)
+		Expression: require(bool,string)(accountBalance >= amount,ERC20: burn amount exceeds balance)
+		IRs:
+			TMP_149(bool) = accountBalance >= amount
+			TMP_150(None) = SOLIDITY_CALL require(bool,string)(TMP_149,ERC20: burn amount exceeds balance)
+		Expression: _balances[account] = accountBalance - amount
+		IRs:
+			REF_49(uint256) -> _balances[account]
+			TMP_151(uint256) = accountBalance - amount
+			REF_49 (->_balances) := TMP_151(uint256)
+		Expression: _totalSupply -= amount
+		IRs:
+			_totalSupply(uint256) = _totalSupply (c)- amount
+		Expression: Transfer(account,address(0),amount)
+		IRs:
+			TMP_152 = CONVERT 0 to address
+			Emit Transfer(account.TMP_152.amount)
+		Expression: _afterTokenTransfer(account,address(0),amount)
+		IRs:
+			TMP_154 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(account,TMP_154,amount)
+	Function ERC20._approve(address,address,uint256) (*)
+		Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+		IRs:
+			TMP_156 = CONVERT 0 to address
+			TMP_157(bool) = owner != TMP_156
+			TMP_158(None) = SOLIDITY_CALL require(bool,string)(TMP_157,ERC20: approve from the zero address)
+		Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+		IRs:
+			TMP_159 = CONVERT 0 to address
+			TMP_160(bool) = spender != TMP_159
+			TMP_161(None) = SOLIDITY_CALL require(bool,string)(TMP_160,ERC20: approve to the zero address)
+		Expression: _allowances[owner][spender] = amount
+		IRs:
+			REF_50(mapping(address => uint256)) -> _allowances[owner]
+			REF_51(uint256) -> REF_50[spender]
+			REF_51 (->_allowances) := amount(uint256)
+		Expression: Approval(owner,spender,amount)
+		IRs:
+			Emit Approval(owner.spender.amount)
+	Function ERC20._beforeTokenTransfer(address,address,uint256) (*)
+	Function ERC20._afterTokenTransfer(address,address,uint256) (*)
+	Function IERC20Metadata.name() 
+	Function IERC20Metadata.symbol() 
+	Function IERC20Metadata.decimals() 
+	Function IERC20.totalSupply() 
+	Function IERC20.balanceOf(address) 
+	Function IERC20.transfer(address,uint256) 
+	Function IERC20.allowance(address,address) 
+	Function IERC20.approve(address,uint256) 
+	Function IERC20.transferFrom(address,address,uint256) 
+	Function Context._msgSender() (*)
+		Expression: msg.sender
+		IRs:
+			RETURN msg.sender
+	Function Context._msgData() (*)
+		Expression: msg.data
+		IRs:
+			RETURN msg.data
+	Function ERC20Burnable.burn(uint256) (*)
+		Expression: _burn(_msgSender(),amount)
+		IRs:
+			TMP_163(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._burn(address,uint256)(TMP_163,amount)
+	Function ERC20Burnable.burnFrom(address,uint256) (*)
+		Expression: currentAllowance = allowance(account,_msgSender())
+		IRs:
+			TMP_165(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_166(uint256) = INTERNAL_CALL, ERC20.allowance(address,address)(account,TMP_165)
+			currentAllowance(uint256) := TMP_166(uint256)
+		Expression: require(bool,string)(currentAllowance >= amount,ERC20: burn amount exceeds allowance)
+		IRs:
+			TMP_167(bool) = currentAllowance >= amount
+			TMP_168(None) = SOLIDITY_CALL require(bool,string)(TMP_167,ERC20: burn amount exceeds allowance)
+		Expression: _approve(account,_msgSender(),currentAllowance - amount)
+		IRs:
+			TMP_169(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_170(uint256) = currentAllowance - amount
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(account,TMP_169,TMP_170)
+		Expression: _burn(account,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._burn(address,uint256)(account,amount)
+Contract ERC20Capped
+	Function ERC20.constructor(string,string) (*)
+		Expression: _name = name_
+		IRs:
+			_name(string) := name_(string)
+		Expression: _symbol = symbol_
+		IRs:
+			_symbol(string) := symbol_(string)
+	Function ERC20.name() (*)
+		Expression: _name
+		IRs:
+			RETURN _name
+	Function ERC20.symbol() (*)
+		Expression: _symbol
+		IRs:
+			RETURN _symbol
+	Function ERC20.decimals() (*)
+		Expression: 18
+		IRs:
+			RETURN 18
+	Function ERC20.totalSupply() (*)
+		Expression: _totalSupply
+		IRs:
+			RETURN _totalSupply
+	Function ERC20.balanceOf(address) (*)
+		Expression: _balances[account]
+		IRs:
+			REF_52(uint256) -> _balances[account]
+			RETURN REF_52
+	Function ERC20.transfer(address,uint256) (*)
+		Expression: _transfer(_msgSender(),recipient,amount)
+		IRs:
+			TMP_173(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._transfer(address,address,uint256)(TMP_173,recipient,amount)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.allowance(address,address) (*)
+		Expression: _allowances[owner][spender]
+		IRs:
+			REF_53(mapping(address => uint256)) -> _allowances[owner]
+			REF_54(uint256) -> REF_53[spender]
+			RETURN REF_54
+	Function ERC20.approve(address,uint256) (*)
+		Expression: _approve(_msgSender(),spender,amount)
+		IRs:
+			TMP_175(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_175,spender,amount)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.transferFrom(address,address,uint256) (*)
+		Expression: _transfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._transfer(address,address,uint256)(sender,recipient,amount)
+		Expression: currentAllowance = _allowances[sender][_msgSender()]
+		IRs:
+			REF_55(mapping(address => uint256)) -> _allowances[sender]
+			TMP_178(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_56(uint256) -> REF_55[TMP_178]
+			currentAllowance(uint256) := REF_56(uint256)
+		Expression: require(bool,string)(currentAllowance >= amount,ERC20: transfer amount exceeds allowance)
+		IRs:
+			TMP_179(bool) = currentAllowance >= amount
+			TMP_180(None) = SOLIDITY_CALL require(bool,string)(TMP_179,ERC20: transfer amount exceeds allowance)
+		Expression: _approve(sender,_msgSender(),currentAllowance - amount)
+		IRs:
+			TMP_181(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_182(uint256) = currentAllowance - amount
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(sender,TMP_181,TMP_182)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.increaseAllowance(address,uint256) (*)
+		Expression: _approve(_msgSender(),spender,_allowances[_msgSender()][spender] + addedValue)
+		IRs:
+			TMP_184(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_185(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_57(mapping(address => uint256)) -> _allowances[TMP_185]
+			REF_58(uint256) -> REF_57[spender]
+			TMP_186(uint256) = REF_58 (c)+ addedValue
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_184,spender,TMP_186)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.decreaseAllowance(address,uint256) (*)
+		Expression: currentAllowance = _allowances[_msgSender()][spender]
+		IRs:
+			TMP_188(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_59(mapping(address => uint256)) -> _allowances[TMP_188]
+			REF_60(uint256) -> REF_59[spender]
+			currentAllowance(uint256) := REF_60(uint256)
+		Expression: require(bool,string)(currentAllowance >= subtractedValue,ERC20: decreased allowance below zero)
+		IRs:
+			TMP_189(bool) = currentAllowance >= subtractedValue
+			TMP_190(None) = SOLIDITY_CALL require(bool,string)(TMP_189,ERC20: decreased allowance below zero)
+		Expression: _approve(_msgSender(),spender,currentAllowance - subtractedValue)
+		IRs:
+			TMP_191(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_192(uint256) = currentAllowance - subtractedValue
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_191,spender,TMP_192)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20._transfer(address,address,uint256) (*)
+		Expression: require(bool,string)(sender != address(0),ERC20: transfer from the zero address)
+		IRs:
+			TMP_194 = CONVERT 0 to address
+			TMP_195(bool) = sender != TMP_194
+			TMP_196(None) = SOLIDITY_CALL require(bool,string)(TMP_195,ERC20: transfer from the zero address)
+		Expression: require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+		IRs:
+			TMP_197 = CONVERT 0 to address
+			TMP_198(bool) = recipient != TMP_197
+			TMP_199(None) = SOLIDITY_CALL require(bool,string)(TMP_198,ERC20: transfer to the zero address)
+		Expression: _beforeTokenTransfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(sender,recipient,amount)
+		Expression: senderBalance = _balances[sender]
+		IRs:
+			REF_61(uint256) -> _balances[sender]
+			senderBalance(uint256) := REF_61(uint256)
+		Expression: require(bool,string)(senderBalance >= amount,ERC20: transfer amount exceeds balance)
+		IRs:
+			TMP_201(bool) = senderBalance >= amount
+			TMP_202(None) = SOLIDITY_CALL require(bool,string)(TMP_201,ERC20: transfer amount exceeds balance)
+		Expression: _balances[sender] = senderBalance - amount
+		IRs:
+			REF_62(uint256) -> _balances[sender]
+			TMP_203(uint256) = senderBalance - amount
+			REF_62 (->_balances) := TMP_203(uint256)
+		Expression: _balances[recipient] += amount
+		IRs:
+			REF_63(uint256) -> _balances[recipient]
+			REF_63(-> _balances) = REF_63 (c)+ amount
+		Expression: Transfer(sender,recipient,amount)
+		IRs:
+			Emit Transfer(sender.recipient.amount)
+		Expression: _afterTokenTransfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(sender,recipient,amount)
+	Function ERC20._mint(address,uint256) 
+		Expression: require(bool,string)(account != address(0),ERC20: mint to the zero address)
+		IRs:
+			TMP_206 = CONVERT 0 to address
+			TMP_207(bool) = account != TMP_206
+			TMP_208(None) = SOLIDITY_CALL require(bool,string)(TMP_207,ERC20: mint to the zero address)
+		Expression: _beforeTokenTransfer(address(0),account,amount)
+		IRs:
+			TMP_209 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(TMP_209,account,amount)
+		Expression: _totalSupply += amount
+		IRs:
+			_totalSupply(uint256) = _totalSupply (c)+ amount
+		Expression: _balances[account] += amount
+		IRs:
+			REF_64(uint256) -> _balances[account]
+			REF_64(-> _balances) = REF_64 (c)+ amount
+		Expression: Transfer(address(0),account,amount)
+		IRs:
+			TMP_211 = CONVERT 0 to address
+			Emit Transfer(TMP_211.account.amount)
+		Expression: _afterTokenTransfer(address(0),account,amount)
+		IRs:
+			TMP_213 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(TMP_213,account,amount)
+	Function ERC20._burn(address,uint256) (*)
+		Expression: require(bool,string)(account != address(0),ERC20: burn from the zero address)
+		IRs:
+			TMP_215 = CONVERT 0 to address
+			TMP_216(bool) = account != TMP_215
+			TMP_217(None) = SOLIDITY_CALL require(bool,string)(TMP_216,ERC20: burn from the zero address)
+		Expression: _beforeTokenTransfer(account,address(0),amount)
+		IRs:
+			TMP_218 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(account,TMP_218,amount)
+		Expression: accountBalance = _balances[account]
+		IRs:
+			REF_65(uint256) -> _balances[account]
+			accountBalance(uint256) := REF_65(uint256)
+		Expression: require(bool,string)(accountBalance >= amount,ERC20: burn amount exceeds balance)
+		IRs:
+			TMP_220(bool) = accountBalance >= amount
+			TMP_221(None) = SOLIDITY_CALL require(bool,string)(TMP_220,ERC20: burn amount exceeds balance)
+		Expression: _balances[account] = accountBalance - amount
+		IRs:
+			REF_66(uint256) -> _balances[account]
+			TMP_222(uint256) = accountBalance - amount
+			REF_66 (->_balances) := TMP_222(uint256)
+		Expression: _totalSupply -= amount
+		IRs:
+			_totalSupply(uint256) = _totalSupply (c)- amount
+		Expression: Transfer(account,address(0),amount)
+		IRs:
+			TMP_223 = CONVERT 0 to address
+			Emit Transfer(account.TMP_223.amount)
+		Expression: _afterTokenTransfer(account,address(0),amount)
+		IRs:
+			TMP_225 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(account,TMP_225,amount)
+	Function ERC20._approve(address,address,uint256) (*)
+		Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+		IRs:
+			TMP_227 = CONVERT 0 to address
+			TMP_228(bool) = owner != TMP_227
+			TMP_229(None) = SOLIDITY_CALL require(bool,string)(TMP_228,ERC20: approve from the zero address)
+		Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+		IRs:
+			TMP_230 = CONVERT 0 to address
+			TMP_231(bool) = spender != TMP_230
+			TMP_232(None) = SOLIDITY_CALL require(bool,string)(TMP_231,ERC20: approve to the zero address)
+		Expression: _allowances[owner][spender] = amount
+		IRs:
+			REF_67(mapping(address => uint256)) -> _allowances[owner]
+			REF_68(uint256) -> REF_67[spender]
+			REF_68 (->_allowances) := amount(uint256)
+		Expression: Approval(owner,spender,amount)
+		IRs:
+			Emit Approval(owner.spender.amount)
+	Function ERC20._beforeTokenTransfer(address,address,uint256) (*)
+	Function ERC20._afterTokenTransfer(address,address,uint256) (*)
+	Function IERC20Metadata.name() 
+	Function IERC20Metadata.symbol() 
+	Function IERC20Metadata.decimals() 
+	Function IERC20.totalSupply() 
+	Function IERC20.balanceOf(address) 
+	Function IERC20.transfer(address,uint256) 
+	Function IERC20.allowance(address,address) 
+	Function IERC20.approve(address,uint256) 
+	Function IERC20.transferFrom(address,address,uint256) 
+	Function Context._msgSender() (*)
+		Expression: msg.sender
+		IRs:
+			RETURN msg.sender
+	Function Context._msgData() (*)
+		Expression: msg.data
+		IRs:
+			RETURN msg.data
+	Function ERC20Capped.constructor(uint256) (*)
+		Expression: require(bool,string)(cap_ > 0,ERC20Capped: cap is 0)
+		IRs:
+			TMP_234(bool) = cap_ > 0
+			TMP_235(None) = SOLIDITY_CALL require(bool,string)(TMP_234,ERC20Capped: cap is 0)
+		Expression: _cap = cap_
+		IRs:
+			_cap(uint256) := cap_(uint256)
+	Function ERC20Capped.cap() (*)
+		Expression: _cap
+		IRs:
+			RETURN _cap
+	Function ERC20Capped._mint(address,uint256) (*)
+		Expression: require(bool,string)(ERC20.totalSupply() + amount <= cap(),ERC20Capped: cap exceeded)
+		IRs:
+			TMP_236(uint256) = INTERNAL_CALL, ERC20.totalSupply()()
+			TMP_237(uint256) = TMP_236 (c)+ amount
+			TMP_238(uint256) = INTERNAL_CALL, ERC20Capped.cap()()
+			TMP_239(bool) = TMP_237 <= TMP_238
+			TMP_240(None) = SOLIDITY_CALL require(bool,string)(TMP_239,ERC20Capped: cap exceeded)
+		Expression: super._mint(account,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._mint(address,uint256)(account,amount)
+Contract IERC20Metadata
+	Function IERC20.totalSupply() (*)
+	Function IERC20.balanceOf(address) (*)
+	Function IERC20.transfer(address,uint256) (*)
+	Function IERC20.allowance(address,address) (*)
+	Function IERC20.approve(address,uint256) (*)
+	Function IERC20.transferFrom(address,address,uint256) (*)
+	Function IERC20Metadata.name() (*)
+	Function IERC20Metadata.symbol() (*)
+	Function IERC20Metadata.decimals() (*)
+Contract Context
+	Function Context._msgSender() (*)
+		Expression: msg.sender
+		IRs:
+			RETURN msg.sender
+	Function Context._msgData() (*)
+		Expression: msg.data
+		IRs:
+			RETURN msg.data
+Contract Strings
+	Function Strings.toString(uint256) (*)
+		Expression: value == 0
+		IRs:
+			TMP_242(bool) = value == 0
+			CONDITION TMP_242
+		Expression: 0
+		IRs:
+			RETURN 0
+		Expression: temp = value
+		IRs:
+			temp(uint256) := value(uint256)
+		Expression: temp != 0
+		IRs:
+			TMP_243(bool) = temp != 0
+			CONDITION TMP_243
+		Expression: digits ++
+		IRs:
+			TMP_244(uint256) := digits(uint256)
+			digits(uint256) = digits (c)+ 1
+		Expression: temp /= 10
+		IRs:
+			temp(uint256) = temp (c)/ 10
+		Expression: buffer = new bytes(digits)
+		IRs:
+			TMP_246 = new bytes(digits)
+			buffer(bytes) := TMP_246(bytes)
+		Expression: value != 0
+		IRs:
+			TMP_247(bool) = value != 0
+			CONDITION TMP_247
+		Expression: digits -= 1
+		IRs:
+			digits(uint256) = digits (c)- 1
+		Expression: buffer[digits] = bytes1(uint8(48 + uint256(value % 10)))
+		IRs:
+			REF_70(bytes1) -> buffer[digits]
+			TMP_248(uint256) = value (c)% 10
+			TMP_249 = CONVERT TMP_248 to uint256
+			TMP_250(uint256) = 48 (c)+ TMP_249
+			TMP_251 = CONVERT TMP_250 to uint8
+			TMP_252 = CONVERT TMP_251 to bytes1
+			REF_70 (->buffer) := TMP_252(bytes1)
+		Expression: value /= 10
+		IRs:
+			value(uint256) = value (c)/ 10
+		Expression: string(buffer)
+		IRs:
+			TMP_253 = CONVERT buffer to string
+			RETURN TMP_253
+	Function Strings.toHexString(uint256) (*)
+		Expression: value == 0
+		IRs:
+			TMP_254(bool) = value == 0
+			CONDITION TMP_254
+		Expression: 0x00
+		IRs:
+			RETURN 0x00
+		Expression: temp = value
+		IRs:
+			temp(uint256) := value(uint256)
+		Expression: length = 0
+		IRs:
+			length(uint256) := 0(uint256)
+		Expression: temp != 0
+		IRs:
+			TMP_255(bool) = temp != 0
+			CONDITION TMP_255
+		Expression: length ++
+		IRs:
+			TMP_256(uint256) := length(uint256)
+			length(uint256) = length (c)+ 1
+		Expression: temp >>= 8
+		IRs:
+			temp(uint256) = temp >> 8
+		Expression: toHexString(value,length)
+		IRs:
+			TMP_257(string) = INTERNAL_CALL, Strings.toHexString(uint256,uint256)(value,length)
+			RETURN TMP_257
+	Function Strings.toHexString(uint256,uint256) (*)
+		Expression: buffer = new bytes(2 * length + 2)
+		IRs:
+			TMP_259(uint256) = 2 (c)* length
+			TMP_260(uint256) = TMP_259 (c)+ 2
+			TMP_261 = new bytes(TMP_260)
+			buffer(bytes) := TMP_261(bytes)
+		Expression: buffer[0] = 0
+		IRs:
+			REF_71(string) -> buffer[0]
+			REF_71 (->buffer) := 0(string)
+		Expression: buffer[1] = x
+		IRs:
+			REF_72(string) -> buffer[1]
+			REF_72 (->buffer) := x(string)
+		Expression: i = 2 * length + 1
+		IRs:
+			TMP_262(uint256) = 2 (c)* length
+			TMP_263(uint256) = TMP_262 (c)+ 1
+			i(uint256) := TMP_263(uint256)
+		Expression: i > 1
+		IRs:
+			TMP_264(bool) = i > 1
+			CONDITION TMP_264
+		Expression: buffer[i] = _HEX_SYMBOLS[value & 0xf]
+		IRs:
+			REF_73(None) -> buffer[i]
+			TMP_265(uint256) = value & 15
+			REF_74(None) -> _HEX_SYMBOLS[TMP_265]
+			REF_73 (->buffer) := REF_74(None)
+		Expression: value >>= 4
+		IRs:
+			value(uint256) = value >> 4
+		Expression: -- i
+		IRs:
+			i(uint256) = i (c)- 1
+		Expression: require(bool,string)(value == 0,Strings: hex length insufficient)
+		IRs:
+			TMP_266(bool) = value == 0
+			TMP_267(None) = SOLIDITY_CALL require(bool,string)(TMP_266,Strings: hex length insufficient)
+		Expression: string(buffer)
+		IRs:
+			TMP_268 = CONVERT buffer to string
+			RETURN TMP_268
+	Function Strings.slitherConstructorConstantVariables() (*)
+		Expression: _HEX_SYMBOLS = 0123456789abcdef
+		IRs:
+			_HEX_SYMBOLS(bytes16) := 0123456789abcdef(string)
+Contract ERC165
+	Function IERC165.supportsInterface(bytes4) 
+	Function ERC165.supportsInterface(bytes4) (*)
+		Expression: interfaceId == type()(IERC165).interfaceId
+		IRs:
+			TMP_269(type(IERC165)) = SOLIDITY_CALL type()(IERC165)
+			REF_75 (->None) := 33540519(bytes4)
+			TMP_270(bool) = interfaceId == REF_75
+			RETURN TMP_270
+Contract IERC165
+	Function IERC165.supportsInterface(bytes4) (*)
+Contract MetarunToken
+	Function ERC20Burnable.burn(uint256) (*)
+		Expression: _burn(_msgSender(),amount)
+		IRs:
+			TMP_271(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._burn(address,uint256)(TMP_271,amount)
+	Function ERC20Burnable.burnFrom(address,uint256) (*)
+		Expression: currentAllowance = allowance(account,_msgSender())
+		IRs:
+			TMP_273(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_274(uint256) = INTERNAL_CALL, ERC20.allowance(address,address)(account,TMP_273)
+			currentAllowance(uint256) := TMP_274(uint256)
+		Expression: require(bool,string)(currentAllowance >= amount,ERC20: burn amount exceeds allowance)
+		IRs:
+			TMP_275(bool) = currentAllowance >= amount
+			TMP_276(None) = SOLIDITY_CALL require(bool,string)(TMP_275,ERC20: burn amount exceeds allowance)
+		Expression: _approve(account,_msgSender(),currentAllowance - amount)
+		IRs:
+			TMP_277(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_278(uint256) = currentAllowance - amount
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(account,TMP_277,TMP_278)
+		Expression: _burn(account,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._burn(address,uint256)(account,amount)
+	Function ERC20.constructor(string,string) (*)
+		Expression: _name = name_
+		IRs:
+			_name(string) := name_(string)
+		Expression: _symbol = symbol_
+		IRs:
+			_symbol(string) := symbol_(string)
+	Function ERC20.name() (*)
+		Expression: _name
+		IRs:
+			RETURN _name
+	Function ERC20.symbol() (*)
+		Expression: _symbol
+		IRs:
+			RETURN _symbol
+	Function ERC20.decimals() (*)
+		Expression: 18
+		IRs:
+			RETURN 18
+	Function ERC20.totalSupply() (*)
+		Expression: _totalSupply
+		IRs:
+			RETURN _totalSupply
+	Function ERC20.balanceOf(address) (*)
+		Expression: _balances[account]
+		IRs:
+			REF_76(uint256) -> _balances[account]
+			RETURN REF_76
+	Function ERC20.transfer(address,uint256) (*)
+		Expression: _transfer(_msgSender(),recipient,amount)
+		IRs:
+			TMP_281(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._transfer(address,address,uint256)(TMP_281,recipient,amount)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.allowance(address,address) (*)
+		Expression: _allowances[owner][spender]
+		IRs:
+			REF_77(mapping(address => uint256)) -> _allowances[owner]
+			REF_78(uint256) -> REF_77[spender]
+			RETURN REF_78
+	Function ERC20.approve(address,uint256) (*)
+		Expression: _approve(_msgSender(),spender,amount)
+		IRs:
+			TMP_283(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_283,spender,amount)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.transferFrom(address,address,uint256) (*)
+		Expression: _transfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._transfer(address,address,uint256)(sender,recipient,amount)
+		Expression: currentAllowance = _allowances[sender][_msgSender()]
+		IRs:
+			REF_79(mapping(address => uint256)) -> _allowances[sender]
+			TMP_286(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_80(uint256) -> REF_79[TMP_286]
+			currentAllowance(uint256) := REF_80(uint256)
+		Expression: require(bool,string)(currentAllowance >= amount,ERC20: transfer amount exceeds allowance)
+		IRs:
+			TMP_287(bool) = currentAllowance >= amount
+			TMP_288(None) = SOLIDITY_CALL require(bool,string)(TMP_287,ERC20: transfer amount exceeds allowance)
+		Expression: _approve(sender,_msgSender(),currentAllowance - amount)
+		IRs:
+			TMP_289(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_290(uint256) = currentAllowance - amount
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(sender,TMP_289,TMP_290)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.increaseAllowance(address,uint256) (*)
+		Expression: _approve(_msgSender(),spender,_allowances[_msgSender()][spender] + addedValue)
+		IRs:
+			TMP_292(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_293(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_81(mapping(address => uint256)) -> _allowances[TMP_293]
+			REF_82(uint256) -> REF_81[spender]
+			TMP_294(uint256) = REF_82 (c)+ addedValue
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_292,spender,TMP_294)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20.decreaseAllowance(address,uint256) (*)
+		Expression: currentAllowance = _allowances[_msgSender()][spender]
+		IRs:
+			TMP_296(address) = INTERNAL_CALL, Context._msgSender()()
+			REF_83(mapping(address => uint256)) -> _allowances[TMP_296]
+			REF_84(uint256) -> REF_83[spender]
+			currentAllowance(uint256) := REF_84(uint256)
+		Expression: require(bool,string)(currentAllowance >= subtractedValue,ERC20: decreased allowance below zero)
+		IRs:
+			TMP_297(bool) = currentAllowance >= subtractedValue
+			TMP_298(None) = SOLIDITY_CALL require(bool,string)(TMP_297,ERC20: decreased allowance below zero)
+		Expression: _approve(_msgSender(),spender,currentAllowance - subtractedValue)
+		IRs:
+			TMP_299(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_300(uint256) = currentAllowance - subtractedValue
+			INTERNAL_CALL, ERC20._approve(address,address,uint256)(TMP_299,spender,TMP_300)
+		Expression: true
+		IRs:
+			RETURN True
+	Function ERC20._transfer(address,address,uint256) (*)
+		Expression: require(bool,string)(sender != address(0),ERC20: transfer from the zero address)
+		IRs:
+			TMP_302 = CONVERT 0 to address
+			TMP_303(bool) = sender != TMP_302
+			TMP_304(None) = SOLIDITY_CALL require(bool,string)(TMP_303,ERC20: transfer from the zero address)
+		Expression: require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+		IRs:
+			TMP_305 = CONVERT 0 to address
+			TMP_306(bool) = recipient != TMP_305
+			TMP_307(None) = SOLIDITY_CALL require(bool,string)(TMP_306,ERC20: transfer to the zero address)
+		Expression: _beforeTokenTransfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(sender,recipient,amount)
+		Expression: senderBalance = _balances[sender]
+		IRs:
+			REF_85(uint256) -> _balances[sender]
+			senderBalance(uint256) := REF_85(uint256)
+		Expression: require(bool,string)(senderBalance >= amount,ERC20: transfer amount exceeds balance)
+		IRs:
+			TMP_309(bool) = senderBalance >= amount
+			TMP_310(None) = SOLIDITY_CALL require(bool,string)(TMP_309,ERC20: transfer amount exceeds balance)
+		Expression: _balances[sender] = senderBalance - amount
+		IRs:
+			REF_86(uint256) -> _balances[sender]
+			TMP_311(uint256) = senderBalance - amount
+			REF_86 (->_balances) := TMP_311(uint256)
+		Expression: _balances[recipient] += amount
+		IRs:
+			REF_87(uint256) -> _balances[recipient]
+			REF_87(-> _balances) = REF_87 (c)+ amount
+		Expression: Transfer(sender,recipient,amount)
+		IRs:
+			Emit Transfer(sender.recipient.amount)
+		Expression: _afterTokenTransfer(sender,recipient,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(sender,recipient,amount)
+	Function ERC20._mint(address,uint256) 
+		Expression: require(bool,string)(account != address(0),ERC20: mint to the zero address)
+		IRs:
+			TMP_314 = CONVERT 0 to address
+			TMP_315(bool) = account != TMP_314
+			TMP_316(None) = SOLIDITY_CALL require(bool,string)(TMP_315,ERC20: mint to the zero address)
+		Expression: _beforeTokenTransfer(address(0),account,amount)
+		IRs:
+			TMP_317 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(TMP_317,account,amount)
+		Expression: _totalSupply += amount
+		IRs:
+			_totalSupply(uint256) = _totalSupply (c)+ amount
+		Expression: _balances[account] += amount
+		IRs:
+			REF_88(uint256) -> _balances[account]
+			REF_88(-> _balances) = REF_88 (c)+ amount
+		Expression: Transfer(address(0),account,amount)
+		IRs:
+			TMP_319 = CONVERT 0 to address
+			Emit Transfer(TMP_319.account.amount)
+		Expression: _afterTokenTransfer(address(0),account,amount)
+		IRs:
+			TMP_321 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(TMP_321,account,amount)
+	Function ERC20._burn(address,uint256) (*)
+		Expression: require(bool,string)(account != address(0),ERC20: burn from the zero address)
+		IRs:
+			TMP_323 = CONVERT 0 to address
+			TMP_324(bool) = account != TMP_323
+			TMP_325(None) = SOLIDITY_CALL require(bool,string)(TMP_324,ERC20: burn from the zero address)
+		Expression: _beforeTokenTransfer(account,address(0),amount)
+		IRs:
+			TMP_326 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(account,TMP_326,amount)
+		Expression: accountBalance = _balances[account]
+		IRs:
+			REF_89(uint256) -> _balances[account]
+			accountBalance(uint256) := REF_89(uint256)
+		Expression: require(bool,string)(accountBalance >= amount,ERC20: burn amount exceeds balance)
+		IRs:
+			TMP_328(bool) = accountBalance >= amount
+			TMP_329(None) = SOLIDITY_CALL require(bool,string)(TMP_328,ERC20: burn amount exceeds balance)
+		Expression: _balances[account] = accountBalance - amount
+		IRs:
+			REF_90(uint256) -> _balances[account]
+			TMP_330(uint256) = accountBalance - amount
+			REF_90 (->_balances) := TMP_330(uint256)
+		Expression: _totalSupply -= amount
+		IRs:
+			_totalSupply(uint256) = _totalSupply (c)- amount
+		Expression: Transfer(account,address(0),amount)
+		IRs:
+			TMP_331 = CONVERT 0 to address
+			Emit Transfer(account.TMP_331.amount)
+		Expression: _afterTokenTransfer(account,address(0),amount)
+		IRs:
+			TMP_333 = CONVERT 0 to address
+			INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(account,TMP_333,amount)
+	Function ERC20._approve(address,address,uint256) (*)
+		Expression: require(bool,string)(owner != address(0),ERC20: approve from the zero address)
+		IRs:
+			TMP_335 = CONVERT 0 to address
+			TMP_336(bool) = owner != TMP_335
+			TMP_337(None) = SOLIDITY_CALL require(bool,string)(TMP_336,ERC20: approve from the zero address)
+		Expression: require(bool,string)(spender != address(0),ERC20: approve to the zero address)
+		IRs:
+			TMP_338 = CONVERT 0 to address
+			TMP_339(bool) = spender != TMP_338
+			TMP_340(None) = SOLIDITY_CALL require(bool,string)(TMP_339,ERC20: approve to the zero address)
+		Expression: _allowances[owner][spender] = amount
+		IRs:
+			REF_91(mapping(address => uint256)) -> _allowances[owner]
+			REF_92(uint256) -> REF_91[spender]
+			REF_92 (->_allowances) := amount(uint256)
+		Expression: Approval(owner,spender,amount)
+		IRs:
+			Emit Approval(owner.spender.amount)
+	Function ERC20._beforeTokenTransfer(address,address,uint256) (*)
+	Function ERC20._afterTokenTransfer(address,address,uint256) (*)
+	Function IERC20Metadata.name() 
+	Function IERC20Metadata.symbol() 
+	Function IERC20Metadata.decimals() 
+	Function IERC20.totalSupply() 
+	Function IERC20.balanceOf(address) 
+	Function IERC20.transfer(address,uint256) 
+	Function IERC20.allowance(address,address) 
+	Function IERC20.approve(address,uint256) 
+	Function IERC20.transferFrom(address,address,uint256) 
+	Function Context._msgSender() (*)
+		Expression: msg.sender
+		IRs:
+			RETURN msg.sender
+	Function Context._msgData() (*)
+		Expression: msg.data
+		IRs:
+			RETURN msg.data
+	Function ERC20Capped.constructor(uint256) (*)
+		Expression: require(bool,string)(cap_ > 0,ERC20Capped: cap is 0)
+		IRs:
+			TMP_342(bool) = cap_ > 0
+			TMP_343(None) = SOLIDITY_CALL require(bool,string)(TMP_342,ERC20Capped: cap is 0)
+		Expression: _cap = cap_
+		IRs:
+			_cap(uint256) := cap_(uint256)
+	Function ERC20Capped.cap() (*)
+		Expression: _cap
+		IRs:
+			RETURN _cap
+	Function ERC20Capped._mint(address,uint256) 
+		Expression: require(bool,string)(ERC20.totalSupply() + amount <= cap(),ERC20Capped: cap exceeded)
+		IRs:
+			TMP_344(uint256) = INTERNAL_CALL, ERC20.totalSupply()()
+			TMP_345(uint256) = TMP_344 (c)+ amount
+			TMP_346(uint256) = INTERNAL_CALL, ERC20Capped.cap()()
+			TMP_347(bool) = TMP_345 <= TMP_346
+			TMP_348(None) = SOLIDITY_CALL require(bool,string)(TMP_347,ERC20Capped: cap exceeded)
+		Expression: super._mint(account,amount)
+		IRs:
+			INTERNAL_CALL, ERC20._mint(address,uint256)(account,amount)
+	Function AccessControl.supportsInterface(bytes4) (*)
+		Expression: interfaceId == type()(IAccessControl).interfaceId || super.supportsInterface(interfaceId)
+		IRs:
+			TMP_350(type(IAccessControl)) = SOLIDITY_CALL type()(IAccessControl)
+			REF_94 (->None) := 2036718347(bytes4)
+			TMP_351(bool) = interfaceId == REF_94
+			TMP_352(bool) = INTERNAL_CALL, ERC165.supportsInterface(bytes4)(interfaceId)
+			TMP_353(bool) = TMP_351 || TMP_352
+			RETURN TMP_353
+	Function AccessControl.hasRole(bytes32,address) (*)
+		Expression: _roles[role].members[account]
+		IRs:
+			REF_95(AccessControl.RoleData) -> _roles[role]
+			REF_96(mapping(address => bool)) -> REF_95.members
+			REF_97(bool) -> REF_96[account]
+			RETURN REF_97
+	Function AccessControl._checkRole(bytes32,address) (*)
+		Expression: ! hasRole(role,account)
+		IRs:
+			TMP_354(bool) = INTERNAL_CALL, AccessControl.hasRole(bytes32,address)(role,account)
+			TMP_355 = ! TMP_354 
+			CONDITION TMP_355
+		Expression: revert(string)(string(abi.encodePacked(AccessControl: account ,Strings.toHexString(uint160(account),20), is missing role ,Strings.toHexString(uint256(role),32))))
+		IRs:
+			TMP_356 = CONVERT account to uint160
+			TMP_357(string) = LIBRARY_CALL, dest:Strings, function:Strings.toHexString(uint256,uint256), arguments:['TMP_356', '20'] 
+			TMP_358 = CONVERT role to uint256
+			TMP_359(string) = LIBRARY_CALL, dest:Strings, function:Strings.toHexString(uint256,uint256), arguments:['TMP_358', '32'] 
+			TMP_360(bytes) = SOLIDITY_CALL abi.encodePacked()(AccessControl: account ,TMP_357, is missing role ,TMP_359)
+			TMP_361 = CONVERT TMP_360 to string
+			TMP_362(None) = SOLIDITY_CALL revert(string)(TMP_361)
+	Function AccessControl.getRoleAdmin(bytes32) (*)
+		Expression: _roles[role].adminRole
+		IRs:
+			REF_101(AccessControl.RoleData) -> _roles[role]
+			REF_102(bytes32) -> REF_101.adminRole
+			RETURN REF_102
+	Function AccessControl.grantRole(bytes32,address) (*)
+		Expression: _grantRole(role,account)
+		IRs:
+			INTERNAL_CALL, AccessControl._grantRole(bytes32,address)(role,account)
+		Expression: onlyRole(getRoleAdmin(role))
+		IRs:
+			TMP_364(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_364)
+		Expression: onlyRole(getRoleAdmin(role))
+		IRs:
+			TMP_366(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_366)
+	Function AccessControl.revokeRole(bytes32,address) (*)
+		Expression: _revokeRole(role,account)
+		IRs:
+			INTERNAL_CALL, AccessControl._revokeRole(bytes32,address)(role,account)
+		Expression: onlyRole(getRoleAdmin(role))
+		IRs:
+			TMP_369(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_369)
+		Expression: onlyRole(getRoleAdmin(role))
+		IRs:
+			TMP_371(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_371)
+	Function AccessControl.renounceRole(bytes32,address) (*)
+		Expression: require(bool,string)(account == _msgSender(),AccessControl: can only renounce roles for self)
+		IRs:
+			TMP_373(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_374(bool) = account == TMP_373
+			TMP_375(None) = SOLIDITY_CALL require(bool,string)(TMP_374,AccessControl: can only renounce roles for self)
+		Expression: _revokeRole(role,account)
+		IRs:
+			INTERNAL_CALL, AccessControl._revokeRole(bytes32,address)(role,account)
+	Function AccessControl._setupRole(bytes32,address) (*)
+		Expression: _grantRole(role,account)
+		IRs:
+			INTERNAL_CALL, AccessControl._grantRole(bytes32,address)(role,account)
+	Function AccessControl._setRoleAdmin(bytes32,bytes32) (*)
+		Expression: previousAdminRole = getRoleAdmin(role)
+		IRs:
+			TMP_378(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+			previousAdminRole(bytes32) := TMP_378(bytes32)
+		Expression: _roles[role].adminRole = adminRole
+		IRs:
+			REF_103(AccessControl.RoleData) -> _roles[role]
+			REF_104(bytes32) -> REF_103.adminRole
+			REF_104 (->_roles) := adminRole(bytes32)
+		Expression: RoleAdminChanged(role,previousAdminRole,adminRole)
+		IRs:
+			Emit RoleAdminChanged(role.previousAdminRole.adminRole)
+	Function AccessControl._grantRole(bytes32,address) (*)
+		Expression: ! hasRole(role,account)
+		IRs:
+			TMP_380(bool) = INTERNAL_CALL, AccessControl.hasRole(bytes32,address)(role,account)
+			TMP_381 = ! TMP_380 
+			CONDITION TMP_381
+		Expression: _roles[role].members[account] = true
+		IRs:
+			REF_105(AccessControl.RoleData) -> _roles[role]
+			REF_106(mapping(address => bool)) -> REF_105.members
+			REF_107(bool) -> REF_106[account]
+			REF_107 (->_roles) := True(bool)
+		Expression: RoleGranted(role,account,_msgSender())
+		IRs:
+			TMP_382(address) = INTERNAL_CALL, Context._msgSender()()
+			Emit RoleGranted(role.account.TMP_382)
+	Function AccessControl._revokeRole(bytes32,address) (*)
+		Expression: hasRole(role,account)
+		IRs:
+			TMP_384(bool) = INTERNAL_CALL, AccessControl.hasRole(bytes32,address)(role,account)
+			CONDITION TMP_384
+		Expression: _roles[role].members[account] = false
+		IRs:
+			REF_108(AccessControl.RoleData) -> _roles[role]
+			REF_109(mapping(address => bool)) -> REF_108.members
+			REF_110(bool) -> REF_109[account]
+			REF_110 (->_roles) := False(bool)
+		Expression: RoleRevoked(role,account,_msgSender())
+		IRs:
+			TMP_385(address) = INTERNAL_CALL, Context._msgSender()()
+			Emit RoleRevoked(role.account.TMP_385)
+	Function ERC165.supportsInterface(bytes4) 
+		Expression: interfaceId == type()(IERC165).interfaceId
+		IRs:
+			TMP_387(type(IERC165)) = SOLIDITY_CALL type()(IERC165)
+			REF_111 (->None) := 33540519(bytes4)
+			TMP_388(bool) = interfaceId == REF_111
+			RETURN TMP_388
+	Function IERC165.supportsInterface(bytes4) 
+	Function IAccessControl.hasRole(bytes32,address) 
+	Function IAccessControl.getRoleAdmin(bytes32) 
+	Function IAccessControl.grantRole(bytes32,address) 
+	Function IAccessControl.revokeRole(bytes32,address) 
+	Function IAccessControl.renounceRole(bytes32,address) 
+	Function MetarunToken.constructor() (*)
+		Expression: _setupRole(DEFAULT_ADMIN_ROLE,_msgSender())
+		IRs:
+			TMP_389(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, AccessControl._setupRole(bytes32,address)(DEFAULT_ADMIN_ROLE,TMP_389)
+		Expression: _setupRole(MINTER_ROLE,_msgSender())
+		IRs:
+			TMP_391(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, AccessControl._setupRole(bytes32,address)(MINTER_ROLE,TMP_391)
+		Expression: ERC20(METARUN,MRUN)
+		IRs:
+			INTERNAL_CALL, ERC20.constructor(string,string)(METARUN,MRUN)
+		Expression: ERC20Capped(1_000_000_000 * 10 ** decimals())
+		IRs:
+			TMP_394(uint8) = INTERNAL_CALL, ERC20.decimals()()
+			TMP_395(uint256) = 10 (c)** TMP_394
+			TMP_396(uint256) = 1000000000 (c)* TMP_395
+			INTERNAL_CALL, ERC20Capped.constructor(uint256)(TMP_396)
+		Expression: ERC20Capped(1_000_000_000 * 10 ** decimals())
+		IRs:
+			TMP_398(uint8) = INTERNAL_CALL, ERC20.decimals()()
+			TMP_399(uint256) = 10 (c)** TMP_398
+			TMP_400(uint256) = 1000000000 (c)* TMP_399
+			INTERNAL_CALL, ERC20Capped.constructor(uint256)(TMP_400)
+	Function MetarunToken._mint(address,uint256) (*)
+		Expression: ERC20Capped._mint(account,amount)
+		IRs:
+			INTERNAL_CALL, ERC20Capped._mint(address,uint256)(account,amount)
+			RETURN TMP_402
+	Function MetarunToken.mint(address,uint256) (*)
+		Expression: require(bool,string)(hasRole(MINTER_ROLE,_msgSender()),METARUN: need MINTER_ROLE)
+		IRs:
+			TMP_403(address) = INTERNAL_CALL, Context._msgSender()()
+			TMP_404(bool) = INTERNAL_CALL, AccessControl.hasRole(bytes32,address)(MINTER_ROLE,TMP_403)
+			TMP_405(None) = SOLIDITY_CALL require(bool,string)(TMP_404,METARUN: need MINTER_ROLE)
+		Expression: _mint(to,amount)
+		IRs:
+			INTERNAL_CALL, MetarunToken._mint(address,uint256)(to,amount)
+	Function MetarunToken.slitherConstructorConstantVariables() (*)
+		Expression: DEFAULT_ADMIN_ROLE = 0x00
+		IRs:
+			DEFAULT_ADMIN_ROLE(bytes32) := 0(uint256)
+		Expression: MINTER_ROLE = keccak256(bytes)(MINTER_ROLE)
+		IRs:
+			TMP_407(bytes32) = SOLIDITY_CALL keccak256(bytes)(MINTER_ROLE)
+			MINTER_ROLE(bytes32) := TMP_407(bytes32)
+	Modifier AccessControl.onlyRole(bytes32)
+		Expression: _checkRole(role,_msgSender())
+		IRs:
+			TMP_408(address) = INTERNAL_CALL, Context._msgSender()()
+			INTERNAL_CALL, AccessControl._checkRole(bytes32,address)(role,TMP_408)
+
+. analyzed (12 contracts)

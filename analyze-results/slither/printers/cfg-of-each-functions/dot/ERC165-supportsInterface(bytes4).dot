@@ -1,0 +1,15 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: RETURN 1
+
+EXPRESSION:
+interfaceId == type()(IERC165).interfaceId
+
+IRs:
+TMP_269(type(IERC165)) = SOLIDITY_CALL type()(IERC165)
+REF_75 (->None) := 33540519(bytes4)
+TMP_270(bool) = interfaceId == REF_75
+RETURN TMP_270"];
+}

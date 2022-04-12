@@ -1,0 +1,9 @@
+digraph{
+0[label="Node Type: OTHER_ENTRYPOINT 0
+
+EXPRESSION:
+DEFAULT_ADMIN_ROLE = 0x00
+
+IRs:
+DEFAULT_ADMIN_ROLE(bytes32) := 0(uint256)"];
+}

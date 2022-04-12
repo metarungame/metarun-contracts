@@ -1,0 +1,427 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+
+Contract AccessControl
+Contract vars: ['_roles', 'DEFAULT_ADMIN_ROLE']
+Inheritance:: ['ERC165', 'IERC165', 'IAccessControl', 'Context']
+ 
++---------------------------------------+------------+------------------------------+----------------+------------------------+-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                Function               | Visibility |          Modifiers           |      Read      |         Write          |           Internal Calls          |                                                                                       External Calls                                                                                       |
++---------------------------------------+------------+------------------------------+----------------+------------------------+-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|       supportsInterface(bytes4)       |   public   |              []              |       []       |           []           |             ['type()']            |                                                                                             []                                                                                             |
+|       supportsInterface(bytes4)       |  external  |              []              |       []       |           []           |                 []                |                                                                                             []                                                                                             |
+|        hasRole(bytes32,address)       |  external  |              []              |       []       |           []           |                 []                |                                                                                             []                                                                                             |
+|         getRoleAdmin(bytes32)         |  external  |              []              |       []       |           []           |                 []                |                                                                                             []                                                                                             |
+|       grantRole(bytes32,address)      |  external  |              []              |       []       |           []           |                 []                |                                                                                             []                                                                                             |
+|      revokeRole(bytes32,address)      |  external  |              []              |       []       |           []           |                 []                |                                                                                             []                                                                                             |
+|     renounceRole(bytes32,address)     |  external  |              []              |       []       |           []           |                 []                |                                                                                             []                                                                                             |
+|              _msgSender()             |  internal  |              []              | ['msg.sender'] |           []           |                 []                |                                                                                             []                                                                                             |
+|               _msgData()              |  internal  |              []              |  ['msg.data']  |           []           |                 []                |                                                                                             []                                                                                             |
+|       supportsInterface(bytes4)       |   public   |              []              |       []       |           []           |  ['type()', 'supportsInterface']  |                                                                                             []                                                                                             |
+|        hasRole(bytes32,address)       |   public   |              []              |   ['_roles']   |           []           |                 []                |                                                                                             []                                                                                             |
+|      _checkRole(bytes32,address)      |  internal  |              []              |       []       |           []           | ['hasRole', 'abi.encodePacked()'] | ['Strings.toHexString(uint160(account),20)', 'abi.encodePacked(AccessControl: account ,Strings.toHexString(uint160(account),20), is missing role ,Strings.toHexString(uint256(role),32))'] |
+|                                       |            |                              |                |                        |         ['revert(string)']        |                                                                         ['Strings.toHexString(uint256(role),32)']                                                                          |
+|         getRoleAdmin(bytes32)         |   public   |              []              |   ['_roles']   |           []           |                 []                |                                                                                             []                                                                                             |
+|       grantRole(bytes32,address)      |   public   | ['getRoleAdmin', 'onlyRole'] |       []       |           []           |   ['_grantRole', 'getRoleAdmin']  |                                                                                             []                                                                                             |
+|                                       |            |                              |                |                        |            ['onlyRole']           |                                                                                                                                                                                            |
+|      revokeRole(bytes32,address)      |   public   | ['getRoleAdmin', 'onlyRole'] |       []       |           []           |  ['getRoleAdmin', '_revokeRole']  |                                                                                             []                                                                                             |
+|                                       |            |                              |                |                        |            ['onlyRole']           |                                                                                                                                                                                            |
+|     renounceRole(bytes32,address)     |   public   |              []              |       []       |           []           |   ['_msgSender', '_revokeRole']   |                                                                                             []                                                                                             |
+|                                       |            |                              |                |                        |      ['require(bool,string)']     |                                                                                                                                                                                            |
+|      _setupRole(bytes32,address)      |  internal  |              []              |       []       |           []           |           ['_grantRole']          |                                                                                             []                                                                                             |
+|     _setRoleAdmin(bytes32,bytes32)    |  internal  |              []              |   ['_roles']   |       ['_roles']       |          ['getRoleAdmin']         |                                                                                             []                                                                                             |
+|      _grantRole(bytes32,address)      |  internal  |              []              |   ['_roles']   |       ['_roles']       |     ['_msgSender', 'hasRole']     |                                                                                             []                                                                                             |
+|      _revokeRole(bytes32,address)     |  internal  |              []              |   ['_roles']   |       ['_roles']       |     ['_msgSender', 'hasRole']     |                                                                                             []                                                                                             |
+| slitherConstructorConstantVariables() |  internal  |              []              |       []       | ['DEFAULT_ADMIN_ROLE'] |                 []                |                                                                                             []                                                                                             |
++---------------------------------------+------------+------------------------------+----------------+------------------------+-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
++-------------------+------------+------+-------+------------------------------+----------------+
+|     Modifiers     | Visibility | Read | Write |        Internal Calls        | External Calls |
++-------------------+------------+------+-------+------------------------------+----------------+
+| onlyRole(bytes32) |  internal  |  []  |   []  | ['_msgSender', '_checkRole'] |       []       |
++-------------------+------------+------+-------+------------------------------+----------------+
+
+
+Contract IAccessControl
+Contract vars: []
+Inheritance:: []
+ 
++-------------------------------+------------+-----------+------+-------+----------------+----------------+
+|            Function           | Visibility | Modifiers | Read | Write | Internal Calls | External Calls |
++-------------------------------+------------+-----------+------+-------+----------------+----------------+
+|    hasRole(bytes32,address)   |  external  |     []    |  []  |   []  |       []       |       []       |
+|     getRoleAdmin(bytes32)     |  external  |     []    |  []  |   []  |       []       |       []       |
+|   grantRole(bytes32,address)  |  external  |     []    |  []  |   []  |       []       |       []       |
+|  revokeRole(bytes32,address)  |  external  |     []    |  []  |   []  |       []       |       []       |
+| renounceRole(bytes32,address) |  external  |     []    |  []  |   []  |       []       |       []       |
++-------------------------------+------------+-----------+------+-------+----------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract ERC20
+Contract vars: ['_balances', '_allowances', '_totalSupply', '_name', '_symbol']
+Inheritance:: ['IERC20Metadata', 'IERC20', 'Context']
+ 
++-----------------------------------------------+------------+-----------+-------------------------------+-------------------------------+-------------------------------------------------+----------------+
+|                    Function                   | Visibility | Modifiers |              Read             |             Write             |                  Internal Calls                 | External Calls |
++-----------------------------------------------+------------+-----------+-------------------------------+-------------------------------+-------------------------------------------------+----------------+
+|                     name()                    |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|                    symbol()                   |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|                   decimals()                  |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|                 totalSupply()                 |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|               balanceOf(address)              |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|           transfer(address,uint256)           |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|           allowance(address,address)          |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|            approve(address,uint256)           |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|     transferFrom(address,address,uint256)     |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|                  _msgSender()                 |  internal  |     []    |         ['msg.sender']        |               []              |                        []                       |       []       |
+|                   _msgData()                  |  internal  |     []    |          ['msg.data']         |               []              |                        []                       |       []       |
+|           constructor(string,string)          |   public   |     []    |               []              |      ['_name', '_symbol']     |                        []                       |       []       |
+|                     name()                    |   public   |     []    |           ['_name']           |               []              |                        []                       |       []       |
+|                    symbol()                   |   public   |     []    |          ['_symbol']          |               []              |                        []                       |       []       |
+|                   decimals()                  |   public   |     []    |               []              |               []              |                        []                       |       []       |
+|                 totalSupply()                 |   public   |     []    |        ['_totalSupply']       |               []              |                        []                       |       []       |
+|               balanceOf(address)              |   public   |     []    |         ['_balances']         |               []              |                        []                       |       []       |
+|           transfer(address,uint256)           |   public   |     []    |               []              |               []              |           ['_msgSender', '_transfer']           |       []       |
+|           allowance(address,address)          |   public   |     []    |        ['_allowances']        |               []              |                        []                       |       []       |
+|            approve(address,uint256)           |   public   |     []    |               []              |               []              |            ['_approve', '_msgSender']           |       []       |
+|     transferFrom(address,address,uint256)     |   public   |     []    |        ['_allowances']        |               []              |            ['_approve', '_msgSender']           |       []       |
+|                                               |            |           |                               |                               |      ['_transfer', 'require(bool,string)']      |                |
+|       increaseAllowance(address,uint256)      |   public   |     []    |        ['_allowances']        |               []              |            ['_approve', '_msgSender']           |       []       |
+|       decreaseAllowance(address,uint256)      |   public   |     []    |        ['_allowances']        |               []              |            ['_approve', '_msgSender']           |       []       |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                |
+|       _transfer(address,address,uint256)      |  internal  |     []    |         ['_balances']         |         ['_balances']         | ['_afterTokenTransfer', '_beforeTokenTransfer'] |       []       |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                |
+|             _mint(address,uint256)            |  internal  |     []    | ['_balances', '_totalSupply'] | ['_balances', '_totalSupply'] | ['_afterTokenTransfer', '_beforeTokenTransfer'] |       []       |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                |
+|             _burn(address,uint256)            |  internal  |     []    | ['_balances', '_totalSupply'] | ['_balances', '_totalSupply'] | ['_afterTokenTransfer', '_beforeTokenTransfer'] |       []       |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                |
+|       _approve(address,address,uint256)       |  internal  |     []    |               []              |        ['_allowances']        |             ['require(bool,string)']            |       []       |
+| _beforeTokenTransfer(address,address,uint256) |  internal  |     []    |               []              |               []              |                        []                       |       []       |
+|  _afterTokenTransfer(address,address,uint256) |  internal  |     []    |               []              |               []              |                        []                       |       []       |
++-----------------------------------------------+------------+-----------+-------------------------------+-------------------------------+-------------------------------------------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract IERC20
+Contract vars: []
+Inheritance:: []
+ 
++---------------------------------------+------------+-----------+------+-------+----------------+----------------+
+|                Function               | Visibility | Modifiers | Read | Write | Internal Calls | External Calls |
++---------------------------------------+------------+-----------+------+-------+----------------+----------------+
+|             totalSupply()             |  external  |     []    |  []  |   []  |       []       |       []       |
+|           balanceOf(address)          |  external  |     []    |  []  |   []  |       []       |       []       |
+|       transfer(address,uint256)       |  external  |     []    |  []  |   []  |       []       |       []       |
+|       allowance(address,address)      |  external  |     []    |  []  |   []  |       []       |       []       |
+|        approve(address,uint256)       |  external  |     []    |  []  |   []  |       []       |       []       |
+| transferFrom(address,address,uint256) |  external  |     []    |  []  |   []  |       []       |       []       |
++---------------------------------------+------------+-----------+------+-------+----------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract ERC20Burnable
+Contract vars: ['_balances', '_allowances', '_totalSupply', '_name', '_symbol']
+Inheritance:: ['ERC20', 'IERC20Metadata', 'IERC20', 'Context']
+ 
++-----------------------------------------------+------------+-----------+-------------------------------+-------------------------------+-------------------------------------------------+----------------+
+|                    Function                   | Visibility | Modifiers |              Read             |             Write             |                  Internal Calls                 | External Calls |
++-----------------------------------------------+------------+-----------+-------------------------------+-------------------------------+-------------------------------------------------+----------------+
+|           constructor(string,string)          |   public   |     []    |               []              |      ['_name', '_symbol']     |                        []                       |       []       |
+|                     name()                    |   public   |     []    |           ['_name']           |               []              |                        []                       |       []       |
+|                    symbol()                   |   public   |     []    |          ['_symbol']          |               []              |                        []                       |       []       |
+|                   decimals()                  |   public   |     []    |               []              |               []              |                        []                       |       []       |
+|                 totalSupply()                 |   public   |     []    |        ['_totalSupply']       |               []              |                        []                       |       []       |
+|               balanceOf(address)              |   public   |     []    |         ['_balances']         |               []              |                        []                       |       []       |
+|           transfer(address,uint256)           |   public   |     []    |               []              |               []              |           ['_msgSender', '_transfer']           |       []       |
+|           allowance(address,address)          |   public   |     []    |        ['_allowances']        |               []              |                        []                       |       []       |
+|            approve(address,uint256)           |   public   |     []    |               []              |               []              |            ['_msgSender', '_approve']           |       []       |
+|     transferFrom(address,address,uint256)     |   public   |     []    |        ['_allowances']        |               []              |            ['_msgSender', '_approve']           |       []       |
+|                                               |            |           |                               |                               |      ['_transfer', 'require(bool,string)']      |                |
+|       increaseAllowance(address,uint256)      |   public   |     []    |        ['_allowances']        |               []              |            ['_msgSender', '_approve']           |       []       |
+|       decreaseAllowance(address,uint256)      |   public   |     []    |        ['_allowances']        |               []              |            ['_msgSender', '_approve']           |       []       |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                |
+|       _transfer(address,address,uint256)      |  internal  |     []    |         ['_balances']         |         ['_balances']         | ['_beforeTokenTransfer', '_afterTokenTransfer'] |       []       |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                |
+|             _mint(address,uint256)            |  internal  |     []    | ['_balances', '_totalSupply'] | ['_balances', '_totalSupply'] | ['_beforeTokenTransfer', '_afterTokenTransfer'] |       []       |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                |
+|             _burn(address,uint256)            |  internal  |     []    | ['_balances', '_totalSupply'] | ['_balances', '_totalSupply'] | ['_beforeTokenTransfer', '_afterTokenTransfer'] |       []       |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                |
+|       _approve(address,address,uint256)       |  internal  |     []    |               []              |        ['_allowances']        |             ['require(bool,string)']            |       []       |
+| _beforeTokenTransfer(address,address,uint256) |  internal  |     []    |               []              |               []              |                        []                       |       []       |
+|  _afterTokenTransfer(address,address,uint256) |  internal  |     []    |               []              |               []              |                        []                       |       []       |
+|                     name()                    |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|                    symbol()                   |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|                   decimals()                  |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|                 totalSupply()                 |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|               balanceOf(address)              |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|           transfer(address,uint256)           |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|           allowance(address,address)          |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|            approve(address,uint256)           |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|     transferFrom(address,address,uint256)     |  external  |     []    |               []              |               []              |                        []                       |       []       |
+|                  _msgSender()                 |  internal  |     []    |         ['msg.sender']        |               []              |                        []                       |       []       |
+|                   _msgData()                  |  internal  |     []    |          ['msg.data']         |               []              |                        []                       |       []       |
+|                 burn(uint256)                 |   public   |     []    |               []              |               []              |             ['_msgSender', '_burn']             |       []       |
+|           burnFrom(address,uint256)           |   public   |     []    |               []              |               []              |            ['_approve', 'allowance']            |       []       |
+|                                               |            |           |                               |                               |             ['_msgSender', '_burn']             |                |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                |
++-----------------------------------------------+------------+-----------+-------------------------------+-------------------------------+-------------------------------------------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract ERC20Capped
+Contract vars: ['_balances', '_allowances', '_totalSupply', '_name', '_symbol', '_cap']
+Inheritance:: ['ERC20', 'IERC20Metadata', 'IERC20', 'Context']
+ 
++-----------------------------------------------+------------+-----------+-------------------------------+-------------------------------+-------------------------------------------------+-------------------------+
+|                    Function                   | Visibility | Modifiers |              Read             |             Write             |                  Internal Calls                 |      External Calls     |
++-----------------------------------------------+------------+-----------+-------------------------------+-------------------------------+-------------------------------------------------+-------------------------+
+|           constructor(string,string)          |   public   |     []    |               []              |      ['_name', '_symbol']     |                        []                       |            []           |
+|                     name()                    |   public   |     []    |           ['_name']           |               []              |                        []                       |            []           |
+|                    symbol()                   |   public   |     []    |          ['_symbol']          |               []              |                        []                       |            []           |
+|                   decimals()                  |   public   |     []    |               []              |               []              |                        []                       |            []           |
+|                 totalSupply()                 |   public   |     []    |        ['_totalSupply']       |               []              |                        []                       |            []           |
+|               balanceOf(address)              |   public   |     []    |         ['_balances']         |               []              |                        []                       |            []           |
+|           transfer(address,uint256)           |   public   |     []    |               []              |               []              |           ['_transfer', '_msgSender']           |            []           |
+|           allowance(address,address)          |   public   |     []    |        ['_allowances']        |               []              |                        []                       |            []           |
+|            approve(address,uint256)           |   public   |     []    |               []              |               []              |            ['_approve', '_msgSender']           |            []           |
+|     transferFrom(address,address,uint256)     |   public   |     []    |        ['_allowances']        |               []              |            ['_transfer', '_approve']            |            []           |
+|                                               |            |           |                               |                               |      ['_msgSender', 'require(bool,string)']     |                         |
+|       increaseAllowance(address,uint256)      |   public   |     []    |        ['_allowances']        |               []              |            ['_approve', '_msgSender']           |            []           |
+|       decreaseAllowance(address,uint256)      |   public   |     []    |        ['_allowances']        |               []              |            ['_approve', '_msgSender']           |            []           |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                         |
+|       _transfer(address,address,uint256)      |  internal  |     []    |         ['_balances']         |         ['_balances']         | ['_afterTokenTransfer', '_beforeTokenTransfer'] |            []           |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                         |
+|             _mint(address,uint256)            |  internal  |     []    | ['_balances', '_totalSupply'] | ['_balances', '_totalSupply'] | ['_afterTokenTransfer', '_beforeTokenTransfer'] |            []           |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                         |
+|             _burn(address,uint256)            |  internal  |     []    | ['_balances', '_totalSupply'] | ['_balances', '_totalSupply'] | ['_afterTokenTransfer', '_beforeTokenTransfer'] |            []           |
+|                                               |            |           |                               |                               |             ['require(bool,string)']            |                         |
+|       _approve(address,address,uint256)       |  internal  |     []    |               []              |        ['_allowances']        |             ['require(bool,string)']            |            []           |
+| _beforeTokenTransfer(address,address,uint256) |  internal  |     []    |               []              |               []              |                        []                       |            []           |
+|  _afterTokenTransfer(address,address,uint256) |  internal  |     []    |               []              |               []              |                        []                       |            []           |
+|                     name()                    |  external  |     []    |               []              |               []              |                        []                       |            []           |
+|                    symbol()                   |  external  |     []    |               []              |               []              |                        []                       |            []           |
+|                   decimals()                  |  external  |     []    |               []              |               []              |                        []                       |            []           |
+|                 totalSupply()                 |  external  |     []    |               []              |               []              |                        []                       |            []           |
+|               balanceOf(address)              |  external  |     []    |               []              |               []              |                        []                       |            []           |
+|           transfer(address,uint256)           |  external  |     []    |               []              |               []              |                        []                       |            []           |
+|           allowance(address,address)          |  external  |     []    |               []              |               []              |                        []                       |            []           |
+|            approve(address,uint256)           |  external  |     []    |               []              |               []              |                        []                       |            []           |
+|     transferFrom(address,address,uint256)     |  external  |     []    |               []              |               []              |                        []                       |            []           |
+|                  _msgSender()                 |  internal  |     []    |         ['msg.sender']        |               []              |                        []                       |            []           |
+|                   _msgData()                  |  internal  |     []    |          ['msg.data']         |               []              |                        []                       |            []           |
+|              constructor(uint256)             |  internal  |     []    |               []              |            ['_cap']           |             ['require(bool,string)']            |            []           |
+|                     cap()                     |   public   |     []    |            ['_cap']           |               []              |                        []                       |            []           |
+|             _mint(address,uint256)            |  internal  |     []    |               []              |               []              |              ['cap', 'totalSupply']             | ['ERC20.totalSupply()'] |
+|                                               |            |           |                               |                               |        ['require(bool,string)', '_mint']        |                         |
++-----------------------------------------------+------------+-----------+-------------------------------+-------------------------------+-------------------------------------------------+-------------------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract IERC20Metadata
+Contract vars: []
+Inheritance:: ['IERC20']
+ 
++---------------------------------------+------------+-----------+------+-------+----------------+----------------+
+|                Function               | Visibility | Modifiers | Read | Write | Internal Calls | External Calls |
++---------------------------------------+------------+-----------+------+-------+----------------+----------------+
+|             totalSupply()             |  external  |     []    |  []  |   []  |       []       |       []       |
+|           balanceOf(address)          |  external  |     []    |  []  |   []  |       []       |       []       |
+|       transfer(address,uint256)       |  external  |     []    |  []  |   []  |       []       |       []       |
+|       allowance(address,address)      |  external  |     []    |  []  |   []  |       []       |       []       |
+|        approve(address,uint256)       |  external  |     []    |  []  |   []  |       []       |       []       |
+| transferFrom(address,address,uint256) |  external  |     []    |  []  |   []  |       []       |       []       |
+|                 name()                |  external  |     []    |  []  |   []  |       []       |       []       |
+|                symbol()               |  external  |     []    |  []  |   []  |       []       |       []       |
+|               decimals()              |  external  |     []    |  []  |   []  |       []       |       []       |
++---------------------------------------+------------+-----------+------+-------+----------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract Context
+Contract vars: []
+Inheritance:: []
+ 
++--------------+------------+-----------+----------------+-------+----------------+----------------+
+|   Function   | Visibility | Modifiers |      Read      | Write | Internal Calls | External Calls |
++--------------+------------+-----------+----------------+-------+----------------+----------------+
+| _msgSender() |  internal  |     []    | ['msg.sender'] |   []  |       []       |       []       |
+|  _msgData()  |  internal  |     []    |  ['msg.data']  |   []  |       []       |       []       |
++--------------+------------+-----------+----------------+-------+----------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract Strings
+Contract vars: ['_HEX_SYMBOLS']
+Inheritance:: []
+ 
++---------------------------------------+------------+-----------+------------------+------------------+--------------------------+-------------------------------+
+|                Function               | Visibility | Modifiers |       Read       |      Write       |      Internal Calls      |         External Calls        |
++---------------------------------------+------------+-----------+------------------+------------------+--------------------------+-------------------------------+
+|           toString(uint256)           |  internal  |     []    |        []        |        []        |            []            |     ['new bytes(digits)']     |
+|          toHexString(uint256)         |  internal  |     []    |        []        |        []        |     ['toHexString']      |               []              |
+|      toHexString(uint256,uint256)     |  internal  |     []    | ['_HEX_SYMBOLS'] |        []        | ['require(bool,string)'] | ['new bytes(2 * length + 2)'] |
+| slitherConstructorConstantVariables() |  internal  |     []    |        []        | ['_HEX_SYMBOLS'] |            []            |               []              |
++---------------------------------------+------------+-----------+------------------+------------------+--------------------------+-------------------------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract ERC165
+Contract vars: []
+Inheritance:: ['IERC165']
+ 
++---------------------------+------------+-----------+------+-------+----------------+----------------+
+|          Function         | Visibility | Modifiers | Read | Write | Internal Calls | External Calls |
++---------------------------+------------+-----------+------+-------+----------------+----------------+
+| supportsInterface(bytes4) |  external  |     []    |  []  |   []  |       []       |       []       |
+| supportsInterface(bytes4) |   public   |     []    |  []  |   []  |   ['type()']   |       []       |
++---------------------------+------------+-----------+------+-------+----------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract IERC165
+Contract vars: []
+Inheritance:: []
+ 
++---------------------------+------------+-----------+------+-------+----------------+----------------+
+|          Function         | Visibility | Modifiers | Read | Write | Internal Calls | External Calls |
++---------------------------+------------+-----------+------+-------+----------------+----------------+
+| supportsInterface(bytes4) |  external  |     []    |  []  |   []  |       []       |       []       |
++---------------------------+------------+-----------+------+-------+----------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract MetarunToken
+Contract vars: ['_roles', 'DEFAULT_ADMIN_ROLE', '_balances', '_allowances', '_totalSupply', '_name', '_symbol', '_cap', 'MINTER_ROLE']
+Inheritance:: ['ERC20Burnable', 'ERC20Capped', 'ERC20', 'IERC20Metadata', 'IERC20', 'AccessControl', 'ERC165', 'IERC165', 'IAccessControl', 'Context']
+ 
++-----------------------------------------------+------------+------------------------------+---------------------------------------+---------------------------------------+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                    Function                   | Visibility |          Modifiers           |                  Read                 |                 Write                 |                  Internal Calls                 |                                                                                      External Calls                                                                                     |
++-----------------------------------------------+------------+------------------------------+---------------------------------------+---------------------------------------+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                 burn(uint256)                 |   public   |              []              |                   []                  |                   []                  |             ['_msgSender', '_burn']             |                                                                                            []                                                                                           |
+|           burnFrom(address,uint256)           |   public   |              []              |                   []                  |                   []                  |            ['_approve', 'allowance']            |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |             ['_msgSender', '_burn']             |                                                                                                                                                                                         |
+|                                               |            |                              |                                       |                                       |             ['require(bool,string)']            |                                                                                                                                                                                         |
+|           constructor(string,string)          |   public   |              []              |                   []                  |          ['_name', '_symbol']         |                        []                       |                                                                                            []                                                                                           |
+|                     name()                    |   public   |              []              |               ['_name']               |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                    symbol()                   |   public   |              []              |              ['_symbol']              |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                   decimals()                  |   public   |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                 totalSupply()                 |   public   |              []              |            ['_totalSupply']           |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|               balanceOf(address)              |   public   |              []              |             ['_balances']             |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|           transfer(address,uint256)           |   public   |              []              |                   []                  |                   []                  |           ['_msgSender', '_transfer']           |                                                                                            []                                                                                           |
+|           allowance(address,address)          |   public   |              []              |            ['_allowances']            |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|            approve(address,uint256)           |   public   |              []              |                   []                  |                   []                  |            ['_approve', '_msgSender']           |                                                                                            []                                                                                           |
+|     transferFrom(address,address,uint256)     |   public   |              []              |            ['_allowances']            |                   []                  |       ['require(bool,string)', '_approve']      |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |           ['_msgSender', '_transfer']           |                                                                                                                                                                                         |
+|       increaseAllowance(address,uint256)      |   public   |              []              |            ['_allowances']            |                   []                  |            ['_approve', '_msgSender']           |                                                                                            []                                                                                           |
+|       decreaseAllowance(address,uint256)      |   public   |              []              |            ['_allowances']            |                   []                  |            ['_approve', '_msgSender']           |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |             ['require(bool,string)']            |                                                                                                                                                                                         |
+|       _transfer(address,address,uint256)      |  internal  |              []              |             ['_balances']             |             ['_balances']             | ['_afterTokenTransfer', '_beforeTokenTransfer'] |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |             ['require(bool,string)']            |                                                                                                                                                                                         |
+|             _mint(address,uint256)            |  internal  |              []              |     ['_balances', '_totalSupply']     |     ['_balances', '_totalSupply']     | ['_afterTokenTransfer', '_beforeTokenTransfer'] |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |             ['require(bool,string)']            |                                                                                                                                                                                         |
+|             _burn(address,uint256)            |  internal  |              []              |     ['_balances', '_totalSupply']     |     ['_balances', '_totalSupply']     | ['_afterTokenTransfer', '_beforeTokenTransfer'] |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |             ['require(bool,string)']            |                                                                                                                                                                                         |
+|       _approve(address,address,uint256)       |  internal  |              []              |                   []                  |            ['_allowances']            |             ['require(bool,string)']            |                                                                                            []                                                                                           |
+| _beforeTokenTransfer(address,address,uint256) |  internal  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|  _afterTokenTransfer(address,address,uint256) |  internal  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                     name()                    |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                    symbol()                   |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                   decimals()                  |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                 totalSupply()                 |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|               balanceOf(address)              |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|           transfer(address,uint256)           |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|           allowance(address,address)          |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|            approve(address,uint256)           |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|     transferFrom(address,address,uint256)     |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                  _msgSender()                 |  internal  |              []              |             ['msg.sender']            |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                   _msgData()                  |  internal  |              []              |              ['msg.data']             |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|              constructor(uint256)             |  internal  |              []              |                   []                  |                ['_cap']               |             ['require(bool,string)']            |                                                                                            []                                                                                           |
+|                     cap()                     |   public   |              []              |                ['_cap']               |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|             _mint(address,uint256)            |  internal  |              []              |                   []                  |                   []                  |                 ['_mint', 'cap']                |                                                                                 ['ERC20.totalSupply()']                                                                                 |
+|                                               |            |                              |                                       |                                       |     ['require(bool,string)', 'totalSupply']     |                                                                                                                                                                                         |
+|           supportsInterface(bytes4)           |   public   |              []              |                   []                  |                   []                  |         ['type()', 'supportsInterface']         |                                                                                            []                                                                                           |
+|            hasRole(bytes32,address)           |   public   |              []              |               ['_roles']              |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|          _checkRole(bytes32,address)          |  internal  |              []              |                   []                  |                   []                  |        ['hasRole', 'abi.encodePacked()']        | ['abi.encodePacked(AccessControl: account ,Strings.toHexString(uint160(account),20), is missing role ,Strings.toHexString(uint256(role),32))', 'Strings.toHexString(uint256(role),32)'] |
+|                                               |            |                              |                                       |                                       |                ['revert(string)']               |                                                                       ['Strings.toHexString(uint160(account),20)']                                                                      |
+|             getRoleAdmin(bytes32)             |   public   |              []              |               ['_roles']              |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|           grantRole(bytes32,address)          |   public   | ['getRoleAdmin', 'onlyRole'] |                   []                  |                   []                  |          ['getRoleAdmin', '_grantRole']         |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |                   ['onlyRole']                  |                                                                                                                                                                                         |
+|          revokeRole(bytes32,address)          |   public   | ['getRoleAdmin', 'onlyRole'] |                   []                  |                   []                  |         ['getRoleAdmin', '_revokeRole']         |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |                   ['onlyRole']                  |                                                                                                                                                                                         |
+|         renounceRole(bytes32,address)         |   public   |              []              |                   []                  |                   []                  |          ['_revokeRole', '_msgSender']          |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |             ['require(bool,string)']            |                                                                                                                                                                                         |
+|          _setupRole(bytes32,address)          |  internal  |              []              |                   []                  |                   []                  |                  ['_grantRole']                 |                                                                                            []                                                                                           |
+|         _setRoleAdmin(bytes32,bytes32)        |  internal  |              []              |               ['_roles']              |               ['_roles']              |                 ['getRoleAdmin']                |                                                                                            []                                                                                           |
+|          _grantRole(bytes32,address)          |  internal  |              []              |               ['_roles']              |               ['_roles']              |            ['hasRole', '_msgSender']            |                                                                                            []                                                                                           |
+|          _revokeRole(bytes32,address)         |  internal  |              []              |               ['_roles']              |               ['_roles']              |            ['hasRole', '_msgSender']            |                                                                                            []                                                                                           |
+|           supportsInterface(bytes4)           |   public   |              []              |                   []                  |                   []                  |                    ['type()']                   |                                                                                            []                                                                                           |
+|           supportsInterface(bytes4)           |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|            hasRole(bytes32,address)           |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|             getRoleAdmin(bytes32)             |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|           grantRole(bytes32,address)          |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|          revokeRole(bytes32,address)          |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|         renounceRole(bytes32,address)         |  external  |              []              |                   []                  |                   []                  |                        []                       |                                                                                            []                                                                                           |
+|                 constructor()                 |   public   |         ['decimals']         | ['DEFAULT_ADMIN_ROLE', 'MINTER_ROLE'] |                   []                  |                 ['', 'decimals']                |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |                ['_setupRole', '']               |                                                                                                                                                                                         |
+|                                               |            |                              |                                       |                                       |                  ['_msgSender']                 |                                                                                                                                                                                         |
+|             _mint(address,uint256)            |  internal  |              []              |                   []                  |                   []                  |                    ['_mint']                    |                                                                          ['ERC20Capped._mint(account,amount)']                                                                          |
+|             mint(address,uint256)             |   public   |              []              |            ['MINTER_ROLE']            |                   []                  |            ['hasRole', '_msgSender']            |                                                                                            []                                                                                           |
+|                                               |            |                              |                                       |                                       |        ['require(bool,string)', '_mint']        |                                                                                                                                                                                         |
+|     slitherConstructorConstantVariables()     |  internal  |              []              |                   []                  | ['DEFAULT_ADMIN_ROLE', 'MINTER_ROLE'] |               ['keccak256(bytes)']              |                                                                                            []                                                                                           |
++-----------------------------------------------+------------+------------------------------+---------------------------------------+---------------------------------------+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
++-------------------+------------+------+-------+------------------------------+----------------+
+|     Modifiers     | Visibility | Read | Write |        Internal Calls        | External Calls |
++-------------------+------------+------+-------+------------------------------+----------------+
+| onlyRole(bytes32) |  internal  |  []  |   []  | ['_checkRole', '_msgSender'] |       []       |
++-------------------+------------+------+-------+------------------------------+----------------+
+
+. analyzed (12 contracts)

@@ -1,0 +1,52 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->5;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+_setupRole(DEFAULT_ADMIN_ROLE,_msgSender())
+
+IRs:
+TMP_389(address) = INTERNAL_CALL, Context._msgSender()()
+INTERNAL_CALL, AccessControl._setupRole(bytes32,address)(DEFAULT_ADMIN_ROLE,TMP_389)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+_setupRole(MINTER_ROLE,_msgSender())
+
+IRs:
+TMP_391(address) = INTERNAL_CALL, Context._msgSender()()
+INTERNAL_CALL, AccessControl._setupRole(bytes32,address)(MINTER_ROLE,TMP_391)"];
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+ERC20(METARUN,MRUN)
+
+IRs:
+INTERNAL_CALL, ERC20.constructor(string,string)(METARUN,MRUN)"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+ERC20Capped(1_000_000_000 * 10 ** decimals())
+
+IRs:
+TMP_394(uint8) = INTERNAL_CALL, ERC20.decimals()()
+TMP_395(uint256) = 10 (c)** TMP_394
+TMP_396(uint256) = 1000000000 (c)* TMP_395
+INTERNAL_CALL, ERC20Capped.constructor(uint256)(TMP_396)"];
+4->1;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+ERC20Capped(1_000_000_000 * 10 ** decimals())
+
+IRs:
+TMP_398(uint8) = INTERNAL_CALL, ERC20.decimals()()
+TMP_399(uint256) = 10 (c)** TMP_398
+TMP_400(uint256) = 1000000000 (c)* TMP_399
+INTERNAL_CALL, ERC20Capped.constructor(uint256)(TMP_400)"];
+5->3;
+}

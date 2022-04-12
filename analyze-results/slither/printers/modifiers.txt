@@ -1,0 +1,82 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+
+Contract Strings
++-------------------------------------+-----------+
+|               Function              | Modifiers |
++-------------------------------------+-----------+
+|               toString              |     []    |
+|             toHexString             |     []    |
+|             toHexString             |     []    |
+| slitherConstructorConstantVariables |     []    |
++-------------------------------------+-----------+
+
+Contract MetarunToken
++-------------------------------------+------------------------------+
+|               Function              |          Modifiers           |
++-------------------------------------+------------------------------+
+|                 burn                |              []              |
+|               burnFrom              |              []              |
+|             constructor             |              []              |
+|                 name                |              []              |
+|                symbol               |              []              |
+|               decimals              |              []              |
+|             totalSupply             |              []              |
+|              balanceOf              |              []              |
+|               transfer              |              []              |
+|              allowance              |              []              |
+|               approve               |              []              |
+|             transferFrom            |              []              |
+|          increaseAllowance          |              []              |
+|          decreaseAllowance          |              []              |
+|              _transfer              |              []              |
+|                _mint                |              []              |
+|                _burn                |              []              |
+|               _approve              |              []              |
+|         _beforeTokenTransfer        |              []              |
+|         _afterTokenTransfer         |              []              |
+|                 name                |              []              |
+|                symbol               |              []              |
+|               decimals              |              []              |
+|             totalSupply             |              []              |
+|              balanceOf              |              []              |
+|               transfer              |              []              |
+|              allowance              |              []              |
+|               approve               |              []              |
+|             transferFrom            |              []              |
+|              _msgSender             |              []              |
+|               _msgData              |              []              |
+|             constructor             |              []              |
+|                 cap                 |              []              |
+|                _mint                |              []              |
+|          supportsInterface          |              []              |
+|               hasRole               |              []              |
+|              _checkRole             |              []              |
+|             getRoleAdmin            |              []              |
+|              grantRole              | ['getRoleAdmin', 'onlyRole'] |
+|              revokeRole             | ['getRoleAdmin', 'onlyRole'] |
+|             renounceRole            |              []              |
+|              _setupRole             |              []              |
+|            _setRoleAdmin            |              []              |
+|              _grantRole             |              []              |
+|             _revokeRole             |              []              |
+|          supportsInterface          |              []              |
+|          supportsInterface          |              []              |
+|               hasRole               |              []              |
+|             getRoleAdmin            |              []              |
+|              grantRole              |              []              |
+|              revokeRole             |              []              |
+|             renounceRole            |              []              |
+|             constructor             |         ['decimals']         |
+|                _mint                |              []              |
+|                 mint                |              []              |
+| slitherConstructorConstantVariables |              []              |
++-------------------------------------+------------------------------+
+. analyzed (12 contracts)

@@ -1,0 +1,58 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(account != address(0),ERC20: mint to the zero address)
+
+IRs:
+TMP_135 = CONVERT 0 to address
+TMP_136(bool) = account != TMP_135
+TMP_137(None) = SOLIDITY_CALL require(bool,string)(TMP_136,ERC20: mint to the zero address)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+_beforeTokenTransfer(address(0),account,amount)
+
+IRs:
+TMP_138 = CONVERT 0 to address
+INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(TMP_138,account,amount)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+_totalSupply += amount
+
+IRs:
+_totalSupply(uint256) = _totalSupply (c)+ amount"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+_balances[account] += amount
+
+IRs:
+REF_47(uint256) -> _balances[account]
+REF_47(-> _balances) = REF_47 (c)+ amount"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+Transfer(address(0),account,amount)
+
+IRs:
+TMP_140 = CONVERT 0 to address
+Emit Transfer(TMP_140.account.amount)"];
+5->6;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+_afterTokenTransfer(address(0),account,amount)
+
+IRs:
+TMP_142 = CONVERT 0 to address
+INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(TMP_142,account,amount)"];
+}

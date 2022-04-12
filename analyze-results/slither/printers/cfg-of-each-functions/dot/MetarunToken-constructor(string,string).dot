@@ -1,0 +1,20 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+_name = name_
+
+IRs:
+_name(string) := name_(string)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+_symbol = symbol_
+
+IRs:
+_symbol(string) := symbol_(string)"];
+}

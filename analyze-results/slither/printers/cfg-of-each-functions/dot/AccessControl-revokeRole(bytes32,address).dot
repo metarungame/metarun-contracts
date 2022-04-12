@@ -1,0 +1,30 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->2;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+_revokeRole(role,account)
+
+IRs:
+INTERNAL_CALL, AccessControl._revokeRole(bytes32,address)(role,account)"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+onlyRole(getRoleAdmin(role))
+
+IRs:
+TMP_21(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_21)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+onlyRole(getRoleAdmin(role))
+
+IRs:
+TMP_23(bytes32) = INTERNAL_CALL, AccessControl.getRoleAdmin(bytes32)(role)
+MODIFIER_CALL, AccessControl.onlyRole(bytes32)(TMP_23)"];
+3->1;
+}

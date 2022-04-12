@@ -1,0 +1,43 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+
+############################
+####### MetarunToken #######
+############################
+
+## Constructor Call Sequence
+        - ERC20
+        - ERC20Capped
+        - MetarunToken
+
+## Constructor Definitions
+
+### ERC20
+
+     constructor(string memory name_, string memory symbol_) {
+        _name = name_;
+        _symbol = symbol_;
+    }
+
+### ERC20Capped
+
+     constructor(uint256 cap_) {
+        require(cap_ > 0, "ERC20Capped: cap is 0");
+        _cap = cap_;
+    }
+
+### MetarunToken
+
+     constructor() ERC20("METARUN", "MRUN") ERC20Capped(1_000_000_000 * 10 ** decimals()) {
+        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _setupRole(MINTER_ROLE, _msgSender());
+    }
+
+. analyzed (12 contracts)

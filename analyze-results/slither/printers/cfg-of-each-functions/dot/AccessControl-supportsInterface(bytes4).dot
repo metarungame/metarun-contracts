@@ -1,0 +1,17 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: RETURN 1
+
+EXPRESSION:
+interfaceId == type()(IAccessControl).interfaceId || super.supportsInterface(interfaceId)
+
+IRs:
+TMP_2(type(IAccessControl)) = SOLIDITY_CALL type()(IAccessControl)
+REF_1 (->None) := 2036718347(bytes4)
+TMP_3(bool) = interfaceId == REF_1
+TMP_4(bool) = INTERNAL_CALL, ERC165.supportsInterface(bytes4)(interfaceId)
+TMP_5(bool) = TMP_3 || TMP_4
+RETURN TMP_5"];
+}

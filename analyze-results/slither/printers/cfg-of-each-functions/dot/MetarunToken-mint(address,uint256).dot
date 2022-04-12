@@ -1,0 +1,22 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(hasRole(MINTER_ROLE,_msgSender()),METARUN: need MINTER_ROLE)
+
+IRs:
+TMP_403(address) = INTERNAL_CALL, Context._msgSender()()
+TMP_404(bool) = INTERNAL_CALL, AccessControl.hasRole(bytes32,address)(MINTER_ROLE,TMP_403)
+TMP_405(None) = SOLIDITY_CALL require(bool,string)(TMP_404,METARUN: need MINTER_ROLE)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+_mint(to,amount)
+
+IRs:
+INTERNAL_CALL, MetarunToken._mint(address,uint256)(to,amount)"];
+}

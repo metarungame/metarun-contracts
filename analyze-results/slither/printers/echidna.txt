@@ -1,0 +1,2616 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+{
+    "payable": {},
+    "timestamp": {},
+    "block_number": {},
+    "msg_sender": {
+        "AccessControl": [
+            "grantRole(bytes32,address)",
+            "revokeRole(bytes32,address)",
+            "renounceRole(bytes32,address)"
+        ],
+        "ERC20": [
+            "transfer(address,uint256)",
+            "approve(address,uint256)",
+            "transferFrom(address,address,uint256)",
+            "increaseAllowance(address,uint256)",
+            "decreaseAllowance(address,uint256)"
+        ],
+        "ERC20Burnable": [
+            "transfer(address,uint256)",
+            "approve(address,uint256)",
+            "transferFrom(address,address,uint256)",
+            "increaseAllowance(address,uint256)",
+            "decreaseAllowance(address,uint256)",
+            "burn(uint256)",
+            "burnFrom(address,uint256)"
+        ],
+        "ERC20Capped": [
+            "transfer(address,uint256)",
+            "approve(address,uint256)",
+            "transferFrom(address,address,uint256)",
+            "increaseAllowance(address,uint256)",
+            "decreaseAllowance(address,uint256)"
+        ],
+        "MetarunToken": [
+            "burn(uint256)",
+            "burnFrom(address,uint256)",
+            "transfer(address,uint256)",
+            "approve(address,uint256)",
+            "transferFrom(address,address,uint256)",
+            "increaseAllowance(address,uint256)",
+            "decreaseAllowance(address,uint256)",
+            "grantRole(bytes32,address)",
+            "revokeRole(bytes32,address)",
+            "renounceRole(bytes32,address)",
+            "constructor()",
+            "mint(address,uint256)"
+        ]
+    },
+    "msg_gas": {},
+    "assert": {},
+    "constant_functions": {
+        "AccessControl": [
+            "supportsInterface(bytes4)",
+            "hasRole(bytes32,address)",
+            "getRoleAdmin(bytes32)",
+            "DEFAULT_ADMIN_ROLE()"
+        ],
+        "IAccessControl": [
+            "hasRole(bytes32,address)",
+            "getRoleAdmin(bytes32)"
+        ],
+        "ERC20": [
+            "name()",
+            "symbol()",
+            "decimals()",
+            "totalSupply()",
+            "balanceOf(address)",
+            "allowance(address,address)"
+        ],
+        "IERC20": [
+            "totalSupply()",
+            "balanceOf(address)",
+            "allowance(address,address)"
+        ],
+        "ERC20Burnable": [
+            "name()",
+            "symbol()",
+            "decimals()",
+            "totalSupply()",
+            "balanceOf(address)",
+            "allowance(address,address)"
+        ],
+        "ERC20Capped": [
+            "name()",
+            "symbol()",
+            "decimals()",
+            "totalSupply()",
+            "balanceOf(address)",
+            "allowance(address,address)",
+            "cap()"
+        ],
+        "IERC20Metadata": [
+            "totalSupply()",
+            "balanceOf(address)",
+            "allowance(address,address)",
+            "name()",
+            "symbol()",
+            "decimals()"
+        ],
+        "ERC165": [
+            "supportsInterface(bytes4)"
+        ],
+        "IERC165": [
+            "supportsInterface(bytes4)"
+        ],
+        "MetarunToken": [
+            "name()",
+            "symbol()",
+            "decimals()",
+            "totalSupply()",
+            "balanceOf(address)",
+            "allowance(address,address)",
+            "cap()",
+            "supportsInterface(bytes4)",
+            "hasRole(bytes32,address)",
+            "getRoleAdmin(bytes32)",
+            "DEFAULT_ADMIN_ROLE()",
+            "MINTER_ROLE()"
+        ]
+    },
+    "constants_used": {
+        "AccessControl": {
+            "supportsInterface(bytes4)": [
+                [
+                    {
+                        "value": "2036718347",
+                        "type": "bytes4"
+                    }
+                ],
+                [
+                    {
+                        "value": "33540519",
+                        "type": "bytes4"
+                    }
+                ]
+            ],
+            "grantRole(bytes32,address)": [
+                [
+                    {
+                        "value": " is missing role ",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "20",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "15",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "4",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "1",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "32",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "Strings: hex length insufficient",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "2",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "0123456789abcdef",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "x",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "AccessControl: account ",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "revokeRole(bytes32,address)": [
+                [
+                    {
+                        "value": " is missing role ",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "20",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "15",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "False",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "4",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "1",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "32",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "Strings: hex length insufficient",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "2",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "0123456789abcdef",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "x",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "AccessControl: account ",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "renounceRole(bytes32,address)": [
+                [
+                    {
+                        "value": "False",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "AccessControl: can only renounce roles for self",
+                        "type": "string"
+                    }
+                ]
+            ]
+        },
+        "ERC20": {
+            "decimals()": [
+                [
+                    {
+                        "value": "18",
+                        "type": "uint256"
+                    }
+                ]
+            ],
+            "transfer(address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: transfer to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ]
+            ],
+            "approve(address,uint256)": [
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "transferFrom(address,address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: transfer to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds allowance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "increaseAllowance(address,uint256)": [
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "decreaseAllowance(address,uint256)": [
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: decreased allowance below zero",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ]
+            ]
+        },
+        "ERC20Burnable": {
+            "decimals()": [
+                [
+                    {
+                        "value": "18",
+                        "type": "uint256"
+                    }
+                ]
+            ],
+            "transfer(address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: transfer to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ]
+            ],
+            "approve(address,uint256)": [
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "transferFrom(address,address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: transfer to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds allowance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "increaseAllowance(address,uint256)": [
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "decreaseAllowance(address,uint256)": [
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: decreased allowance below zero",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "burn(uint256)": [
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: burn from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: burn amount exceeds balance",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "burnFrom(address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: burn amount exceeds allowance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: burn amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: burn from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ]
+        },
+        "ERC20Capped": {
+            "decimals()": [
+                [
+                    {
+                        "value": "18",
+                        "type": "uint256"
+                    }
+                ]
+            ],
+            "transfer(address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: transfer to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ]
+            ],
+            "approve(address,uint256)": [
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "transferFrom(address,address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: transfer to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds allowance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "increaseAllowance(address,uint256)": [
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "decreaseAllowance(address,uint256)": [
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: decreased allowance below zero",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ]
+            ]
+        },
+        "ERC165": {
+            "supportsInterface(bytes4)": [
+                [
+                    {
+                        "value": "33540519",
+                        "type": "bytes4"
+                    }
+                ]
+            ]
+        },
+        "MetarunToken": {
+            "burn(uint256)": [
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: burn from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: burn amount exceeds balance",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "burnFrom(address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: burn amount exceeds allowance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: burn amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: burn from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "decimals()": [
+                [
+                    {
+                        "value": "18",
+                        "type": "uint256"
+                    }
+                ]
+            ],
+            "transfer(address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: transfer to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ]
+            ],
+            "approve(address,uint256)": [
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "transferFrom(address,address,uint256)": [
+                [
+                    {
+                        "value": "ERC20: transfer to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds balance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: transfer amount exceeds allowance",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "increaseAllowance(address,uint256)": [
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "decreaseAllowance(address,uint256)": [
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: decreased allowance below zero",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve from the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: approve to the zero address",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "supportsInterface(bytes4)": [
+                [
+                    {
+                        "value": "2036718347",
+                        "type": "bytes4"
+                    }
+                ],
+                [
+                    {
+                        "value": "33540519",
+                        "type": "bytes4"
+                    }
+                ]
+            ],
+            "grantRole(bytes32,address)": [
+                [
+                    {
+                        "value": " is missing role ",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "20",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "15",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "4",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "32",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "1",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "AccessControl: account ",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "2",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "0123456789abcdef",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "Strings: hex length insufficient",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "x",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "revokeRole(bytes32,address)": [
+                [
+                    {
+                        "value": " is missing role ",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "20",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "15",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "False",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "4",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "32",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "1",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "AccessControl: account ",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "2",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "0123456789abcdef",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "Strings: hex length insufficient",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "x",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "renounceRole(bytes32,address)": [
+                [
+                    {
+                        "value": "False",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "AccessControl: can only renounce roles for self",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "constructor()": [
+                [
+                    {
+                        "value": "METARUN",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "18",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "1000000000",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "MRUN",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "True",
+                        "type": "bool"
+                    }
+                ],
+                [
+                    {
+                        "value": "10",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "uint256"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20Capped: cap is 0",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "MINTER_ROLE",
+                        "type": "string"
+                    }
+                ]
+            ],
+            "mint(address,uint256)": [
+                [
+                    {
+                        "value": "ERC20Capped: cap exceeded",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "0",
+                        "type": "address"
+                    }
+                ],
+                [
+                    {
+                        "value": "ERC20: mint to the zero address",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "METARUN: need MINTER_ROLE",
+                        "type": "string"
+                    }
+                ],
+                [
+                    {
+                        "value": "MINTER_ROLE",
+                        "type": "string"
+                    }
+                ]
+            ]
+        }
+    },
+    "constants_used_in_binary": {
+        "AccessControl": {
+            "grantRole(bytes32,address)": {
+                "&": [
+                    [
+                        {
+                            "value": "15",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                ">>": [
+                    [
+                        {
+                            "value": "4",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "-": [
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "*": [
+                    [
+                        {
+                            "value": "2",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "==": [
+                    [
+                        {
+                            "value": "0",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "+": [
+                    [
+                        {
+                            "value": "2",
+                            "type": "uint256"
+                        }
+                    ],
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                ">": [
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ]
+            },
+            "revokeRole(bytes32,address)": {
+                "&": [
+                    [
+                        {
+                            "value": "15",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                ">>": [
+                    [
+                        {
+                            "value": "4",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "-": [
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "*": [
+                    [
+                        {
+                            "value": "2",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "==": [
+                    [
+                        {
+                            "value": "0",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "+": [
+                    [
+                        {
+                            "value": "2",
+                            "type": "uint256"
+                        }
+                    ],
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                ">": [
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ]
+            }
+        },
+        "MetarunToken": {
+            "grantRole(bytes32,address)": {
+                "&": [
+                    [
+                        {
+                            "value": "15",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                ">>": [
+                    [
+                        {
+                            "value": "4",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "-": [
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "*": [
+                    [
+                        {
+                            "value": "2",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "==": [
+                    [
+                        {
+                            "value": "0",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "+": [
+                    [
+                        {
+                            "value": "2",
+                            "type": "uint256"
+                        }
+                    ],
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                ">": [
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ]
+            },
+            "revokeRole(bytes32,address)": {
+                "&": [
+                    [
+                        {
+                            "value": "15",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                ">>": [
+                    [
+                        {
+                            "value": "4",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "-": [
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "*": [
+                    [
+                        {
+                            "value": "2",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "==": [
+                    [
+                        {
+                            "value": "0",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "+": [
+                    [
+                        {
+                            "value": "2",
+                            "type": "uint256"
+                        }
+                    ],
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                ">": [
+                    [
+                        {
+                            "value": "1",
+                            "type": "uint256"
+                        }
+                    ]
+                ]
+            },
+            "constructor()": {
+                "**": [
+                    [
+                        {
+                            "value": "10",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                ">": [
+                    [
+                        {
+                            "value": "0",
+                            "type": "uint256"
+                        }
+                    ]
+                ],
+                "*": [
+                    [
+                        {
+                            "value": "1000000000",
+                            "type": "uint256"
+                        }
+                    ]
+                ]
+            }
+        }
+    },
+    "functions_relations": {
+        "AccessControl": {
+            "supportsInterface(bytes4)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "hasRole(bytes32,address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)"
+                ]
+            },
+            "getRoleAdmin(bytes32)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)"
+                ]
+            },
+            "grantRole(bytes32,address)": {
+                "impacts": [
+                    "hasRole(bytes32,address)",
+                    "getRoleAdmin(bytes32)",
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)"
+                ],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)"
+                ]
+            },
+            "revokeRole(bytes32,address)": {
+                "impacts": [
+                    "hasRole(bytes32,address)",
+                    "getRoleAdmin(bytes32)",
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)"
+                ],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)"
+                ]
+            },
+            "renounceRole(bytes32,address)": {
+                "impacts": [
+                    "hasRole(bytes32,address)",
+                    "getRoleAdmin(bytes32)",
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)"
+                ],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)"
+                ]
+            }
+        },
+        "IAccessControl": {
+            "hasRole(bytes32,address)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "getRoleAdmin(bytes32)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "grantRole(bytes32,address)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "revokeRole(bytes32,address)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "renounceRole(bytes32,address)": {
+                "impacts": [],
+                "is_impacted_by": []
+            }
+        },
+        "ERC20": {
+            "constructor(string,string)": {
+                "impacts": [
+                    "name()",
+                    "symbol()"
+                ],
+                "is_impacted_by": []
+            },
+            "name()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "constructor(string,string)"
+                ]
+            },
+            "symbol()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "constructor(string,string)"
+                ]
+            },
+            "decimals()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "totalSupply()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "balanceOf(address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)"
+                ]
+            },
+            "transfer(address,uint256)": {
+                "impacts": [
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)"
+                ]
+            },
+            "allowance(address,address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "approve(address,uint256)": {
+                "impacts": [
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": []
+            },
+            "transferFrom(address,address,uint256)": {
+                "impacts": [
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "increaseAllowance(address,uint256)": {
+                "impacts": [
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "decreaseAllowance(address,uint256)": {
+                "impacts": [
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            }
+        },
+        "IERC20": {
+            "totalSupply()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "balanceOf(address)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "transfer(address,uint256)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "allowance(address,address)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "approve(address,uint256)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "transferFrom(address,address,uint256)": {
+                "impacts": [],
+                "is_impacted_by": []
+            }
+        },
+        "ERC20Burnable": {
+            "constructor(string,string)": {
+                "impacts": [
+                    "name()",
+                    "symbol()"
+                ],
+                "is_impacted_by": []
+            },
+            "name()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "constructor(string,string)"
+                ]
+            },
+            "symbol()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "constructor(string,string)"
+                ]
+            },
+            "decimals()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "totalSupply()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ]
+            },
+            "balanceOf(address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ]
+            },
+            "transfer(address,uint256)": {
+                "impacts": [
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ]
+            },
+            "allowance(address,address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burnFrom(address,uint256)"
+                ]
+            },
+            "approve(address,uint256)": {
+                "impacts": [
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burnFrom(address,uint256)"
+                ],
+                "is_impacted_by": []
+            },
+            "transferFrom(address,address,uint256)": {
+                "impacts": [
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ]
+            },
+            "increaseAllowance(address,uint256)": {
+                "impacts": [
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burnFrom(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burnFrom(address,uint256)"
+                ]
+            },
+            "decreaseAllowance(address,uint256)": {
+                "impacts": [
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burnFrom(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burnFrom(address,uint256)"
+                ]
+            },
+            "burn(uint256)": {
+                "impacts": [
+                    "totalSupply()",
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ]
+            },
+            "burnFrom(address,uint256)": {
+                "impacts": [
+                    "totalSupply()",
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)"
+                ]
+            }
+        },
+        "ERC20Capped": {
+            "constructor(string,string)": {
+                "impacts": [
+                    "name()",
+                    "symbol()"
+                ],
+                "is_impacted_by": []
+            },
+            "name()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "constructor(string,string)"
+                ]
+            },
+            "symbol()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "constructor(string,string)"
+                ]
+            },
+            "decimals()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "totalSupply()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "balanceOf(address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)"
+                ]
+            },
+            "transfer(address,uint256)": {
+                "impacts": [
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)"
+                ]
+            },
+            "allowance(address,address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "approve(address,uint256)": {
+                "impacts": [
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": []
+            },
+            "transferFrom(address,address,uint256)": {
+                "impacts": [
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "transfer(address,uint256)",
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "increaseAllowance(address,uint256)": {
+                "impacts": [
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "decreaseAllowance(address,uint256)": {
+                "impacts": [
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "cap()": {
+                "impacts": [],
+                "is_impacted_by": []
+            }
+        },
+        "IERC20Metadata": {
+            "totalSupply()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "balanceOf(address)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "transfer(address,uint256)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "allowance(address,address)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "approve(address,uint256)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "transferFrom(address,address,uint256)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "name()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "symbol()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "decimals()": {
+                "impacts": [],
+                "is_impacted_by": []
+            }
+        },
+        "Context": {},
+        "Strings": {},
+        "ERC165": {
+            "supportsInterface(bytes4)": {
+                "impacts": [],
+                "is_impacted_by": []
+            }
+        },
+        "IERC165": {
+            "supportsInterface(bytes4)": {
+                "impacts": [],
+                "is_impacted_by": []
+            }
+        },
+        "MetarunToken": {
+            "burn(uint256)": {
+                "impacts": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "totalSupply()",
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "mint(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "mint(address,uint256)"
+                ]
+            },
+            "burnFrom(address,uint256)": {
+                "impacts": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "totalSupply()",
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "mint(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "transfer(address,uint256)",
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "mint(address,uint256)"
+                ]
+            },
+            "constructor(string,string)": {
+                "impacts": [
+                    "name()",
+                    "symbol()"
+                ],
+                "is_impacted_by": []
+            },
+            "name()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "constructor(string,string)",
+                    "constructor()"
+                ]
+            },
+            "symbol()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "constructor(string,string)",
+                    "constructor()"
+                ]
+            },
+            "decimals()": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "totalSupply()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "mint(address,uint256)"
+                ]
+            },
+            "balanceOf(address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "mint(address,uint256)"
+                ]
+            },
+            "transfer(address,uint256)": {
+                "impacts": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "mint(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "mint(address,uint256)"
+                ]
+            },
+            "allowance(address,address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "burnFrom(address,uint256)",
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "approve(address,uint256)": {
+                "impacts": [
+                    "burnFrom(address,uint256)",
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": []
+            },
+            "transferFrom(address,address,uint256)": {
+                "impacts": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "mint(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "transfer(address,uint256)",
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)",
+                    "mint(address,uint256)"
+                ]
+            },
+            "increaseAllowance(address,uint256)": {
+                "impacts": [
+                    "burnFrom(address,uint256)",
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "burnFrom(address,uint256)",
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "decreaseAllowance(address,uint256)": {
+                "impacts": [
+                    "burnFrom(address,uint256)",
+                    "allowance(address,address)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "burnFrom(address,uint256)",
+                    "approve(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "increaseAllowance(address,uint256)",
+                    "decreaseAllowance(address,uint256)"
+                ]
+            },
+            "cap()": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "constructor()"
+                ]
+            },
+            "supportsInterface(bytes4)": {
+                "impacts": [],
+                "is_impacted_by": []
+            },
+            "hasRole(bytes32,address)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()"
+                ]
+            },
+            "getRoleAdmin(bytes32)": {
+                "impacts": [],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()"
+                ]
+            },
+            "grantRole(bytes32,address)": {
+                "impacts": [
+                    "hasRole(bytes32,address)",
+                    "getRoleAdmin(bytes32)",
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()",
+                    "mint(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()"
+                ]
+            },
+            "revokeRole(bytes32,address)": {
+                "impacts": [
+                    "hasRole(bytes32,address)",
+                    "getRoleAdmin(bytes32)",
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()",
+                    "mint(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()"
+                ]
+            },
+            "renounceRole(bytes32,address)": {
+                "impacts": [
+                    "hasRole(bytes32,address)",
+                    "getRoleAdmin(bytes32)",
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()",
+                    "mint(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()"
+                ]
+            },
+            "constructor()": {
+                "impacts": [
+                    "name()",
+                    "symbol()",
+                    "cap()",
+                    "hasRole(bytes32,address)",
+                    "getRoleAdmin(bytes32)",
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()",
+                    "mint(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()"
+                ]
+            },
+            "mint(address,uint256)": {
+                "impacts": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "totalSupply()",
+                    "balanceOf(address)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "mint(address,uint256)"
+                ],
+                "is_impacted_by": [
+                    "burn(uint256)",
+                    "burnFrom(address,uint256)",
+                    "transfer(address,uint256)",
+                    "transferFrom(address,address,uint256)",
+                    "grantRole(bytes32,address)",
+                    "revokeRole(bytes32,address)",
+                    "renounceRole(bytes32,address)",
+                    "constructor()",
+                    "mint(address,uint256)"
+                ]
+            }
+        }
+    },
+    "constructors": {
+        "ERC20": "constructor(string,string)",
+        "ERC20Burnable": "constructor(string,string)",
+        "ERC20Capped": "constructor(uint256)",
+        "MetarunToken": "constructor()"
+    },
+    "have_external_calls": {
+        "AccessControl": [
+            "revokeRole(bytes32,address)",
+            "grantRole(bytes32,address)"
+        ],
+        "MetarunToken": [
+            "revokeRole(bytes32,address)",
+            "grantRole(bytes32,address)"
+        ]
+    },
+    "call_a_parameter": {},
+    "use_balance": {}
+}
+. analyzed (12 contracts)

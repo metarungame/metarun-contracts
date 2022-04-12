@@ -1,0 +1,40 @@
+digraph "" {
+AccessControl -> Context [ label="1" ];
+AccessControl -> IAccessControl [ label="2" ];
+AccessControl -> ERC165 [ label="3" ];
+AccessControl[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>AccessControl</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left"><font color="#FFA500">    supportsInterface(bytes4)</font></TD></TR><TR><TD align="left"><font color="#FFA500">    hasRole(bytes32,address)</font></TD></TR><TR><TD align="left"><font color="#FFA500">    getRoleAdmin(bytes32)</font></TD></TR><TR><TD align="left"><font color="#FFA500">    grantRole(bytes32,address)</font></TD></TR><TR><TD align="left"><font color="#FFA500">    revokeRole(bytes32,address)</font></TD></TR><TR><TD align="left"><font color="#FFA500">    renounceRole(bytes32,address)</font></TD></TR><TR><TD align="left"><I>Private Functions:</I></TD></TR><TR><TD align="left">    _checkRole(bytes32,address)</TD></TR><TR><TD align="left">    _setupRole(bytes32,address)</TD></TR><TR><TD align="left">    _setRoleAdmin(bytes32,bytes32)</TD></TR><TR><TD align="left">    _grantRole(bytes32,address)</TD></TR><TR><TD align="left">    _revokeRole(bytes32,address)</TD></TR><TR><TD align="left"><I>Modifiers:</I></TD></TR><TR><TD align="left">    onlyRole(bytes32)</TD></TR><TR><TD align="left"><I>Public Variables:</I></TD></TR><TR><TD align="left">    DEFAULT_ADMIN_ROLE</TD></TR><TR><TD align="left"><I>Private Variables:</I></TD></TR><TR><TD align="left">    _roles</TD></TR></TABLE> >];
+
+IAccessControl[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>IAccessControl</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left">    hasRole(bytes32,address)</TD></TR><TR><TD align="left">    getRoleAdmin(bytes32)</TD></TR><TR><TD align="left">    grantRole(bytes32,address)</TD></TR><TR><TD align="left">    revokeRole(bytes32,address)</TD></TR><TR><TD align="left">    renounceRole(bytes32,address)</TD></TR></TABLE> >];
+
+ERC20 -> Context [ label="1" ];
+ERC20 -> IERC20 [ label="2" ];
+ERC20 -> IERC20Metadata [ label="3" ];
+ERC20[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>ERC20</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left"><font color="#FFA500">    name()</font></TD></TR><TR><TD align="left"><font color="#FFA500">    symbol()</font></TD></TR><TR><TD align="left"><font color="#FFA500">    decimals()</font></TD></TR><TR><TD align="left"><font color="#FFA500">    totalSupply()</font></TD></TR><TR><TD align="left"><font color="#FFA500">    balanceOf(address)</font></TD></TR><TR><TD align="left"><font color="#FFA500">    transfer(address,uint256)</font></TD></TR><TR><TD align="left"><font color="#FFA500">    allowance(address,address)</font></TD></TR><TR><TD align="left"><font color="#FFA500">    approve(address,uint256)</font></TD></TR><TR><TD align="left"><font color="#FFA500">    transferFrom(address,address,uint256)</font></TD></TR><TR><TD align="left">    increaseAllowance(address,uint256)</TD></TR><TR><TD align="left">    decreaseAllowance(address,uint256)</TD></TR><TR><TD align="left"><I>Private Functions:</I></TD></TR><TR><TD align="left">    _transfer(address,address,uint256)</TD></TR><TR><TD align="left">    _mint(address,uint256)</TD></TR><TR><TD align="left">    _burn(address,uint256)</TD></TR><TR><TD align="left">    _approve(address,address,uint256)</TD></TR><TR><TD align="left">    _beforeTokenTransfer(address,address,uint256)</TD></TR><TR><TD align="left">    _afterTokenTransfer(address,address,uint256)</TD></TR><TR><TD align="left"><I>Private Variables:</I></TD></TR><TR><TD align="left">    _balances</TD></TR><TR><TD align="left">    _allowances</TD></TR><TR><TD align="left">    _totalSupply</TD></TR><TR><TD align="left">    _name</TD></TR><TR><TD align="left">    _symbol</TD></TR></TABLE> >];
+
+IERC20[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>IERC20</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left">    totalSupply()</TD></TR><TR><TD align="left">    balanceOf(address)</TD></TR><TR><TD align="left">    transfer(address,uint256)</TD></TR><TR><TD align="left">    allowance(address,address)</TD></TR><TR><TD align="left">    approve(address,uint256)</TD></TR><TR><TD align="left">    transferFrom(address,address,uint256)</TD></TR></TABLE> >];
+
+ERC20Burnable -> Context [ label="1" ];
+ERC20Burnable -> ERC20 [ label="2" ];
+ERC20Burnable[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>ERC20Burnable</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left">    burn(uint256)</TD></TR><TR><TD align="left">    burnFrom(address,uint256)</TD></TR></TABLE> >];
+
+ERC20Capped -> ERC20;
+ERC20Capped[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>ERC20Capped</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left">    cap()</TD></TR><TR><TD align="left"><I>Private Functions:</I></TD></TR><TR><TD align="left"><font color="#FFA500">    _mint(address,uint256)</font></TD></TR><TR><TD align="left"><I>Private Variables:</I></TD></TR><TR><TD align="left">    _cap</TD></TR></TABLE> >];
+
+IERC20Metadata -> IERC20;
+IERC20Metadata[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>IERC20Metadata</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left">    name()</TD></TR><TR><TD align="left">    symbol()</TD></TR><TR><TD align="left">    decimals()</TD></TR></TABLE> >];
+
+Context[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>Context</B></TD></TR><TR><TD align="left"><I>Private Functions:</I></TD></TR><TR><TD align="left">    _msgSender()</TD></TR><TR><TD align="left">    _msgData()</TD></TR></TABLE> >];
+
+Strings[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>Strings</B></TD></TR><TR><TD align="left"><I>Private Functions:</I></TD></TR><TR><TD align="left">    toString(uint256)</TD></TR><TR><TD align="left">    toHexString(uint256)</TD></TR><TR><TD align="left">    toHexString(uint256,uint256)</TD></TR><TR><TD align="left"><I>Private Variables:</I></TD></TR><TR><TD align="left">    _HEX_SYMBOLS</TD></TR></TABLE> >];
+
+ERC165 -> IERC165;
+ERC165[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>ERC165</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left"><font color="#FFA500">    supportsInterface(bytes4)</font></TD></TR></TABLE> >];
+
+IERC165[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>IERC165</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left">    supportsInterface(bytes4)</TD></TR></TABLE> >];
+
+MetarunToken -> AccessControl [ label="1" ];
+MetarunToken -> ERC20Capped [ label="2" ];
+MetarunToken -> ERC20Burnable [ label="3" ];
+MetarunToken[shape="box"label=< <TABLE border="0"><TR><TD align="center"><B>MetarunToken</B></TD></TR><TR><TD align="left"><I>Public Functions:</I></TD></TR><TR><TD align="left">    mint(address,uint256)</TD></TR><TR><TD align="left"><I>Private Functions:</I></TD></TR><TR><TD align="left"><font color="#FFA500">    _mint(address,uint256)</font></TD></TR><TR><TD align="left"><I>Public Variables:</I></TD></TR><TR><TD align="left">    MINTER_ROLE</TD></TR></TABLE> >];
+
+}

@@ -1,0 +1,24 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(ERC20.totalSupply() + amount <= cap(),ERC20Capped: cap exceeded)
+
+IRs:
+TMP_236(uint256) = INTERNAL_CALL, ERC20.totalSupply()()
+TMP_237(uint256) = TMP_236 (c)+ amount
+TMP_238(uint256) = INTERNAL_CALL, ERC20Capped.cap()()
+TMP_239(bool) = TMP_237 <= TMP_238
+TMP_240(None) = SOLIDITY_CALL require(bool,string)(TMP_239,ERC20Capped: cap exceeded)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+super._mint(account,amount)
+
+IRs:
+INTERNAL_CALL, ERC20._mint(address,uint256)(account,amount)"];
+}

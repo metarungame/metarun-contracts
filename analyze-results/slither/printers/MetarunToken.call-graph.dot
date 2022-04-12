@@ -1,0 +1,154 @@
+strict digraph {
+subgraph cluster_1504_MetarunToken {
+label = "MetarunToken"
+"1504_constructor" [label="constructor"]
+"1504__mint" [label="_mint"]
+"1504_mint" [label="mint"]
+"1504_slitherConstructorConstantVariables" [label="slitherConstructorConstantVariables"]
+"1504_mint" -> "1504__mint"
+"1504_constructor" -> "1504__setupRole"
+"1504_constructor" -> "1504_constructor"
+"1504_mint" -> "1504_hasRole"
+"1504_constructor" -> "1504__msgSender"
+"1504__mint" -> "1504__mint"
+"1504_mint" -> "1504__msgSender"
+"1504_constructor" -> "1504_decimals"
+}subgraph cluster_1157_IERC20Metadata {
+label = "IERC20Metadata"
+"1157_decimals" [label="decimals"]
+"1157_symbol" [label="symbol"]
+"1157_name" [label="name"]
+}subgraph cluster_1418_IERC165 {
+label = "IERC165"
+"1418_supportsInterface" [label="supportsInterface"]
+}subgraph cluster_1067_ERC20Burnable {
+label = "ERC20Burnable"
+"1067_burn" [label="burn"]
+"1067_burnFrom" [label="burnFrom"]
+"1067_burn" -> "1067__burn"
+"1067_burnFrom" -> "1067__burn"
+"1067_burnFrom" -> "1067__msgSender"
+"1067_burn" -> "1067__msgSender"
+"1067_burnFrom" -> "1067_allowance"
+"1067_burnFrom" -> "1067__approve"
+}subgraph cluster_1132_ERC20Capped {
+label = "ERC20Capped"
+"1132__mint" [label="_mint"]
+"1132_constructor" [label="constructor"]
+"1132_cap" [label="cap"]
+"1132__mint" -> "1132_totalSupply"
+"1132__mint" -> "1132_cap"
+"1132__mint" -> "1132__mint"
+}subgraph cluster_1005_IERC20 {
+label = "IERC20"
+"1005_approve" [label="approve"]
+"1005_transfer" [label="transfer"]
+"1005_allowance" [label="allowance"]
+"1005_totalSupply" [label="totalSupply"]
+"1005_balanceOf" [label="balanceOf"]
+"1005_transferFrom" [label="transferFrom"]
+}subgraph cluster_308_AccessControl {
+label = "AccessControl"
+"308_hasRole" [label="hasRole"]
+"308__grantRole" [label="_grantRole"]
+"308_revokeRole" [label="revokeRole"]
+"308_grantRole" [label="grantRole"]
+"308__setupRole" [label="_setupRole"]
+"308_supportsInterface" [label="supportsInterface"]
+"308__setRoleAdmin" [label="_setRoleAdmin"]
+"308__revokeRole" [label="_revokeRole"]
+"308__checkRole" [label="_checkRole"]
+"308_getRoleAdmin" [label="getRoleAdmin"]
+"308_renounceRole" [label="renounceRole"]
+"308__grantRole" -> "308_hasRole"
+"308__setRoleAdmin" -> "308_getRoleAdmin"
+"308_revokeRole" -> "308_getRoleAdmin"
+"308_grantRole" -> "308_getRoleAdmin"
+"308_renounceRole" -> "308__msgSender"
+"308_supportsInterface" -> "308_supportsInterface"
+"308__revokeRole" -> "308__msgSender"
+"308_grantRole" -> "308_onlyRole"
+"308__checkRole" -> "308_hasRole"
+"308_revokeRole" -> "308__revokeRole"
+"308__setupRole" -> "308__grantRole"
+"308_revokeRole" -> "308_onlyRole"
+"308__revokeRole" -> "308_hasRole"
+"308__grantRole" -> "308__msgSender"
+"308_renounceRole" -> "308__revokeRole"
+"308_grantRole" -> "308__grantRole"
+}subgraph cluster_1179_Context {
+label = "Context"
+"1179__msgData" [label="_msgData"]
+"1179__msgSender" [label="_msgSender"]
+}subgraph cluster_381_IAccessControl {
+label = "IAccessControl"
+"381_renounceRole" [label="renounceRole"]
+"381_hasRole" [label="hasRole"]
+"381_revokeRole" [label="revokeRole"]
+"381_grantRole" [label="grantRole"]
+"381_getRoleAdmin" [label="getRoleAdmin"]
+}subgraph cluster_1406_ERC165 {
+label = "ERC165"
+"1406_supportsInterface" [label="supportsInterface"]
+}subgraph cluster_927_ERC20 {
+label = "ERC20"
+"927_symbol" [label="symbol"]
+"927_transferFrom" [label="transferFrom"]
+"927_decreaseAllowance" [label="decreaseAllowance"]
+"927_constructor" [label="constructor"]
+"927_allowance" [label="allowance"]
+"927_totalSupply" [label="totalSupply"]
+"927_increaseAllowance" [label="increaseAllowance"]
+"927__approve" [label="_approve"]
+"927_decimals" [label="decimals"]
+"927__burn" [label="_burn"]
+"927_transfer" [label="transfer"]
+"927_balanceOf" [label="balanceOf"]
+"927_approve" [label="approve"]
+"927__mint" [label="_mint"]
+"927__afterTokenTransfer" [label="_afterTokenTransfer"]
+"927_name" [label="name"]
+"927__beforeTokenTransfer" [label="_beforeTokenTransfer"]
+"927__transfer" [label="_transfer"]
+"927_increaseAllowance" -> "927__msgSender"
+"927_transfer" -> "927__msgSender"
+"927_approve" -> "927__msgSender"
+"927_approve" -> "927__approve"
+"927__burn" -> "927__beforeTokenTransfer"
+"927_decreaseAllowance" -> "927__msgSender"
+"927_transferFrom" -> "927__approve"
+"927_transferFrom" -> "927__msgSender"
+"927__mint" -> "927__afterTokenTransfer"
+"927__burn" -> "927__afterTokenTransfer"
+"927__mint" -> "927__beforeTokenTransfer"
+"927__transfer" -> "927__afterTokenTransfer"
+"927_transfer" -> "927__transfer"
+"927_decreaseAllowance" -> "927__approve"
+"927_transferFrom" -> "927__transfer"
+"927__transfer" -> "927__beforeTokenTransfer"
+"927_increaseAllowance" -> "927__approve"
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"require(bool,string)" 
+"abi.encodePacked()" 
+"revert(string)" 
+"keccak256(bytes)" 
+"type()" 
+"927__mint" -> "require(bool,string)"
+"1132_constructor" -> "require(bool,string)"
+"308_renounceRole" -> "require(bool,string)"
+"1504_slitherConstructorConstantVariables" -> "keccak256(bytes)"
+"308__checkRole" -> "abi.encodePacked()"
+"927__transfer" -> "require(bool,string)"
+"1406_supportsInterface" -> "type()"
+"1132__mint" -> "require(bool,string)"
+"927_transferFrom" -> "require(bool,string)"
+"927__approve" -> "require(bool,string)"
+"308_supportsInterface" -> "type()"
+"927_decreaseAllowance" -> "require(bool,string)"
+"927__burn" -> "require(bool,string)"
+"1504_mint" -> "require(bool,string)"
+"1067_burnFrom" -> "require(bool,string)"
+"308__checkRole" -> "revert(string)"
+}
+}

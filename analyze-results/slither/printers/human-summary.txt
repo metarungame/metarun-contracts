@@ -1,0 +1,33 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+
+Compiled with Builder
+Number of lines: 40 (+ 1002 in dependencies, + 0 in tests)
+Number of assembly lines: 0
+Number of contracts: 1 (+ 11 in dependencies, + 0 tests) 
+
+Number of optimization issues: 14
+Number of informational issues: 13
+Number of low issues: 0
+Number of medium issues: 0
+Number of high issues: 0
+
+
+Use: Openzeppelin-ERC20
+ERCs: ERC20, ERC165
+
++--------------+-------------+--------------+--------------------+--------------+----------+
+|     Name     | # functions |     ERCS     |     ERC20 info     | Complex code | Features |
++--------------+-------------+--------------+--------------------+--------------+----------+
+| MetarunToken |      56     | ERC20,ERC165 |     ∞ Minting      |      No      |          |
+|              |             |              | Approve Race Cond. |              |          |
+|              |             |              |                    |              |          |
++--------------+-------------+--------------+--------------------+--------------+----------+
+. analyzed (12 contracts)

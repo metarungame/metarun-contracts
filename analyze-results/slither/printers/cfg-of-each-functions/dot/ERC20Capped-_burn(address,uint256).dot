@@ -1,0 +1,77 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(account != address(0),ERC20: burn from the zero address)
+
+IRs:
+TMP_215 = CONVERT 0 to address
+TMP_216(bool) = account != TMP_215
+TMP_217(None) = SOLIDITY_CALL require(bool,string)(TMP_216,ERC20: burn from the zero address)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+_beforeTokenTransfer(account,address(0),amount)
+
+IRs:
+TMP_218 = CONVERT 0 to address
+INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(account,TMP_218,amount)"];
+2->3;
+3[label="Node Type: NEW VARIABLE 3
+
+EXPRESSION:
+accountBalance = _balances[account]
+
+IRs:
+REF_65(uint256) -> _balances[account]
+accountBalance(uint256) := REF_65(uint256)"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+require(bool,string)(accountBalance >= amount,ERC20: burn amount exceeds balance)
+
+IRs:
+TMP_220(bool) = accountBalance >= amount
+TMP_221(None) = SOLIDITY_CALL require(bool,string)(TMP_220,ERC20: burn amount exceeds balance)"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+_balances[account] = accountBalance - amount
+
+IRs:
+REF_66(uint256) -> _balances[account]
+TMP_222(uint256) = accountBalance - amount
+REF_66 (->_balances) := TMP_222(uint256)"];
+5->6;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+_totalSupply -= amount
+
+IRs:
+_totalSupply(uint256) = _totalSupply (c)- amount"];
+6->7;
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+Transfer(account,address(0),amount)
+
+IRs:
+TMP_223 = CONVERT 0 to address
+Emit Transfer(account.TMP_223.amount)"];
+7->8;
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+_afterTokenTransfer(account,address(0),amount)
+
+IRs:
+TMP_225 = CONVERT 0 to address
+INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(account,TMP_225,amount)"];
+}

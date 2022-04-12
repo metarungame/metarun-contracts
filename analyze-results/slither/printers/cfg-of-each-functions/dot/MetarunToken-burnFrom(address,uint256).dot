@@ -1,0 +1,41 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+currentAllowance = allowance(account,_msgSender())
+
+IRs:
+TMP_273(address) = INTERNAL_CALL, Context._msgSender()()
+TMP_274(uint256) = INTERNAL_CALL, ERC20.allowance(address,address)(account,TMP_273)
+currentAllowance(uint256) := TMP_274(uint256)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+require(bool,string)(currentAllowance >= amount,ERC20: burn amount exceeds allowance)
+
+IRs:
+TMP_275(bool) = currentAllowance >= amount
+TMP_276(None) = SOLIDITY_CALL require(bool,string)(TMP_275,ERC20: burn amount exceeds allowance)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+_approve(account,_msgSender(),currentAllowance - amount)
+
+IRs:
+TMP_277(address) = INTERNAL_CALL, Context._msgSender()()
+TMP_278(uint256) = currentAllowance - amount
+INTERNAL_CALL, ERC20._approve(address,address,uint256)(account,TMP_277,TMP_278)"];
+3->4;
+4[label="Node Type: EXPRESSION 4
+
+EXPRESSION:
+_burn(account,amount)
+
+IRs:
+INTERNAL_CALL, ERC20._burn(address,uint256)(account,amount)"];
+}

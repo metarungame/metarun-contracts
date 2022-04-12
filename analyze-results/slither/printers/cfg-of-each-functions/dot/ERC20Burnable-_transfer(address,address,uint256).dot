@@ -1,0 +1,85 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(sender != address(0),ERC20: transfer from the zero address)
+
+IRs:
+TMP_123 = CONVERT 0 to address
+TMP_124(bool) = sender != TMP_123
+TMP_125(None) = SOLIDITY_CALL require(bool,string)(TMP_124,ERC20: transfer from the zero address)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)
+
+IRs:
+TMP_126 = CONVERT 0 to address
+TMP_127(bool) = recipient != TMP_126
+TMP_128(None) = SOLIDITY_CALL require(bool,string)(TMP_127,ERC20: transfer to the zero address)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+_beforeTokenTransfer(sender,recipient,amount)
+
+IRs:
+INTERNAL_CALL, ERC20._beforeTokenTransfer(address,address,uint256)(sender,recipient,amount)"];
+3->4;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+senderBalance = _balances[sender]
+
+IRs:
+REF_44(uint256) -> _balances[sender]
+senderBalance(uint256) := REF_44(uint256)"];
+4->5;
+5[label="Node Type: EXPRESSION 5
+
+EXPRESSION:
+require(bool,string)(senderBalance >= amount,ERC20: transfer amount exceeds balance)
+
+IRs:
+TMP_130(bool) = senderBalance >= amount
+TMP_131(None) = SOLIDITY_CALL require(bool,string)(TMP_130,ERC20: transfer amount exceeds balance)"];
+5->6;
+6[label="Node Type: EXPRESSION 6
+
+EXPRESSION:
+_balances[sender] = senderBalance - amount
+
+IRs:
+REF_45(uint256) -> _balances[sender]
+TMP_132(uint256) = senderBalance - amount
+REF_45 (->_balances) := TMP_132(uint256)"];
+6->7;
+7[label="Node Type: EXPRESSION 7
+
+EXPRESSION:
+_balances[recipient] += amount
+
+IRs:
+REF_46(uint256) -> _balances[recipient]
+REF_46(-> _balances) = REF_46 (c)+ amount"];
+7->8;
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+Transfer(sender,recipient,amount)
+
+IRs:
+Emit Transfer(sender.recipient.amount)"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+_afterTokenTransfer(sender,recipient,amount)
+
+IRs:
+INTERNAL_CALL, ERC20._afterTokenTransfer(address,address,uint256)(sender,recipient,amount)"];
+}

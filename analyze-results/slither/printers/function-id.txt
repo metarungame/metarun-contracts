@@ -1,0 +1,64 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+
+Strings:
++------+----+
+| Name | ID |
++------+----+
++------+----+
+
+MetarunToken:
++---------------------------------------+------------+
+|                  Name                 |     ID     |
++---------------------------------------+------------+
+|             burn(uint256)             | 0x42966c68 |
+|       burnFrom(address,uint256)       | 0x79cc6790 |
+|       constructor(string,string)      | 0xd4d8c5c3 |
+|                 name()                | 0x06fdde03 |
+|                symbol()               | 0x95d89b41 |
+|               decimals()              | 0x313ce567 |
+|             totalSupply()             | 0x18160ddd |
+|           balanceOf(address)          | 0x70a08231 |
+|       transfer(address,uint256)       | 0xa9059cbb |
+|       allowance(address,address)      | 0xdd62ed3e |
+|        approve(address,uint256)       | 0x095ea7b3 |
+| transferFrom(address,address,uint256) | 0x23b872dd |
+|   increaseAllowance(address,uint256)  | 0x39509351 |
+|   decreaseAllowance(address,uint256)  | 0xa457c2d7 |
+|                 name()                | 0x06fdde03 |
+|                symbol()               | 0x95d89b41 |
+|               decimals()              | 0x313ce567 |
+|             totalSupply()             | 0x18160ddd |
+|           balanceOf(address)          | 0x70a08231 |
+|       transfer(address,uint256)       | 0xa9059cbb |
+|       allowance(address,address)      | 0xdd62ed3e |
+|        approve(address,uint256)       | 0x095ea7b3 |
+| transferFrom(address,address,uint256) | 0x23b872dd |
+|                 cap()                 | 0x355274ea |
+|       supportsInterface(bytes4)       | 0x01ffc9a7 |
+|        hasRole(bytes32,address)       | 0x91d14854 |
+|         getRoleAdmin(bytes32)         | 0x248a9ca3 |
+|       grantRole(bytes32,address)      | 0x2f2ff15d |
+|      revokeRole(bytes32,address)      | 0xd547741f |
+|     renounceRole(bytes32,address)     | 0x36568abe |
+|       supportsInterface(bytes4)       | 0x01ffc9a7 |
+|       supportsInterface(bytes4)       | 0x01ffc9a7 |
+|        hasRole(bytes32,address)       | 0x91d14854 |
+|         getRoleAdmin(bytes32)         | 0x248a9ca3 |
+|       grantRole(bytes32,address)      | 0x2f2ff15d |
+|      revokeRole(bytes32,address)      | 0xd547741f |
+|     renounceRole(bytes32,address)     | 0x36568abe |
+|             constructor()             | 0x90fa17bb |
+|         mint(address,uint256)         | 0x40c10f19 |
+|          DEFAULT_ADMIN_ROLE()         | 0xa217fddf |
+|             MINTER_ROLE()             | 0xd5391393 |
++---------------------------------------+------------+
+
+. analyzed (12 contracts)

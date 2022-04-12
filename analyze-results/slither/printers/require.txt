@@ -1,0 +1,106 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+
+Contract Strings
++-------------------------------------+-------------------------------------------------------------------+
+|               Function              |                         require or assert                         |
++-------------------------------------+-------------------------------------------------------------------+
+|               toString              |                                                                   |
+|             toHexString             | require(bool,string)(value == 0,Strings: hex length insufficient) |
+|             toHexString             | require(bool,string)(value == 0,Strings: hex length insufficient) |
+| slitherConstructorConstantVariables |                                                                   |
++-------------------------------------+-------------------------------------------------------------------+
+
+Contract MetarunToken
++-------------------------------------+-------------------------------------------------------------------------------------------------+
+|               Function              |                                        require or assert                                        |
++-------------------------------------+-------------------------------------------------------------------------------------------------+
+|                 burn                |        require(bool,string)(accountBalance >= amount,ERC20: burn amount exceeds balance)        |
+|                                     |          require(bool,string)(account != address(0),ERC20: burn from the zero address)          |
+|               burnFrom              |          require(bool,string)(owner != address(0),ERC20: approve from the zero address)         |
+|                                     |        require(bool,string)(accountBalance >= amount,ERC20: burn amount exceeds balance)        |
+|                                     |      require(bool,string)(currentAllowance >= amount,ERC20: burn amount exceeds allowance)      |
+|                                     |          require(bool,string)(account != address(0),ERC20: burn from the zero address)          |
+|                                     |          require(bool,string)(spender != address(0),ERC20: approve to the zero address)         |
+|             constructor             |                                                                                                 |
+|                 name                |                                                                                                 |
+|                symbol               |                                                                                                 |
+|               decimals              |                                                                                                 |
+|             totalSupply             |                                                                                                 |
+|              balanceOf              |                                                                                                 |
+|               transfer              |         require(bool,string)(sender != address(0),ERC20: transfer from the zero address)        |
+|                                     |        require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)        |
+|                                     |       require(bool,string)(senderBalance >= amount,ERC20: transfer amount exceeds balance)      |
+|              allowance              |                                                                                                 |
+|               approve               |          require(bool,string)(spender != address(0),ERC20: approve to the zero address)         |
+|                                     |          require(bool,string)(owner != address(0),ERC20: approve from the zero address)         |
+|             transferFrom            |          require(bool,string)(owner != address(0),ERC20: approve from the zero address)         |
+|                                     |         require(bool,string)(sender != address(0),ERC20: transfer from the zero address)        |
+|                                     |    require(bool,string)(currentAllowance >= amount,ERC20: transfer amount exceeds allowance)    |
+|                                     |        require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)        |
+|                                     |       require(bool,string)(senderBalance >= amount,ERC20: transfer amount exceeds balance)      |
+|                                     |          require(bool,string)(spender != address(0),ERC20: approve to the zero address)         |
+|          increaseAllowance          |          require(bool,string)(spender != address(0),ERC20: approve to the zero address)         |
+|                                     |          require(bool,string)(owner != address(0),ERC20: approve from the zero address)         |
+|          decreaseAllowance          | require(bool,string)(currentAllowance >= subtractedValue,ERC20: decreased allowance below zero) |
+|                                     |          require(bool,string)(spender != address(0),ERC20: approve to the zero address)         |
+|                                     |          require(bool,string)(owner != address(0),ERC20: approve from the zero address)         |
+|              _transfer              |         require(bool,string)(sender != address(0),ERC20: transfer from the zero address)        |
+|                                     |        require(bool,string)(recipient != address(0),ERC20: transfer to the zero address)        |
+|                                     |       require(bool,string)(senderBalance >= amount,ERC20: transfer amount exceeds balance)      |
+|                _mint                |           require(bool,string)(account != address(0),ERC20: mint to the zero address)           |
+|                _burn                |        require(bool,string)(accountBalance >= amount,ERC20: burn amount exceeds balance)        |
+|                                     |          require(bool,string)(account != address(0),ERC20: burn from the zero address)          |
+|               _approve              |          require(bool,string)(spender != address(0),ERC20: approve to the zero address)         |
+|                                     |          require(bool,string)(owner != address(0),ERC20: approve from the zero address)         |
+|         _beforeTokenTransfer        |                                                                                                 |
+|         _afterTokenTransfer         |                                                                                                 |
+|                 name                |                                                                                                 |
+|                symbol               |                                                                                                 |
+|               decimals              |                                                                                                 |
+|             totalSupply             |                                                                                                 |
+|              balanceOf              |                                                                                                 |
+|               transfer              |                                                                                                 |
+|              allowance              |                                                                                                 |
+|               approve               |                                                                                                 |
+|             transferFrom            |                                                                                                 |
+|              _msgSender             |                                                                                                 |
+|               _msgData              |                                                                                                 |
+|             constructor             |                       require(bool,string)(cap_ > 0,ERC20Capped: cap is 0)                      |
+|                 cap                 |                                                                                                 |
+|                _mint                |      require(bool,string)(ERC20.totalSupply() + amount <= cap(),ERC20Capped: cap exceeded)      |
+|                                     |           require(bool,string)(account != address(0),ERC20: mint to the zero address)           |
+|          supportsInterface          |                                                                                                 |
+|               hasRole               |                                                                                                 |
+|              _checkRole             |                require(bool,string)(value == 0,Strings: hex length insufficient)                |
+|             getRoleAdmin            |                                                                                                 |
+|              grantRole              |                require(bool,string)(value == 0,Strings: hex length insufficient)                |
+|              revokeRole             |                require(bool,string)(value == 0,Strings: hex length insufficient)                |
+|             renounceRole            |  require(bool,string)(account == _msgSender(),AccessControl: can only renounce roles for self)  |
+|              _setupRole             |                                                                                                 |
+|            _setRoleAdmin            |                                                                                                 |
+|              _grantRole             |                                                                                                 |
+|             _revokeRole             |                                                                                                 |
+|          supportsInterface          |                                                                                                 |
+|          supportsInterface          |                                                                                                 |
+|               hasRole               |                                                                                                 |
+|             getRoleAdmin            |                                                                                                 |
+|              grantRole              |                                                                                                 |
+|              revokeRole             |                                                                                                 |
+|             renounceRole            |                                                                                                 |
+|             constructor             |                       require(bool,string)(cap_ > 0,ERC20Capped: cap is 0)                      |
+|                _mint                |      require(bool,string)(ERC20.totalSupply() + amount <= cap(),ERC20Capped: cap exceeded)      |
+|                                     |           require(bool,string)(account != address(0),ERC20: mint to the zero address)           |
+|                 mint                |        require(bool,string)(hasRole(MINTER_ROLE,_msgSender()),METARUN: need MINTER_ROLE)        |
+|                                     |      require(bool,string)(ERC20.totalSupply() + amount <= cap(),ERC20Capped: cap exceeded)      |
+|                                     |           require(bool,string)(account != address(0),ERC20: mint to the zero address)           |
+| slitherConstructorConstantVariables |                                                                                                 |
++-------------------------------------+-------------------------------------------------------------------------------------------------+
+. analyzed (12 contracts)

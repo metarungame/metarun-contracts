@@ -1,0 +1,21 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+require(bool,string)(cap_ > 0,ERC20Capped: cap is 0)
+
+IRs:
+TMP_342(bool) = cap_ > 0
+TMP_343(None) = SOLIDITY_CALL require(bool,string)(TMP_342,ERC20Capped: cap is 0)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+_cap = cap_
+
+IRs:
+_cap(uint256) := cap_(uint256)"];
+}

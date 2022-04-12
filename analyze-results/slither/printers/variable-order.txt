@@ -1,0 +1,30 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+
+Strings:
++------+------+------+--------+
+| Name | Type | Slot | Offset |
++------+------+------+--------+
++------+------+------+--------+
+
+MetarunToken:
++----------------------+-------------------------------------------------+------+--------+
+|         Name         |                       Type                      | Slot | Offset |
++----------------------+-------------------------------------------------+------+--------+
+| AccessControl._roles |    mapping(bytes32 => AccessControl.RoleData)   |  0   |   0    |
+|   ERC20._balances    |           mapping(address => uint256)           |  1   |   0    |
+|  ERC20._allowances   | mapping(address => mapping(address => uint256)) |  2   |   0    |
+|  ERC20._totalSupply  |                     uint256                     |  3   |   0    |
+|     ERC20._name      |                      string                     |  4   |   0    |
+|    ERC20._symbol     |                      string                     |  5   |   0    |
+|   ERC20Capped._cap   |                     uint256                     |  6   |   0    |
++----------------------+-------------------------------------------------+------+--------+
+
+. analyzed (12 contracts)

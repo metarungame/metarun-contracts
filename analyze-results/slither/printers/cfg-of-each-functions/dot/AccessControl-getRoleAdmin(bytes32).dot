@@ -1,0 +1,14 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: RETURN 1
+
+EXPRESSION:
+_roles[role].adminRole
+
+IRs:
+REF_8(AccessControl.RoleData) -> _roles[role]
+REF_9(bytes32) -> REF_8.adminRole
+RETURN REF_9"];
+}

@@ -1,0 +1,13 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+_burn(_msgSender(),amount)
+
+IRs:
+TMP_163(address) = INTERNAL_CALL, Context._msgSender()()
+INTERNAL_CALL, ERC20._burn(address,uint256)(TMP_163,amount)"];
+}

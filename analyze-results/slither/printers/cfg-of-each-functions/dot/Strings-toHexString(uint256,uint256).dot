@@ -1,0 +1,104 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: NEW VARIABLE 1
+
+EXPRESSION:
+buffer = new bytes(2 * length + 2)
+
+IRs:
+TMP_259(uint256) = 2 (c)* length
+TMP_260(uint256) = TMP_259 (c)+ 2
+TMP_261 = new bytes(TMP_260)
+buffer(bytes) := TMP_261(bytes)"];
+1->2;
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+buffer[0] = 0
+
+IRs:
+REF_71(string) -> buffer[0]
+REF_71 (->buffer) := 0(string)"];
+2->3;
+3[label="Node Type: EXPRESSION 3
+
+EXPRESSION:
+buffer[1] = x
+
+IRs:
+REF_72(string) -> buffer[1]
+REF_72 (->buffer) := x(string)"];
+3->6;
+4[label="Node Type: BEGIN_LOOP 4
+"];
+4->7;
+5[label="Node Type: END_LOOP 5
+"];
+5->11;
+6[label="Node Type: NEW VARIABLE 6
+
+EXPRESSION:
+i = 2 * length + 1
+
+IRs:
+TMP_262(uint256) = 2 (c)* length
+TMP_263(uint256) = TMP_262 (c)+ 1
+i(uint256) := TMP_263(uint256)"];
+6->4;
+7[label="Node Type: IF_LOOP 7
+
+EXPRESSION:
+i > 1
+
+IRs:
+TMP_264(bool) = i > 1
+CONDITION TMP_264"];
+7->8[label="True"];
+7->5[label="False"];
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+buffer[i] = _HEX_SYMBOLS[value & 0xf]
+
+IRs:
+REF_73(None) -> buffer[i]
+TMP_265(uint256) = value & 15
+REF_74(None) -> _HEX_SYMBOLS[TMP_265]
+REF_73 (->buffer) := REF_74(None)"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+value >>= 4
+
+IRs:
+value(uint256) = value >> 4"];
+9->10;
+10[label="Node Type: EXPRESSION 10
+
+EXPRESSION:
+-- i
+
+IRs:
+i(uint256) = i (c)- 1"];
+10->7;
+11[label="Node Type: EXPRESSION 11
+
+EXPRESSION:
+require(bool,string)(value == 0,Strings: hex length insufficient)
+
+IRs:
+TMP_266(bool) = value == 0
+TMP_267(None) = SOLIDITY_CALL require(bool,string)(TMP_266,Strings: hex length insufficient)"];
+11->12;
+12[label="Node Type: RETURN 12
+
+EXPRESSION:
+string(buffer)
+
+IRs:
+TMP_268 = CONVERT buffer to string
+RETURN TMP_268"];
+}

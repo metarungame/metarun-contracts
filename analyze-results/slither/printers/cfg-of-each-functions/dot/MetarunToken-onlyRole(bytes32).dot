@@ -1,0 +1,16 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: EXPRESSION 1
+
+EXPRESSION:
+_checkRole(role,_msgSender())
+
+IRs:
+TMP_408(address) = INTERNAL_CALL, Context._msgSender()()
+INTERNAL_CALL, AccessControl._checkRole(bytes32,address)(role,TMP_408)"];
+1->2;
+2[label="Node Type: _ 2
+"];
+}

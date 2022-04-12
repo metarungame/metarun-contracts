@@ -1,0 +1,32 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+! hasRole(role,account)
+
+IRs:
+TMP_354(bool) = INTERNAL_CALL, AccessControl.hasRole(bytes32,address)(role,account)
+TMP_355 = ! TMP_354 
+CONDITION TMP_355"];
+1->2[label="True"];
+1->3[label="False"];
+2[label="Node Type: EXPRESSION 2
+
+EXPRESSION:
+revert(string)(string(abi.encodePacked(AccessControl: account ,Strings.toHexString(uint160(account),20), is missing role ,Strings.toHexString(uint256(role),32))))
+
+IRs:
+TMP_356 = CONVERT account to uint160
+TMP_357(string) = LIBRARY_CALL, dest:Strings, function:Strings.toHexString(uint256,uint256), arguments:['TMP_356', '20'] 
+TMP_358 = CONVERT role to uint256
+TMP_359(string) = LIBRARY_CALL, dest:Strings, function:Strings.toHexString(uint256,uint256), arguments:['TMP_358', '32'] 
+TMP_360(bytes) = SOLIDITY_CALL abi.encodePacked()(AccessControl: account ,TMP_357, is missing role ,TMP_359)
+TMP_361 = CONVERT TMP_360 to string
+TMP_362(None) = SOLIDITY_CALL revert(string)(TMP_361)"];
+2->3;
+3[label="Node Type: END_IF 3
+"];
+}

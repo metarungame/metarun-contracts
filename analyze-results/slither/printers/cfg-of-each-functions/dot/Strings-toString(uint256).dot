@@ -1,0 +1,132 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: IF 1
+
+EXPRESSION:
+value == 0
+
+IRs:
+TMP_242(bool) = value == 0
+CONDITION TMP_242"];
+1->2[label="True"];
+1->3[label="False"];
+2[label="Node Type: RETURN 2
+
+EXPRESSION:
+0
+
+IRs:
+RETURN 0"];
+3[label="Node Type: END_IF 3
+"];
+3->4;
+4[label="Node Type: NEW VARIABLE 4
+
+EXPRESSION:
+temp = value
+
+IRs:
+temp(uint256) := value(uint256)"];
+4->5;
+5[label="Node Type: NEW VARIABLE 5
+"];
+5->6;
+6[label="Node Type: BEGIN_LOOP 6
+"];
+6->7;
+7[label="Node Type: IF_LOOP 7
+
+EXPRESSION:
+temp != 0
+
+IRs:
+TMP_243(bool) = temp != 0
+CONDITION TMP_243"];
+7->8[label="True"];
+7->10[label="False"];
+8[label="Node Type: EXPRESSION 8
+
+EXPRESSION:
+digits ++
+
+IRs:
+TMP_244(uint256) := digits(uint256)
+digits(uint256) = digits (c)+ 1"];
+8->9;
+9[label="Node Type: EXPRESSION 9
+
+EXPRESSION:
+temp /= 10
+
+IRs:
+temp(uint256) = temp (c)/ 10"];
+9->7;
+10[label="Node Type: END_LOOP 10
+"];
+10->11;
+11[label="Node Type: NEW VARIABLE 11
+
+EXPRESSION:
+buffer = new bytes(digits)
+
+IRs:
+TMP_246 = new bytes(digits)
+buffer(bytes) := TMP_246(bytes)"];
+11->12;
+12[label="Node Type: BEGIN_LOOP 12
+"];
+12->13;
+13[label="Node Type: IF_LOOP 13
+
+EXPRESSION:
+value != 0
+
+IRs:
+TMP_247(bool) = value != 0
+CONDITION TMP_247"];
+13->14[label="True"];
+13->17[label="False"];
+14[label="Node Type: EXPRESSION 14
+
+EXPRESSION:
+digits -= 1
+
+IRs:
+digits(uint256) = digits (c)- 1"];
+14->15;
+15[label="Node Type: EXPRESSION 15
+
+EXPRESSION:
+buffer[digits] = bytes1(uint8(48 + uint256(value % 10)))
+
+IRs:
+REF_70(bytes1) -> buffer[digits]
+TMP_248(uint256) = value (c)% 10
+TMP_249 = CONVERT TMP_248 to uint256
+TMP_250(uint256) = 48 (c)+ TMP_249
+TMP_251 = CONVERT TMP_250 to uint8
+TMP_252 = CONVERT TMP_251 to bytes1
+REF_70 (->buffer) := TMP_252(bytes1)"];
+15->16;
+16[label="Node Type: EXPRESSION 16
+
+EXPRESSION:
+value /= 10
+
+IRs:
+value(uint256) = value (c)/ 10"];
+16->13;
+17[label="Node Type: END_LOOP 17
+"];
+17->18;
+18[label="Node Type: RETURN 18
+
+EXPRESSION:
+string(buffer)
+
+IRs:
+TMP_253 = CONVERT buffer to string
+RETURN TMP_253"];
+}

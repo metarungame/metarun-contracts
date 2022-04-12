@@ -1,0 +1,15 @@
+digraph{
+0[label="Node Type: ENTRY_POINT 0
+"];
+0->1;
+1[label="Node Type: RETURN 1
+
+EXPRESSION:
+_roles[role].members[account]
+
+IRs:
+REF_2(AccessControl.RoleData) -> _roles[role]
+REF_3(mapping(address => bool)) -> REF_2.members
+REF_4(bool) -> REF_3[account]
+RETURN REF_4"];
+}

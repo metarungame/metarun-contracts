@@ -1,0 +1,200 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+
++ Contract AccessControl
+  - From Context
+    - _msgData() (internal)
+    - _msgSender() (internal)
+  - From AccessControl
+    - _checkRole(bytes32,address) (internal)
+    - _grantRole(bytes32,address) (internal)
+    - _revokeRole(bytes32,address) (internal)
+    - _setRoleAdmin(bytes32,bytes32) (internal)
+    - _setupRole(bytes32,address) (internal)
+    - getRoleAdmin(bytes32) (public)
+    - grantRole(bytes32,address) (public)
+    - hasRole(bytes32,address) (public)
+    - renounceRole(bytes32,address) (public)
+    - revokeRole(bytes32,address) (public)
+    - supportsInterface(bytes4) (public)
+
++ Contract IAccessControl
+  - From IAccessControl
+    - getRoleAdmin(bytes32) (external)
+    - grantRole(bytes32,address) (external)
+    - hasRole(bytes32,address) (external)
+    - renounceRole(bytes32,address) (external)
+    - revokeRole(bytes32,address) (external)
+
++ Contract ERC20
+  - From Context
+    - _msgData() (internal)
+    - _msgSender() (internal)
+  - From ERC20
+    - _afterTokenTransfer(address,address,uint256) (internal)
+    - _approve(address,address,uint256) (internal)
+    - _beforeTokenTransfer(address,address,uint256) (internal)
+    - _burn(address,uint256) (internal)
+    - _mint(address,uint256) (internal)
+    - _transfer(address,address,uint256) (internal)
+    - allowance(address,address) (public)
+    - approve(address,uint256) (public)
+    - balanceOf(address) (public)
+    - constructor(string,string) (public)
+    - decimals() (public)
+    - decreaseAllowance(address,uint256) (public)
+    - increaseAllowance(address,uint256) (public)
+    - name() (public)
+    - symbol() (public)
+    - totalSupply() (public)
+    - transfer(address,uint256) (public)
+    - transferFrom(address,address,uint256) (public)
+
++ Contract IERC20
+  - From IERC20
+    - allowance(address,address) (external)
+    - approve(address,uint256) (external)
+    - balanceOf(address) (external)
+    - totalSupply() (external)
+    - transfer(address,uint256) (external)
+    - transferFrom(address,address,uint256) (external)
+
++ Contract ERC20Burnable
+  - From ERC20
+    - _afterTokenTransfer(address,address,uint256) (internal)
+    - _approve(address,address,uint256) (internal)
+    - _beforeTokenTransfer(address,address,uint256) (internal)
+    - _burn(address,uint256) (internal)
+    - _mint(address,uint256) (internal)
+    - _transfer(address,address,uint256) (internal)
+    - allowance(address,address) (public)
+    - approve(address,uint256) (public)
+    - balanceOf(address) (public)
+    - constructor(string,string) (public)
+    - decimals() (public)
+    - decreaseAllowance(address,uint256) (public)
+    - increaseAllowance(address,uint256) (public)
+    - name() (public)
+    - symbol() (public)
+    - totalSupply() (public)
+    - transfer(address,uint256) (public)
+    - transferFrom(address,address,uint256) (public)
+  - From Context
+    - _msgData() (internal)
+    - _msgSender() (internal)
+  - From ERC20Burnable
+    - burn(uint256) (public)
+    - burnFrom(address,uint256) (public)
+
++ Contract ERC20Capped
+  - From ERC20
+    - _afterTokenTransfer(address,address,uint256) (internal)
+    - _approve(address,address,uint256) (internal)
+    - _beforeTokenTransfer(address,address,uint256) (internal)
+    - _burn(address,uint256) (internal)
+    - _transfer(address,address,uint256) (internal)
+    - allowance(address,address) (public)
+    - approve(address,uint256) (public)
+    - balanceOf(address) (public)
+    - constructor(string,string) (public)
+    - decimals() (public)
+    - decreaseAllowance(address,uint256) (public)
+    - increaseAllowance(address,uint256) (public)
+    - name() (public)
+    - symbol() (public)
+    - totalSupply() (public)
+    - transfer(address,uint256) (public)
+    - transferFrom(address,address,uint256) (public)
+  - From Context
+    - _msgData() (internal)
+    - _msgSender() (internal)
+  - From ERC20Capped
+    - _mint(address,uint256) (internal)
+    - cap() (public)
+    - constructor(uint256) (internal)
+
++ Contract IERC20Metadata
+  - From IERC20
+    - allowance(address,address) (external)
+    - approve(address,uint256) (external)
+    - balanceOf(address) (external)
+    - totalSupply() (external)
+    - transfer(address,uint256) (external)
+    - transferFrom(address,address,uint256) (external)
+  - From IERC20Metadata
+    - decimals() (external)
+    - name() (external)
+    - symbol() (external)
+
++ Contract Context
+  - From Context
+    - _msgData() (internal)
+    - _msgSender() (internal)
+
++ Contract Strings (Most derived contract)
+  - From Strings
+    - toHexString(uint256) (internal)
+    - toHexString(uint256,uint256) (internal)
+    - toString(uint256) (internal)
+
++ Contract ERC165
+  - From ERC165
+    - supportsInterface(bytes4) (public)
+
++ Contract IERC165
+  - From IERC165
+    - supportsInterface(bytes4) (external)
+
++ Contract MetarunToken (Most derived contract)
+  - From ERC20Burnable
+    - burn(uint256) (public)
+    - burnFrom(address,uint256) (public)
+  - From ERC20
+    - _afterTokenTransfer(address,address,uint256) (internal)
+    - _approve(address,address,uint256) (internal)
+    - _beforeTokenTransfer(address,address,uint256) (internal)
+    - _burn(address,uint256) (internal)
+    - _transfer(address,address,uint256) (internal)
+    - allowance(address,address) (public)
+    - approve(address,uint256) (public)
+    - balanceOf(address) (public)
+    - constructor(string,string) (public)
+    - decimals() (public)
+    - decreaseAllowance(address,uint256) (public)
+    - increaseAllowance(address,uint256) (public)
+    - name() (public)
+    - symbol() (public)
+    - totalSupply() (public)
+    - transfer(address,uint256) (public)
+    - transferFrom(address,address,uint256) (public)
+  - From Context
+    - _msgData() (internal)
+    - _msgSender() (internal)
+  - From ERC20Capped
+    - cap() (public)
+    - constructor(uint256) (internal)
+  - From AccessControl
+    - _checkRole(bytes32,address) (internal)
+    - _grantRole(bytes32,address) (internal)
+    - _revokeRole(bytes32,address) (internal)
+    - _setRoleAdmin(bytes32,bytes32) (internal)
+    - _setupRole(bytes32,address) (internal)
+    - getRoleAdmin(bytes32) (public)
+    - grantRole(bytes32,address) (public)
+    - hasRole(bytes32,address) (public)
+    - renounceRole(bytes32,address) (public)
+    - revokeRole(bytes32,address) (public)
+    - supportsInterface(bytes4) (public)
+  - From MetarunToken
+    - _mint(address,uint256) (internal)
+    - constructor() (public)
+    - mint(address,uint256) (public)
+
+. analyzed (12 contracts)

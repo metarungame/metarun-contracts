@@ -1,0 +1,92 @@
+'npx hardhat compile --force' running
+Compiling 12 files with 0.8.11
+Compilation finished successfully
+
+Solidity 0.8.11 is not fully supported yet. You can still use Hardhat, but some features, like stack traces, might not work correctly.
+
+Learn more at https://hardhat.org/reference/solidity-support
+
+
+Inheritance
+Child_Contract -> Immediate_Base_Contracts [Not_Immediate_Base_Contracts]
++ AccessControl
+ -> Context, IAccessControl, ERC165
+, [IERC165]
+
++ IAccessControl
+
++ ERC20
+ -> Context, IERC20, IERC20Metadata
+
++ IERC20
+
++ ERC20Burnable
+ -> Context, ERC20
+, [IERC20Metadata, IERC20]
+
++ ERC20Capped
+ -> ERC20
+, [IERC20Metadata, IERC20, Context]
+
++ IERC20Metadata
+ -> IERC20
+
++ Context
+
++ Strings
+
++ ERC165
+ -> IERC165
+
++ IERC165
+
++ MetarunToken
+ -> AccessControl, ERC20Capped, ERC20Burnable
+, [ERC20, IERC20Metadata, IERC20, ERC165, IERC165, IAccessControl, Context]
+
+
+Base_Contract -> Immediate_Child_Contracts
+ [Not_Immediate_Child_Contracts]
+
++ AccessControl
+ -> MetarunToken
+
++ IAccessControl
+ -> AccessControl
+, [MetarunToken]
+
++ ERC20
+ -> ERC20Burnable, ERC20Capped
+, [MetarunToken]
+
++ IERC20
+ -> ERC20, IERC20Metadata
+, [ERC20Burnable, ERC20Capped, MetarunToken]
+
++ ERC20Burnable
+ -> MetarunToken
+
++ ERC20Capped
+ -> MetarunToken
+
++ IERC20Metadata
+ -> ERC20
+, [ERC20Burnable, ERC20Capped, MetarunToken]
+
++ Context
+ -> AccessControl, ERC20, ERC20Burnable
+, [ERC20Capped, MetarunToken]
+
++ Strings
+
++ ERC165
+ -> AccessControl
+, [MetarunToken]
+
++ IERC165
+ -> ERC165
+, [AccessControl, MetarunToken]
+
++ MetarunToken
+
+. analyzed (12 contracts)
