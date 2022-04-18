@@ -33,7 +33,7 @@ function getNextReleasable(_lockBps, _vestBps, _currentTime, _lockClaimTime, _ve
 
 describe("getNextReleasable gives correct release info for the moment", function () {
   function getTimestamp() {
-    return Math.floor(new Date().getTime() / 1000);
+    return Math.floor(16000000 / 1000);
   }
   const timeLockedBps = "1000";
   const vestedBps = "9000";
