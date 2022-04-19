@@ -41,8 +41,8 @@ describe("Fungible token transfer", async function () {
     await this.fungibleTokenTransferTestCase(token);
   });
 
-  it("should transfer hardness token", async function () {
-    const token = await this.metarunCollection.HARDNESS_TOKEN_ID();
+  it("should transfer collision damage token", async function () {
+    const token = await this.metarunCollection.COLLISION_DAMAGE_TOKEN_ID();
     await this.fungibleTokenTransferTestCase(token);
   });
 });

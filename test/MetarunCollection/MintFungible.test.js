@@ -36,8 +36,8 @@ describe("Fungible token mint", function () {
     this.fungibleTokenMintTestCase(token);
   });
 
-  it("should mint successfully hardness token", async function () {
-    const token = await this.metarunCollection.HARDNESS_TOKEN_ID();
+  it("should mint successfully collision damage token", async function () {
+    const token = await this.metarunCollection.COLLISION_DAMAGE_TOKEN_ID();
     this.fungibleTokenMintTestCase(token);
   });
 });
