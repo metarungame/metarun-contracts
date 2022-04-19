@@ -21,7 +21,7 @@ contract MetarunCollection is ERC1155, AccessControl {
     uint256 public constant HEALTH_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0000;
     uint256 public constant MANA_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0001;
     uint256 public constant SPEED_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0002;
-    uint256 public constant HARDNESS_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0003; // COLLISION DAMAGE renamed to more expressive name
+    uint256 public constant COLLISION_DAMAGE_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0003;
 
     mapping(uint256 => address) tokenOwners;
     mapping(uint256 => mapping(address => uint256)) tokenBalances;
