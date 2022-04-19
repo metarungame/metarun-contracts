@@ -27,7 +27,7 @@
     "verify:rinkeby": "hardhat etherscan-verify --network rinkeby --api-key $ETHERSCAN_API_KEY",
     "verify:bsctestnet": "hardhat etherscan-verify --network bsctestnet --api-key $ETHERSCAN_API_KEY",
     "writeBalancesToTierSystem:polygon": "hardhat writeBalancesToTierSystem --json-path tokens-snapshot/holders.json --network polygon --contract-address 0x768563eB8Ab74C255FCb0479791F236341c49d13 --balance-list-length 500",
-    "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol",
+    "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol && prettier --write test/MetarunCollection/*.js ",
     "solhint": "solhint -c .solhint.json contracts/*.sol",
     "lint": "yarn prettier && yarn solhint",
     "create-sell-order": "hardhat create-sell-order --network bsctestnet --token-collection-address $METARUN_COLLECTION_ADDRESS --exchange-address $EXCHANGE_ADDRESS --token-id 1 --amount 1000 --price 1000000 --private-key $PRIVET_KEY",
