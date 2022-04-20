@@ -38,10 +38,12 @@ contract MetarunCollection is ERC1155, AccessControl {
     mapping(uint256 => uint256) tokenCollisionDamagePoints;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant LEVEL_SETTER_ROLE = keccak256("LEVEL_SETTER_ROLE");
 
     constructor(string memory uri) ERC1155(uri) {
         _setupRole(MINTER_ROLE, _msgSender());
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _setupRole(LEVEL_SETTER_ROLE, _msgSender());
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC1155, AccessControl) returns (bool) {
@@ -130,5 +132,16 @@ contract MetarunCollection is ERC1155, AccessControl {
     function setURI(string memory newUri) public {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "METARUNCOLLECTION: need DEFAULT_ADMIN_ROLE");
         _setURI(newUri);
+    }
+
+    function getLevel(uint256 id) public view returns (uint256) {
+        require(isCharacter(id) || isPet(id), "Level is available only for pet or character");
+        return tokenLevels[id];
+    }
+
+    function setLevel(uint256 id, uint256 level) public {
+        require(isCharacter(id) || isPet(id), "Level is available only for pet or character");
+        require(hasRole(LEVEL_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need LEVEL_SETTER_ROLE");
+        tokenLevels[id] = level;
     }
 }
