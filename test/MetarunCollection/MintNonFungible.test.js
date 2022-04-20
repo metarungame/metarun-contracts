@@ -45,4 +45,10 @@ describe("MetarunCollection | Non-fungible token mint", function () {
     const tokenKind = await this.metarunCollection.SPRINTER_CHARACTER_KIND();
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
+
+  it("should mint artifact token", async function () {
+    const tokenId = (0x0100 << 16) | getTokenId();
+    const tokenKind = await this.metarunCollection.ARTIFACT_TOKEN_KIND();
+    this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
+  });
 });
