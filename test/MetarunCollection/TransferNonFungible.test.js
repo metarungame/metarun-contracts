@@ -68,4 +68,10 @@ describe("MetarunCollection | Non-fungible token transfer", async function () {
     const tokenKind = await this.metarunCollection.SKIN_TOKEN_KIND();
     this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
   });
+
+  it("should transfer raffle ticket token", async function () {
+    const tokenId = (0x0400 << 16) | getTokenId();
+    const tokenKind = await this.metarunCollection.RAFFLE_TICKET_TOKEN_KIND();
+    this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
+  });
 });
