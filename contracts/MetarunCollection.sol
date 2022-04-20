@@ -107,6 +107,26 @@ contract MetarunCollection is ERC1155, AccessControl {
         return isKind(id, FUNGIBLE_TOKEN_KIND);
     }
 
+    function isCharacter(uint256 id) public pure returns (bool) {
+        return isKind(id, CRAFTSMAN_CHARACTER_KIND) || isKind(id, FIGHTER_CHARACTER_KIND) || isKind(id, SPRINTER_CHARACTER_KIND);
+    }
+
+    function isArtifact(uint256 id) public pure returns (bool) {
+        return isKind(id, ARTIFACT_TOKEN_KIND);
+    }
+
+    function isPet(uint256 id) public pure returns (bool) {
+        return isKind(id, PET_TOKEN_KIND);
+    }
+
+    function isSkin(uint256 id) public pure returns (bool) {
+        return isKind(id, SKIN_TOKEN_KIND);
+    }
+
+    function isRaffleTicket(uint256 id) public pure returns (bool) {
+        return isKind(id, RAFFLE_TICKET_TOKEN_KIND);
+    }
+
     function setURI(string memory newUri) public {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "METARUNCOLLECTION: need DEFAULT_ADMIN_ROLE");
         _setURI(newUri);
