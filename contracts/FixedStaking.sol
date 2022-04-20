@@ -4,11 +4,9 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract FixedStaking is Ownable {
-    using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
     // user deposits are recorded in StakeInfo[] stakes struct
@@ -90,7 +88,7 @@ contract FixedStaking is Ownable {
         stakeDurationDays = _stakeDurationDays;
         yieldRate = _yieldRate;
         earlyUnstakeFee = _earlyUnstakeFee;
-        withdrawalUnlockTime = _now().add(WITHDRAWAL_LOCKUP_DURATION);
+        withdrawalUnlockTime = _now() + WITHDRAWAL_LOCKUP_DURATION;
     }
 
     /**
@@ -131,10 +129,10 @@ contract FixedStaking is Ownable {
         require(stakesOpen, "stake: not open");
         require(_amount > 0, "stake: zero amount");
         // entire reward allocated for the user for this stake
-        uint256 totalYield = _amount.mul(yieldRate).div(10000);
+        uint256 totalYield = (_amount * yieldRate) / 10000;
         require(unallocatedTokens() >= totalYield, "stake: not enough allotted tokens to pay yield");
         uint256 startTime = _now();
-        uint256 endTime = _now().add(stakeDurationDays.mul(1 days));
+        uint256 endTime = _now() + stakeDurationDays * (1 days);
         stakes[msg.sender].push(
             StakeInfo({
                 staked: true,
@@ -146,9 +144,9 @@ contract FixedStaking is Ownable {
                 lastHarvestTime: startTime
             })
         );
-        allocatedTokens = allocatedTokens.add(totalYield);
-        stakedTokens = stakedTokens.add(_amount);
-        uint256 stakeId = getStakesLength(msg.sender).sub(1);
+        allocatedTokens = allocatedTokens + totalYield;
+        stakedTokens = stakedTokens + _amount;
+        uint256 stakeId = getStakesLength(msg.sender) - 1;
         emit Stake(msg.sender, stakeId, _amount, startTime, endTime);
         token.safeTransferFrom(msg.sender, address(this), _amount);
     }
@@ -172,20 +170,20 @@ contract FixedStaking is Ownable {
         require(staked, "Unstaked already");
         if (_now() > endTime) {
             stakes[msg.sender][_stakeId].staked = false;
-            stakedTokens = stakedTokens.sub(stakedAmount);
+            stakedTokens = stakedTokens - stakedAmount;
             early = false;
             token.safeTransfer(msg.sender, stakedAmount);
         } else {
-            uint256 newTotalYield = harvestedYield.add(harvestableYield);
-            allocatedTokens = allocatedTokens.sub(totalYield.sub(newTotalYield));
+            uint256 newTotalYield = harvestedYield + harvestableYield;
+            allocatedTokens = allocatedTokens - (totalYield - newTotalYield);
             stakes[msg.sender][_stakeId].staked = false;
             stakes[msg.sender][_stakeId].endTime = _now();
             stakes[msg.sender][_stakeId].totalYield = newTotalYield;
-            stakedTokens = stakedTokens.sub(stakedAmount);
+            stakedTokens = stakedTokens - stakedAmount;
             early = true;
 
-            uint256 fee = stakedAmount.mul(earlyUnstakeFee).div(10000);
-            uint256 amountToTransfer = stakedAmount.sub(fee);
+            uint256 fee = (stakedAmount * earlyUnstakeFee) / 10000;
+            uint256 amountToTransfer = stakedAmount - fee;
             token.safeTransfer(msg.sender, amountToTransfer);
         }
 
@@ -199,8 +197,8 @@ contract FixedStaking is Ownable {
     function harvest(uint256 _stakeId) external {
         (, , , , , uint256 harvestedYield, , uint256 harvestableYield) = getStake(msg.sender, _stakeId);
         require(harvestableYield != 0, "harvestableYield is zero");
-        allocatedTokens = allocatedTokens.sub(harvestableYield);
-        stakes[msg.sender][_stakeId].harvestedYield = harvestedYield.add(harvestableYield);
+        allocatedTokens = allocatedTokens - harvestableYield;
+        stakes[msg.sender][_stakeId].harvestedYield = harvestedYield + harvestableYield;
         stakes[msg.sender][_stakeId].lastHarvestTime = _now();
         emit Harvest(msg.sender, _stakeId, harvestableYield, _now());
         token.safeTransfer(msg.sender, harvestableYield);
@@ -211,7 +209,7 @@ contract FixedStaking is Ownable {
      * @return amount of unallocated tokens
      */
     function unallocatedTokens() public view returns (uint256) {
-        return token.balanceOf(address(this)).sub(stakedTokens).sub(allocatedTokens);
+        return token.balanceOf(address(this)) - stakedTokens - allocatedTokens;
     }
 
     /**
@@ -259,9 +257,9 @@ contract FixedStaking is Ownable {
         harvestedYield = _stake.harvestedYield;
         lastHarvestTime = _stake.lastHarvestTime;
         if (_now() > endTime) {
-            harvestableYield = totalYield.sub(harvestedYield);
+            harvestableYield = totalYield - harvestedYield;
         } else {
-            harvestableYield = totalYield.mul(_now().sub(lastHarvestTime)).div(endTime.sub(startTime));
+            harvestableYield = (totalYield * (_now() - lastHarvestTime)) / (endTime - startTime);
         }
     }
 
