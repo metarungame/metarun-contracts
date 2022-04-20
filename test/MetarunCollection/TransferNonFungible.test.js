@@ -50,4 +50,10 @@ describe("MetarunCollection | Non-fungible token transfer", async function () {
     const tokenKind = await this.metarunCollection.SPRINTER_CHARACTER_KIND();
     await this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
   });
+
+  it("should transfer artifact token", async function () {
+    const tokenId = (0x0100 << 16) | getTokenId();
+    const tokenKind = await this.metarunCollection.ARTIFACT_TOKEN_KIND();
+    this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
+  });
 });
