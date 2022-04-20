@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const URI_TOKEN = "localhost/api/{id}.json";
 
-describe("Non-fungible token transfer", async function () {
+describe("MetarunCollection | Non-fungible token transfer", async function () {
   function getTokenId() {
     return Math.floor((Math.random() * 100000) % 2 ** 16);
   }
