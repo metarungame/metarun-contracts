@@ -51,4 +51,10 @@ describe("MetarunCollection | Non-fungible token mint", function () {
     const tokenKind = await this.metarunCollection.ARTIFACT_TOKEN_KIND();
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
+
+  it("should mint pet token", async function () {
+    const tokenId = (0x0200 << 16) | getTokenId();
+    const tokenKind = await this.metarunCollection.PET_TOKEN_KIND();
+    this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
+  });
 });
