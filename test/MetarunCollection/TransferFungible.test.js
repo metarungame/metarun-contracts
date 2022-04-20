@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const URI_TOKEN = "localhost/api/{id}.json";
 
-describe("Fungible token transfer", async function () {
+describe("MetarunCollection | Fungible token transfer", async function () {
   this.beforeAll(async function () {
     this.metarunCollectionFactory = await ethers.getContractFactory("MetarunCollection");
     this.metarunCollection = await this.metarunCollectionFactory.deploy(URI_TOKEN);
