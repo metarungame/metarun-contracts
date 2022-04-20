@@ -204,4 +204,20 @@ contract MetarunCollection is ERC1155, AccessControl {
         require(hasRole(COLLISION_DAMAGE_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need COLLISION_DAMAGE_SETTER_ROLE");
         tokenCollisionDamagePoints[id] = collisionDamage;
     }
+    
+    function increaseHealth(uint256 amount, uint256 characterId) external {
+        require(balanceOf(msg.sender, HEALTH_TOKEN_ID) >= amount, "Not enough balance");
+        require(isCharacter(characterId), "Does not match token character kind");
+        require(balanceOf(msg.sender, characterId) == 1, "Not enough balance");
+        _burn(msg.sender, HEALTH_TOKEN_ID, amount);
+        tokenHealthPoints[characterId] += amount; 
+    }
+
+    function decreaseHealth(uint256 amount, uint256 characterId) external {
+        require(isCharacter(characterId), "Does not match token character kind");
+        require(balanceOf(msg.sender, characterId) == 1, "Not enough balance");
+        require(tokenHealthPoints[characterId] >= amount, "Not enough points");
+        tokenHealthPoints[characterId] -= amount;
+        _mint(msg.sender, HEALTH_TOKEN_ID, amount, "");
+    }
 }
