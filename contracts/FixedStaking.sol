@@ -129,10 +129,10 @@ contract FixedStaking is Ownable {
         require(stakesOpen, "stake: not open");
         require(_amount > 0, "stake: zero amount");
         // entire reward allocated for the user for this stake
-        uint256 totalYield = (_amount * yieldRate) / 10000;
+        uint256 totalYield = _amount * yieldRate / 10000;
         require(unallocatedTokens() >= totalYield, "stake: not enough allotted tokens to pay yield");
         uint256 startTime = _now();
-        uint256 endTime = _now() + stakeDurationDays * (1 days);
+        uint256 endTime = _now() + stakeDurationDays * 1 days;
         stakes[msg.sender].push(
             StakeInfo({
                 staked: true,
@@ -182,7 +182,7 @@ contract FixedStaking is Ownable {
             stakedTokens = stakedTokens - stakedAmount;
             early = true;
 
-            uint256 fee = (stakedAmount * earlyUnstakeFee) / 10000;
+            uint256 fee = stakedAmount * earlyUnstakeFee / 10000;
             uint256 amountToTransfer = stakedAmount - fee;
             token.safeTransfer(msg.sender, amountToTransfer);
         }
