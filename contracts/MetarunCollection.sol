@@ -23,8 +23,6 @@ contract MetarunCollection is ERC1155, AccessControl {
     uint256 public constant SPEED_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0002;
     uint256 public constant COLLISION_DAMAGE_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0003;
 
-    mapping(uint256 => address) tokenOwners;
-    mapping(uint256 => mapping(address => uint256)) tokenBalances;
     mapping(uint256 => uint256) tokenLevels;
 
     mapping(uint256 => uint256) tokenRuns;
@@ -56,45 +54,11 @@ contract MetarunCollection is ERC1155, AccessControl {
         uint256 amount
     ) public {
         require(hasRole(MINTER_ROLE, _msgSender()), "METARUNCOLLECTION: need MINTER_ROLE");
-        if (isFungible(id)) {
-            _mint(to, id, amount, "");
-            tokenBalances[id][to] += amount;
-        } else {
-            require(tokenOwners[id] == address(0), "Cannot mint more than one item");
-            require(amount == 1, "Cannot mint more than one item");
-            tokenOwners[id] = to;
-            _mint(to, id, amount, "");
-        }
-    }
-
-    function balanceOf(address account, uint256 id) public view override returns (uint256) {
-        if (isFungible(id)) {
-            return tokenBalances[id][account];
-        } else {
-            if (tokenOwners[id] == account) {
-                return 1;
-            } else return 0;
-        }
-    }
-
-    function safeTransferFrom(
-        address from,
-        address to,
-        uint256 id,
-        uint256 amount,
-        bytes memory data
-    ) public override {
         if (!isFungible(id)) {
-            require(amount == 1, "For transfer of non-fungible amount should be 1");
-            require(tokenOwners[id] == from, "Transfer sender should be owner of token with this id");
+            require(amount == 1, "Cannot mint more than one item");
+            require(balanceOf(to, id) == 0, "Cannot mint more than one item");
         }
-        super.safeTransferFrom(from, to, id, amount, data);
-        if (isFungible(id)) {
-            tokenBalances[id][to] += amount;
-            tokenBalances[id][from] -= amount;
-        } else {
-            tokenOwners[id] = to;
-        }
+        _mint(to, id, amount, "");
     }
 
     function getKind(uint256 id) public pure returns (uint256) {
