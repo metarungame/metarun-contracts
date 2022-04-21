@@ -75,10 +75,12 @@ describe("MetarunCollection | Non-fungible token transfer", async function () {
     this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
   });
 
-  it("should deny transfer more than 1 token", async function(){
+  it("should deny transfer more than 1 token", async function () {
     const tokenId = (0x0000 << 16) | getTokenId();
     await this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 1);
-    const attemptToTransfer = this.metarunCollection.connect(this.stranger).safeTransferFrom(this.stranger.address, this.recipient.address, tokenId, 100, []);
+    const attemptToTransfer = this.metarunCollection
+      .connect(this.stranger)
+      .safeTransferFrom(this.stranger.address, this.recipient.address, tokenId, 100, []);
     await expect(attemptToTransfer).to.be.revertedWith("ERC1155: insufficient balance for transfer");
-   });
+  });
 });
