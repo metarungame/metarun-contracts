@@ -69,4 +69,46 @@ describe("MetarunCollection | Non-fungible token mint", function () {
     const tokenKind = await this.metarunCollection.RAFFLE_TICKET_TOKEN_KIND();
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
+
+  it("should deny minting more than 1 character craftsman token", async function(){
+    const tokenId = (0x0000 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
+
+  it("should deny minting more than 1 character fighter token", async function(){
+    const tokenId = (0x0001 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
+
+  it("should deny minting more than 1 character sprinter token", async function(){
+    const tokenId = (0x0002 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
+
+  it("should deny minting more than 1 artifact token", async function(){
+    const tokenId = (0x0100 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
+
+  it("should deny minting more than 1 pet token", async function(){
+    const tokenId = (0x0200 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
+
+  it("should deny minting more than 1 skin token", async function(){
+    const tokenId = (0x0300 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
+
+  it("should deny minting more than 1 raffle token", async function(){
+    const tokenId = (0x0400 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
 });
