@@ -206,17 +206,17 @@ contract MetarunCollection is ERC1155, AccessControl {
     }
     
     function increaseHealth(uint256 amount, uint256 characterId) external {
-        require(balanceOf(msg.sender, HEALTH_TOKEN_ID) >= amount, "Not enough balance");
         require(isCharacter(characterId), "Does not match token character kind");
-        require(balanceOf(msg.sender, characterId) == 1, "Not enough balance");
+        require(balanceOf(msg.sender, characterId) == 1, "Not enough character token balance");
+        require(balanceOf(msg.sender, HEALTH_TOKEN_ID) >= amount, "Not enough health token balance");
         _burn(msg.sender, HEALTH_TOKEN_ID, amount);
         tokenHealthPoints[characterId] += amount; 
     }
 
     function decreaseHealth(uint256 amount, uint256 characterId) external {
         require(isCharacter(characterId), "Does not match token character kind");
-        require(balanceOf(msg.sender, characterId) == 1, "Not enough balance");
-        require(tokenHealthPoints[characterId] >= amount, "Not enough points");
+        require(balanceOf(msg.sender, characterId) == 1, "Not enough character token balance");
+        require(tokenHealthPoints[characterId] >= amount, "Not enough health points");
         tokenHealthPoints[characterId] -= amount;
         _mint(msg.sender, HEALTH_TOKEN_ID, amount, "");
     }
