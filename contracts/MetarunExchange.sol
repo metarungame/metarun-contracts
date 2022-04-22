@@ -29,14 +29,7 @@ contract MetarunExchange is EIP712 {
     /**
      * @dev Gets emitted on token purchase
      */
-    event Purchase(
-        bytes32 indexed orderHash,
-        address indexed seller,
-        address indexed buyer,
-        uint256 tokenId,
-        uint256 amount,
-        uint256 price
-    );
+    event Purchase(bytes32 indexed orderHash, address indexed seller, address indexed buyer, uint256 tokenId, uint256 amount, uint256 price);
 
     constructor(address _token) EIP712("metarun.game", "0.1") {
         require(_token != address(0), "token address cannot be zero");
