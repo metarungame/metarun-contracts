@@ -32,15 +32,15 @@ describe("Vesting", function () {
     );
   });
 
-  it("should not deploy with interval equal to 0", async function(){
+  it("should not deploy with interval equal to 0", async function () {
     await expect(this.Vesting.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 6000, 4000, 1800000000, 1700000000, 3, 0)).to.be.revertedWith(
-        "interval should be greater than 0"
+      "interval should be greater than 0"
     );
   });
 
-  it("should not deploy duration less than interval", async function(){
+  it("should not deploy duration less than interval", async function () {
     await expect(this.Vesting.deploy("0xE0E30B7E8D58e6a6b14C6bcDf56AAfcAe88ECfb0", 6000, 4000, 1800000000, 1700000000, 3, 5)).to.be.revertedWith(
-        "duration should be greater than interval"
+      "duration should be greater than interval"
     );
   });
 
@@ -319,9 +319,8 @@ describe("Vesting", function () {
     });
 
     describe("add single allocation", function () {
-
       allocatedAmount = ethers.utils.parseEther("400");
-      
+
       beforeEach(async function () {
         await this.token.mint(this.deployer.address, allocatedAmount);
         await this.token.approve(this.vesting.address, allocatedAmount);

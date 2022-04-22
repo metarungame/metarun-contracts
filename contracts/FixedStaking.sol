@@ -6,8 +6,14 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+interface IERC20mintable is IERC20 {
+    function mint(address to, uint256 amount) external;
+
+    function burn(uint256 amount) external;
+}
+
 contract FixedStaking is Ownable {
-    using SafeERC20 for IERC20;
+    using SafeERC20 for IERC20mintable;
 
     // user deposits are recorded in StakeInfo[] stakes struct
     struct StakeInfo {
@@ -34,7 +40,7 @@ contract FixedStaking is Ownable {
     bool public stakesOpen;
 
     // The token accepted for staking and used for rewards (The same token for both).
-    IERC20 public token;
+    IERC20mintable public token;
 
     // struccture that stores the records of users' stakes
     mapping(address => StakeInfo[]) public stakes;
@@ -58,10 +64,6 @@ contract FixedStaking is Ownable {
     // The reward tokens get allocated at the moment of stake.
     uint256 public allocatedTokens;
 
-    // unallocated (excess) tokens can be withdrawn by the contract owner not earlier than 18 months
-    uint256 public constant WITHDRAWAL_LOCKUP_DURATION = 30 days * 18;
-    uint256 public withdrawalUnlockTime;
-
     event Stake(address indexed user, uint256 indexed stakeId, uint256 amount, uint256 startTime, uint256 endTime);
 
     event Unstake(address indexed user, uint256 indexed stakeId, uint256 amount, uint256 startTime, uint256 endTime, bool early);
@@ -84,25 +86,10 @@ contract FixedStaking is Ownable {
         require(_token != address(0), "Empty token address");
         require(_yieldRate > 0, "Zero yield rate");
         require(_earlyUnstakeFee > 0, "Zero early Unstake Fee");
-        token = IERC20(_token);
+        token = IERC20mintable(_token);
         stakeDurationDays = _stakeDurationDays;
         yieldRate = _yieldRate;
         earlyUnstakeFee = _earlyUnstakeFee;
-        withdrawalUnlockTime = _now() + WITHDRAWAL_LOCKUP_DURATION;
-    }
-
-    /**
-     * @dev the owner is able to withdraw excess tokens to collect early unstake fees or to reuse unused funds
-     * suitable for assets rebalancing between staking contracts.
-     * @param _to  address who will receive the funds
-     * @param _amount amount of tokens in atto (1e-18) units
-     */
-    function withdrawUnallocatedTokens(address _to, uint256 _amount) public onlyOwner {
-        require(_to != address(0), "Empty receiver address");
-        require(_amount > 0, "Zero amount");
-        require(unallocatedTokens() >= _amount, "Not enough unallocatedTokens");
-        require(_now() >= withdrawalUnlockTime, "Can't withdraw until withdrawalUnlockTime");
-        token.safeTransfer(_to, _amount);
     }
 
     /**
@@ -129,8 +116,7 @@ contract FixedStaking is Ownable {
         require(stakesOpen, "stake: not open");
         require(_amount > 0, "stake: zero amount");
         // entire reward allocated for the user for this stake
-        uint256 totalYield = _amount * yieldRate / 10000;
-        require(unallocatedTokens() >= totalYield, "stake: not enough allotted tokens to pay yield");
+        uint256 totalYield = (_amount * yieldRate) / 10000;
         uint256 startTime = _now();
         uint256 endTime = _now() + stakeDurationDays * 1 days;
         stakes[msg.sender].push(
@@ -182,9 +168,10 @@ contract FixedStaking is Ownable {
             stakedTokens = stakedTokens - stakedAmount;
             early = true;
 
-            uint256 fee = stakedAmount * earlyUnstakeFee / 10000;
+            uint256 fee = (stakedAmount * earlyUnstakeFee) / 10000;
             uint256 amountToTransfer = stakedAmount - fee;
             token.safeTransfer(msg.sender, amountToTransfer);
+            token.burn(fee);
         }
 
         emit Unstake(msg.sender, _stakeId, stakedAmount, startTime, endTime, early);
@@ -201,15 +188,7 @@ contract FixedStaking is Ownable {
         stakes[msg.sender][_stakeId].harvestedYield = harvestedYield + harvestableYield;
         stakes[msg.sender][_stakeId].lastHarvestTime = _now();
         emit Harvest(msg.sender, _stakeId, harvestableYield, _now());
-        token.safeTransfer(msg.sender, harvestableYield);
-    }
-
-    /**
-     * @dev get the amount of available tokens neither staked nor allocated for rewards
-     * @return amount of unallocated tokens
-     */
-    function unallocatedTokens() public view returns (uint256) {
-        return token.balanceOf(address(this)) - stakedTokens - allocatedTokens;
+        token.mint(msg.sender, harvestableYield);
     }
 
     /**
