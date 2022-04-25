@@ -8,7 +8,7 @@ describe("MetarunCollection | Manage level of pets and characters", function () 
   });
 
   beforeEach(async function () {
-    this.metarunCollection = await this.metarunCollectionFactory.deploy(URI_TOKEN);
+    this.metarunCollection = await upgrades.deployProxy(this.metarunCollectionFactory, [URI_TOKEN]);
     this.signers = await ethers.getSigners();
     this.characterOwner = this.signers[1];
     this.characterTokenId = 0x00020001;

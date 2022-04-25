@@ -1,16 +1,22 @@
-module.exports = async ({getNamedAccounts, deployments}) => {
-    const {deploy} = deployments;
-    const {deployer} = await getNamedAccounts();
-    console.log(`Deployer ${deployer}`);
+module.exports = async ({ getNamedAccounts, deployments }) => {
+  const { deploy } = deployments;
+  const { deployer } = await getNamedAccounts();
+  console.log(`Deployer ${deployer}`);
 
-    const token = await deploy("MetarunCollection", {
-        from: deployer,
-        args: ['https://app-staging.metarun.game/metadata/{id}.json'],
-        log: true,
-        skipIfAlreadyDeployed: true,
-    });
+  const deployResult = await deploy("MetarunCollection", {
+    from: deployer,
+    log: true,
+    proxy: {
+      proxyContract: "OpenZeppelinTransparentProxy",
+      execute: {
+        methodName: "initialize",
+        args: ["https://app-staging.metarun.game/metadata/{id}.json"],
+      },
+    },
+  });
 
-    console.log("Token address: ", token.address);
-}
+  console.log("Token address: ", deployResult.address);
+
+};
 
 module.exports.tags = ["MetarunCollection"];

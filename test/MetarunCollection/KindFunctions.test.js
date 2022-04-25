@@ -12,7 +12,7 @@ describe("MetarunCollection | isKind functions", function () {
   });
 
   beforeEach(async function () {
-    this.metarunCollection = await this.metarunCollectionFactory.deploy(URI_TOKEN);
+    this.metarunCollection = await upgrades.deployProxy(this.metarunCollectionFactory, [URI_TOKEN]);
   });
 
   describe("isCharacter function", function () {

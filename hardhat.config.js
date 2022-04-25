@@ -3,7 +3,8 @@ require('hardhat-deploy');
 require('./tasks/write-balances-to-tiersystem.js');
 require('./tasks/mint-tokens.js');
 require('./tasks/ido-pool-client.js');
-require('solidity-coverage')
+require('solidity-coverage');
+require('@openzeppelin/hardhat-upgrades');
 
 require('./tasks/mint-tokens.js');
 require('./tasks/create-order.js');
@@ -62,7 +63,8 @@ module.exports = {
       gasPrice: 2000000000
     },
     hardhat: {
-      chainId: 137
+      chainId: 137,
+      allowUnlimitedContractSize: true
     },
     rinkeby: {
         chainId: 4,

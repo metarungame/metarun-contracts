@@ -41,7 +41,8 @@ describe("Metarun Exchange", function () {
   });
 
   beforeEach(async function () {
-    this.collection = await this.metarunCollectionFactory.deploy(URI_TOKEN);
+    this.collection = await this.metarunCollectionFactory.deploy();
+    await this.collection.initialize(URI_TOKEN);
     this.collection.mint(this.seller.address, 0, 1);
     this.exchange = await this.metarunExchangeFactory.deploy(this.collection.address);
     this.domain.verifyingContract = this.exchange.address;

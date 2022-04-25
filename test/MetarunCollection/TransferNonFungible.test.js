@@ -9,7 +9,7 @@ describe("MetarunCollection | Non-fungible token transfer", async function () {
 
   this.beforeAll(async function () {
     this.metarunCollectionFactory = await ethers.getContractFactory("MetarunCollection");
-    this.metarunCollection = await this.metarunCollectionFactory.deploy(URI_TOKEN);
+    this.metarunCollection = await upgrades.deployProxy(this.metarunCollectionFactory, [URI_TOKEN]);
     await this.metarunCollection.deployed();
     this.signers = await ethers.getSigners();
     this.deployer = this.signers[0];

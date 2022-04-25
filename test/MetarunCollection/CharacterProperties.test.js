@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { ethers } = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 const URI_TOKEN = "localhost/api/{id}.json";
 
 describe("MetarunCollection | getters and setters of Character properties", function () {
@@ -11,7 +11,7 @@ describe("MetarunCollection | getters and setters of Character properties", func
   });
 
   beforeEach(async function () {
-    this.metarunCollection = await this.metarunCollectionFactory.deploy(URI_TOKEN);
+    this.metarunCollection = await upgrades.deployProxy(this.metarunCollectionFactory, [URI_TOKEN]);
     this.metarunCollection.mint(this.characterOwner.address, this.characterId, 1);
   });
 

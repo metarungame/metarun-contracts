@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { ethers } = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 const URI_TOKEN = "localhost/api/{id}.json";
 
 describe("MetarunCollection | Increase/Decrease fungible token", function () {
@@ -15,7 +15,8 @@ describe("MetarunCollection | Increase/Decrease fungible token", function () {
     this.deployer = signers[0];
     this.another = signers[1];
     const metarunCollectionFactory = await ethers.getContractFactory("MetarunCollection");
-    this.metarunCollection = await metarunCollectionFactory.deploy(URI_TOKEN);
+    this.metarunCollection = await upgrades.deployProxy(metarunCollectionFactory, [URI_TOKEN]);
+    await this.metarunCollection.deployed();
   });
   describe("Increase token Health to character", function () {
     it("check increaseHealth reverted with reason string 'Does not match token character kind'", async function () {

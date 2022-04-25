@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 
-contract MetarunCollection is ERC1155, AccessControl {
+contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
     uint256 internal constant KIND_MASK = 0xffff0000;
     uint256 internal constant ID_MASK = 0x0000ffff;
 
@@ -47,7 +47,8 @@ contract MetarunCollection is ERC1155, AccessControl {
     bytes32 public constant SPEED_SETTER_ROLE = keccak256("SPEED_SETTER_ROLE");
     bytes32 public constant COLLISION_DAMAGE_SETTER_ROLE = keccak256("COLLISION_DAMAGE_SETTER_ROLE");
 
-    constructor(string memory uri) ERC1155(uri) {
+    function initialize(string memory uri) public initializer {
+        __ERC1155_init(uri);
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
 
         _setupRole(MINTER_ROLE, _msgSender());
@@ -63,7 +64,7 @@ contract MetarunCollection is ERC1155, AccessControl {
         _setupRole(COLLISION_DAMAGE_SETTER_ROLE, _msgSender());
     }
 
-    function supportsInterface(bytes4 interfaceId) public view override(ERC1155, AccessControl) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view override(ERC1155Upgradeable, AccessControlUpgradeable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 
@@ -204,13 +205,13 @@ contract MetarunCollection is ERC1155, AccessControl {
         require(hasRole(COLLISION_DAMAGE_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need COLLISION_DAMAGE_SETTER_ROLE");
         tokenCollisionDamagePoints[id] = collisionDamage;
     }
-    
+
     function increaseHealth(uint256 amount, uint256 characterId) external {
         require(isCharacter(characterId), "Does not match token character kind");
         require(balanceOf(msg.sender, characterId) == 1, "Not enough character token balance");
         require(balanceOf(msg.sender, HEALTH_TOKEN_ID) >= amount, "Not enough health token balance");
         _burn(msg.sender, HEALTH_TOKEN_ID, amount);
-        tokenHealthPoints[characterId] += amount; 
+        tokenHealthPoints[characterId] += amount;
     }
 
     function decreaseHealth(uint256 amount, uint256 characterId) external {
