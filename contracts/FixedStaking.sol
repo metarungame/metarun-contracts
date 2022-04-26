@@ -2,18 +2,19 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+// import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-interface IERC20mintable is IERC20 {
+interface IERC20mintable is IERC20Upgradeable {
     function mint(address to, uint256 amount) external;
 
     function burn(uint256 amount) external;
 }
 
-contract FixedStaking is Ownable {
-    using SafeERC20 for IERC20mintable;
+contract FixedStaking is OwnableUpgradeable {
+    using SafeERC20Upgradeable for IERC20mintable;
 
     // user deposits are recorded in StakeInfo[] stakes struct
     struct StakeInfo {
@@ -77,12 +78,12 @@ contract FixedStaking is Ownable {
      * @param _yieldRate reward rate in basis points (1/10000)
      * @param _earlyUnstakeFee fee for unstaking before stake expiration
      */
-    constructor(
+    function initialize(
         address _token,
         uint256 _stakeDurationDays,
         uint256 _yieldRate,
         uint256 _earlyUnstakeFee
-    ) {
+    ) public initializer {
         require(_token != address(0), "Empty token address");
         require(_yieldRate > 0, "Zero yield rate");
         require(_earlyUnstakeFee > 0, "Zero early Unstake Fee");
@@ -90,6 +91,7 @@ contract FixedStaking is Ownable {
         stakeDurationDays = _stakeDurationDays;
         yieldRate = _yieldRate;
         earlyUnstakeFee = _earlyUnstakeFee;
+        __Ownable_init();
     }
 
     /**
