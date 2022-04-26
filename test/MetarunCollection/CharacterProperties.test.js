@@ -43,31 +43,13 @@ describe("MetarunCollection | getters and setters of Character properties", func
     expect(valueInContract).to.be.eq(value);
   });
 
-  it("should set health properly", async function () {
-    const value = 14;
-    await this.metarunCollection.setHealth(this.characterId, value);
-    const valueInContract = await this.metarunCollection.getHealth(this.characterId);
-    expect(valueInContract).to.be.eq(value);
-  });
-
-  it("should set mana properly", async function () {
-    const value = 15;
-    await this.metarunCollection.setMana(this.characterId, value);
-    const valueInContract = await this.metarunCollection.getMana(this.characterId);
-    expect(valueInContract).to.be.eq(value);
-  });
-
-  it("should set speed properly", async function () {
-    const value = 16;
-    await this.metarunCollection.setSpeed(this.characterId, value);
-    const valueInContract = await this.metarunCollection.getSpeed(this.characterId);
-    expect(valueInContract).to.be.eq(value);
-  });
-
-  it("should set collision damage properly", async function () {
-    const value = 17;
-    await this.metarunCollection.setCollisionDamage(this.characterId, value);
-    const valueInContract = await this.metarunCollection.getCollisionDamage(this.characterId);
-    expect(valueInContract).to.be.eq(value);
+  it("should set perks properly", async function () {
+    const values = [14, 15, 16, 17];
+    await this.metarunCollection.setPerks(this.characterId, values);
+    const valuesInContract = await this.metarunCollection.getPerks(this.characterId);
+    expect(valuesInContract[0]).to.be.eq(values[0]);
+    expect(valuesInContract[1]).to.be.eq(values[1]);
+    expect(valuesInContract[2]).to.be.eq(values[2]);
+    expect(valuesInContract[3]).to.be.eq(values[3]);
   });
 });

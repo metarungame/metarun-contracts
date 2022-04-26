@@ -52,8 +52,10 @@ describe("MetarunCollection | Increase/Decrease fungible token", function () {
           it("check token Health balance for account", async function () {
             expect(await this.metarunCollection.balanceOf(this.deployer.address, HEALTH_TOKEN_ID)).to.be.equal(0);
           });
-          it("check mappinig tokens Character and Health", async function () {
-            expect(await this.metarunCollection.getHealth(CHARACTER_TOKEN_ID)).to.be.equal(amount);
+          it("check mapping tokens Character and Perks", async function () {
+            const perks = await this.metarunCollection.getPerks(CHARACTER_TOKEN_ID);
+            const health = perks[0];
+            expect(health).to.be.equal(amount);
           });
           it("check reverted with reason string 'Not enough health token balance'", async function () {
             await expect(this.metarunCollection.increaseHealth(amount, CHARACTER_TOKEN_ID)).to.be.revertedWith(
@@ -64,8 +66,10 @@ describe("MetarunCollection | Increase/Decrease fungible token", function () {
             beforeEach(async function () {
               await this.metarunCollection.decreaseHealth(amountHalf, CHARACTER_TOKEN_ID);
             });
-            it("check amount token Health in mappinig Character and Health", async function () {
-              expect(await this.metarunCollection.getHealth(CHARACTER_TOKEN_ID)).to.be.equal(amount - amountHalf);
+            it("check amount token Health in mapping Character and Perks", async function () {
+              const perks = await this.metarunCollection.getPerks(CHARACTER_TOKEN_ID);
+              const health = perks[0];
+              expect(health).to.be.equal(amount - amountHalf);
             });
             it("check token Health balance for account", async function () {
               expect(await this.metarunCollection.balanceOf(this.deployer.address, HEALTH_TOKEN_ID)).to.be.equal(amount - amountHalf);

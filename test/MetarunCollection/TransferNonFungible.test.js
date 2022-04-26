@@ -18,7 +18,8 @@ describe("MetarunCollection | Non-fungible token transfer", async function () {
 
     this.nonFungibleTokenTransferTestCase = async (tokenId, tokenKind) => {
       const isKindCheck = await this.metarunCollection.isKind(tokenId, tokenKind);
-      const isFungibleCheck = await this.metarunCollection.isFungible(tokenId);
+      const fungibleKind = await this.metarunCollection.FUNGIBLE_TOKEN_KIND();
+      const isFungibleCheck = await this.metarunCollection.isKind(tokenId, fungibleKind);
       expect(isKindCheck).to.be.eq(true);
       expect(isFungibleCheck).to.be.eq(false);
 
@@ -66,12 +67,6 @@ describe("MetarunCollection | Non-fungible token transfer", async function () {
   it("should transfer skin token", async function () {
     const tokenId = (0x0300 << 16) | getTokenId();
     const tokenKind = await this.metarunCollection.SKIN_TOKEN_KIND();
-    this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
-  });
-
-  it("should transfer raffle ticket token", async function () {
-    const tokenId = (0x0400 << 16) | getTokenId();
-    const tokenKind = await this.metarunCollection.RAFFLE_TICKET_TOKEN_KIND();
     this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
   });
 
