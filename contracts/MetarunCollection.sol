@@ -36,35 +36,21 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
     mapping(uint256 => uint256) tokenCollisionDamagePoints;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-    bytes32 public constant LEVEL_SETTER_ROLE = keccak256("LEVEL_SETTER_ROLE");
-    bytes32 public constant RUNS_COUNT_SETTER_ROLE = keccak256("RUNS_COUNT_SETTER_ROLE");
-    bytes32 public constant WINS_COUNT_SETTER_ROLE = keccak256("WINS_COUNT_SETTER_ROLE");
-
-    bytes32 public constant ABILITY_SETTER_ROLE = keccak256("ABILITY_SETTER_ROLE");
-
-    bytes32 public constant HEALTH_SETTER_ROLE = keccak256("HEALTH_SETTER_ROLE");
-    bytes32 public constant MANA_SETTER_ROLE = keccak256("MANA_SETTER_ROLE");
-    bytes32 public constant SPEED_SETTER_ROLE = keccak256("SPEED_SETTER_ROLE");
-    bytes32 public constant COLLISION_DAMAGE_SETTER_ROLE = keccak256("COLLISION_DAMAGE_SETTER_ROLE");
-
+    bytes32 public constant SETTER_ROLE = keccak256("SETTER_ROLE");
+    
     function initialize(string memory uri) public initializer {
         __ERC1155_init(uri);
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
 
         _setupRole(MINTER_ROLE, _msgSender());
-        _setupRole(LEVEL_SETTER_ROLE, _msgSender());
-        _setupRole(RUNS_COUNT_SETTER_ROLE, _msgSender());
-        _setupRole(WINS_COUNT_SETTER_ROLE, _msgSender());
-
-        _setupRole(ABILITY_SETTER_ROLE, _msgSender());
-
-        _setupRole(HEALTH_SETTER_ROLE, _msgSender());
-        _setupRole(MANA_SETTER_ROLE, _msgSender());
-        _setupRole(SPEED_SETTER_ROLE, _msgSender());
-        _setupRole(COLLISION_DAMAGE_SETTER_ROLE, _msgSender());
+        _setupRole(SETTER_ROLE, _msgSender());
     }
 
-    function supportsInterface(bytes4 interfaceId) public view override(ERC1155Upgradeable, AccessControlUpgradeable) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) 
+    public 
+    view 
+    override(ERC1155Upgradeable, AccessControlUpgradeable) 
+    returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 
@@ -114,7 +100,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
     }
 
     function setURI(string memory newUri) public {
-        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "METARUNCOLLECTION: need DEFAULT_ADMIN_ROLE");
+        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need DEFAULT_ADMIN_ROLE");
         _setURI(newUri);
     }
 
@@ -125,7 +111,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
 
     function setLevel(uint256 id, uint256 level) public {
         require(isCharacter(id) || isPet(id), "Level is available only for pet or character");
-        require(hasRole(LEVEL_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need LEVEL_SETTER_ROLE");
+        require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenLevels[id] = level;
     }
 
@@ -136,7 +122,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
 
     function setRunCount(uint256 id, uint256 runsCount) public {
         require(isCharacter(id), "Runs count is available only for character");
-        require(hasRole(RUNS_COUNT_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need RUNS_COUNT_SETTER_ROLE");
+        require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenRuns[id] = runsCount;
     }
 
@@ -147,7 +133,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
 
     function setWinCount(uint256 id, uint256 winsCount) public {
         require(isCharacter(id), "Wins count is available only for character");
-        require(hasRole(WINS_COUNT_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need WINS_COUNT_SETTER_ROLE");
+        require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenWins[id] = winsCount;
     }
 
@@ -158,7 +144,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
 
     function setAbility(uint256 id, uint256 ability) public {
         require(isCharacter(id), "Ability is available only for character");
-        require(hasRole(ABILITY_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need ABILITY_SETTER_ROLE");
+        require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenAbilities[id] = ability;
     }
 
@@ -169,7 +155,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
 
     function setHealth(uint256 id, uint256 health) public {
         require(isCharacter(id), "Health is available only for character");
-        require(hasRole(HEALTH_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need HEALTH_SETTER_ROLE");
+        require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenHealthPoints[id] = health;
     }
 
@@ -180,7 +166,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
 
     function setMana(uint256 id, uint256 mana) public {
         require(isCharacter(id), "Mana is available only for character");
-        require(hasRole(MANA_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need MANA_SETTER_ROLE");
+        require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenManaPoints[id] = mana;
     }
 
@@ -191,7 +177,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
 
     function setSpeed(uint256 id, uint256 speed) public {
         require(isCharacter(id), "Speed is available only for character");
-        require(hasRole(SPEED_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need SPEED_SETTER_ROLE");
+        require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenSpeedPoints[id] = speed;
     }
 
@@ -202,7 +188,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable {
 
     function setCollisionDamage(uint256 id, uint256 collisionDamage) public {
         require(isCharacter(id), "Collision Damage is available only for character");
-        require(hasRole(COLLISION_DAMAGE_SETTER_ROLE, _msgSender()), "METARUNCOLLECTION: need COLLISION_DAMAGE_SETTER_ROLE");
+        require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenCollisionDamagePoints[id] = collisionDamage;
     }
 

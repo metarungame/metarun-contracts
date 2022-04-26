@@ -24,7 +24,7 @@ describe("MetarunCollection | Manage level of pets and characters", function () 
       expect(level).to.be.eq(0);
     });
 
-    it("should correctly give level for non-LEVEL_SETTER_ROLE", async function () {
+    it("should correctly give level for non-SETTER_ROLE", async function () {
       const level = await this.metarunCollection.connect(this.characterOwner).getLevel(this.characterTokenId);
       expect(level).to.be.eq(0);
     });
@@ -36,10 +36,10 @@ describe("MetarunCollection | Manage level of pets and characters", function () 
       expect(levelFromContract).to.be.eq(level);
     });
 
-    it("should deny set level for non-LEVEL_SETTER_ROLE", async function () {
+    it("should deny set level for non-SETTER_ROLE", async function () {
       const level = 100;
       const attemptToSetLevel = this.metarunCollection.connect(this.characterOwner).setLevel(this.characterTokenId, level);
-      await expect(attemptToSetLevel).to.be.revertedWith("METARUNCOLLECTION: need LEVEL_SETTER_ROLE");
+      await expect(attemptToSetLevel).to.be.revertedWith("need SETTER_ROLE");
     });
   });
 
@@ -49,7 +49,7 @@ describe("MetarunCollection | Manage level of pets and characters", function () 
       expect(level).to.be.eq(0);
     });
 
-    it("should correctly give level for non-LEVEL_SETTER_ROLE", async function () {
+    it("should correctly give level for non-SETTER_ROLE", async function () {
       const level = await this.metarunCollection.connect(this.petOwner).getLevel(this.petTokenId);
       expect(level).to.be.eq(0);
     });
@@ -61,10 +61,10 @@ describe("MetarunCollection | Manage level of pets and characters", function () 
       expect(levelFromContract).to.be.eq(level);
     });
 
-    it("should deny set level for non-LEVEL_SETTER_ROLE", async function () {
+    it("should deny set level for non-SETTER_ROLE", async function () {
       const level = 129;
       const attemptToSetLevel = this.metarunCollection.connect(this.petOwner).setLevel(this.petTokenId, level);
-      await expect(attemptToSetLevel).to.be.revertedWith("METARUNCOLLECTION: need LEVEL_SETTER_ROLE");
+      await expect(attemptToSetLevel).to.be.revertedWith("need SETTER_ROLE");
     });
   });
 });

@@ -64,7 +64,6 @@ module.exports = {
     },
     hardhat: {
       chainId: 137,
-      allowUnlimitedContractSize: true
     },
     rinkeby: {
         chainId: 4,
@@ -79,6 +78,6 @@ module.exports = {
         url: `https://data-seed-prebsc-1-s2.binance.org:8545/`,
         live: true,
         saveDeployments: true,
-  }
+    }
   },
 };
