@@ -14,7 +14,9 @@ contract FixedStakingMock is FixedStaking {
         uint256 _stakeDurationDays,
         uint256 _rewardRate,
         uint256 _earlyUnstakeFee
-    ) FixedStaking(_token, _stakeDurationDays, _rewardRate, _earlyUnstakeFee) {}
+    )  {
+        FixedStaking.initialize(_token, _stakeDurationDays, _rewardRate, _earlyUnstakeFee);
+    }
 
     function setCurrentTime(uint256 _currentTime) public {
         currentTime = _currentTime;

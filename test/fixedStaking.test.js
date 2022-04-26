@@ -54,11 +54,6 @@ describe("FixedStaking", function () {
         await expect(this.pool.start()).to.be.revertedWith("Stakes are open already");
       });
 
-      // it("should revert if not enough reward tokens", async function () {
-      //   // await this.token.transfer(this.pool.address, 155)
-      //   await expect(this.pool.stake(10000)).to.be.revertedWith("ERC20: transfer amount exceeds allowance")
-      // })
-
       describe("Owner added reward token on the contract", async function () {
         beforeEach(async function () {
           reward = BigNumber.from("10000").mul("155").div("10000");
@@ -66,7 +61,6 @@ describe("FixedStaking", function () {
           fee1 = reward;
           fee2 = secondReward;
           totalReward = reward.add(secondReward);
-          // await this.token.transfer(this.pool.address, totalReward)
         });
 
         it("should revert if stake without approve", async function () {
