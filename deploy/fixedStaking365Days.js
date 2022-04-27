@@ -1,13 +1,13 @@
-const contractName = "FixedStaking6hours"
+const contractName = "FixedStaking360Days"
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, execute } = deployments
   const { deployer } = await getNamedAccounts()
 
   const token = (await deployments.get("MetarunToken")).address
-  const stakeDuration = 6 * 60 * 60
-  const rewardRate = 2250
-  const earlyUnstakeFee = 2250
+  const stakeDuration = 365 * 60 * 60 * 24
+  const rewardRate = 7000
+  const earlyUnstakeFee = 7000
 
   console.log("Deploying contract:", contractName)
   console.log("Deployer:", deployer)

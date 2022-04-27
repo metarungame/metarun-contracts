@@ -5,18 +5,18 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deployer } = await getNamedAccounts()
 
   const token = (await deployments.get("MetarunToken")).address
-  const stakeDurationDays = 12
+  const stakeDuration = 12 * 60 * 60
   const rewardRate = 7000
   const earlyUnstakeFee = 7000
 
   console.log("Deploying contract:", contractName)
   console.log("Deployer:", deployer)
-  console.log("Arguments:", token, stakeDurationDays, rewardRate, earlyUnstakeFee)
+  console.log("Arguments:", token, stakeDuration, rewardRate, earlyUnstakeFee)
 
   await deploy(contractName, {
     from: deployer,
     log: true,
-    args: [token, stakeDurationDays, rewardRate, earlyUnstakeFee],
+    args: [token, stakeDuration, rewardRate, earlyUnstakeFee],
     contract: "FixedStaking",
   })
 

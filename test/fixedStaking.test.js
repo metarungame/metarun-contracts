@@ -6,6 +6,9 @@ const days = BigNumber.from("60").mul("60").mul("24");
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
+const stakeDuration30Days = 30 * 60 * 60 * 24;
+const stakeDuration90Days = 90 * 60 * 60 * 24;
+
 describe("FixedStaking", function () {
   before(async function () {
     this.signers = await ethers.getSigners();
@@ -21,7 +24,7 @@ describe("FixedStaking", function () {
       this.token = await this.tokenFactory.deploy();
       await this.token.deployed();
       await this.token.mint(this.alice.address, initialSupply);
-      this.pool = await this.contract.deploy(this.token.address, 30, 155, 155);
+      this.pool = await this.contract.deploy(this.token.address, stakeDuration30Days, 155, 155);
       await this.pool.deployed();
       await this.pool.setCurrentTime(0);
       await this.token.grantRole(await this.token.MINTER_ROLE(), this.pool.address);
@@ -32,13 +35,17 @@ describe("FixedStaking", function () {
       expect(deployed, true);
       expect(await this.pool.owner()).to.equal(this.alice.address);
       expect(await this.pool.stakesOpen()).to.equal(false);
-      expect(await this.pool.stakeDurationDays()).to.equal("30");
+      expect(await this.pool.stakeDuration()).to.equal(stakeDuration30Days);
       expect(await this.pool.yieldRate()).to.equal("155");
       expect(await this.pool.earlyUnstakeFee()).to.equal("155");
       expect(await this.pool.stakedTokens()).to.equal("0");
       expect(await this.pool.getStakesLength(this.alice.address)).to.equal("0");
       expect(await this.pool.mrunPerSkin()).to.equal("0");
       expect(await this.token.balanceOf(this.alice.address)).to.equal(BigNumber.from("3600000").mul(BigNumber.from(10).pow(18)));
+    });
+
+    it("Get now check", async function () {
+      const deployed = await this.pool.deployed();
     });
 
     describe("Set mrunPerSkin", async function () {
@@ -59,7 +66,6 @@ describe("FixedStaking", function () {
     describe("Start staking", async function () {
       beforeEach(async function () {
         await this.pool.start();
-        await this.pool.setMrunPerSkin(1000);
       });
 
       it("should revert when start () is called again", async function () {
@@ -148,6 +154,11 @@ describe("FixedStaking", function () {
               (await this.pool.getStake(this.alice.address, 0)).startTime
             );
             expect((await this.pool.getStake(this.alice.address, 0)).harvestableYield).to.equal("0");
+            expect((await this.pool.getStake(this.alice.address, 0)).skins).to.equal("0");
+          });
+
+          it("check reward skins after set mrunPerSkin on Alice's first stake", async function () {
+            await this.pool.setMrunPerSkin(1000);
             expect((await this.pool.getStake(this.alice.address, 0)).skins).to.equal("10");
           });
 
@@ -190,9 +201,13 @@ describe("FixedStaking", function () {
                 (await this.pool.getStake(this.alice.address, 1)).startTime
               );
               expect((await this.pool.getStake(this.alice.address, 1)).harvestableYield).to.equal("0");
-              expect((await this.pool.getStake(this.alice.address, 1)).skins).to.equal("20");
+              expect((await this.pool.getStake(this.alice.address, 1)).skins).to.equal("0");
             });
 
+            it("check reward skins after set mrunPerSkin on Alice's second stake", async function () {
+              await this.pool.setMrunPerSkin(1000);
+              expect((await this.pool.getStake(this.alice.address, 1)).skins).to.equal("20");
+            });
             describe("15 days (half) passed", function () {
               beforeEach(async function () {
                 await this.pool.increaseCurrentTime(days.mul("15"));
@@ -209,7 +224,7 @@ describe("FixedStaking", function () {
                   (await this.pool.getStake(this.alice.address, 0)).startTime
                 );
                 expect((await this.pool.getStake(this.alice.address, 0)).harvestableYield).to.equal(reward.div(2));
-                expect((await this.pool.getStake(this.alice.address, 0)).skins).to.equal("10");
+                expect((await this.pool.getStake(this.alice.address, 0)).skins).to.equal("0");
 
                 expect((await this.pool.getStake(this.alice.address, 1)).staked).to.equal(true);
                 expect((await this.pool.getStake(this.alice.address, 1)).stakedAmount).to.equal("20000");
@@ -221,7 +236,7 @@ describe("FixedStaking", function () {
                   (await this.pool.getStake(this.alice.address, 1)).startTime
                 );
                 expect((await this.pool.getStake(this.alice.address, 1)).harvestableYield).to.equal(secondReward.div("2"));
-                expect((await this.pool.getStake(this.alice.address, 1)).skins).to.equal("20");
+                expect((await this.pool.getStake(this.alice.address, 1)).skins).to.equal("0");
               });
 
               describe("early unstake first deposit", function () {
@@ -915,7 +930,7 @@ describe("FixedStaking", function () {
       beforeEach(async function () {
         this.token = await this.tokenFactory.deploy();
         await this.token.deployed();
-        this.pool = await this.contract.deploy(this.token.address, 90, 1105, 1105);
+        this.pool = await this.contract.deploy(this.token.address, stakeDuration90Days, 1105, 1105);
         await this.pool.deployed();
         await this.pool.setCurrentTime(1700000000);
       });
@@ -925,7 +940,7 @@ describe("FixedStaking", function () {
         expect(deployed, true);
         expect(await this.pool.owner()).to.equal(this.alice.address);
         expect(await this.pool.stakesOpen()).to.equal(false);
-        expect(await this.pool.stakeDurationDays()).to.equal("90");
+        expect(await this.pool.stakeDuration()).to.equal(stakeDuration90Days);
         expect(await this.pool.yieldRate()).to.equal("1105");
         expect(await this.pool.earlyUnstakeFee()).to.equal("1105");
         expect(await this.pool.stakedTokens()).to.equal("0");

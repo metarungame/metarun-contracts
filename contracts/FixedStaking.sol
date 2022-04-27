@@ -51,7 +51,7 @@ contract FixedStaking is OwnableUpgradeable {
 
     // The staking interval in days.
     // Early unstaking is possible but a fine is withheld.
-    uint256 public stakeDurationDays;
+    uint256 public stakeDuration;
 
     // Fee for early unstake in basis points (1/10000)
     // If the user withdraws before stake expiration, he pays `earlyUnstakeFee`
@@ -77,13 +77,13 @@ contract FixedStaking is OwnableUpgradeable {
     /**
      * @dev the constructor arguments:
      * @param _token address of token - the same accepted for staking and used to pay rewards
-     * @param _stakeDurationDays the stake duration in days
+     * @param _stakeDuration the stake duration in seconds
      * @param _yieldRate reward rate in basis points (1/10000)
      * @param _earlyUnstakeFee fee for unstaking before stake expiration
      */
     function initialize(
         address _token,
-        uint256 _stakeDurationDays,
+        uint256 _stakeDuration,
         uint256 _yieldRate,
         uint256 _earlyUnstakeFee
     ) public initializer {
@@ -91,7 +91,7 @@ contract FixedStaking is OwnableUpgradeable {
         require(_yieldRate > 0, "Zero yield rate");
         require(_earlyUnstakeFee > 0, "Zero early Unstake Fee");
         token = IERC20mintable(_token);
-        stakeDurationDays = _stakeDurationDays;
+        stakeDuration = _stakeDuration;
         yieldRate = _yieldRate;
         earlyUnstakeFee = _earlyUnstakeFee;
         __Ownable_init();
@@ -127,7 +127,7 @@ contract FixedStaking is OwnableUpgradeable {
         // entire reward allocated for the user for this stake
         uint256 totalYield = (_amount * yieldRate) / 10000;
         uint256 startTime = _now();
-        uint256 endTime = _now() + stakeDurationDays * 1 days;
+        uint256 endTime = _now() + stakeDuration;
         stakes[msg.sender].push(
             StakeInfo({
                 staked: true,

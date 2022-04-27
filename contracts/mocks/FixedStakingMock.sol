@@ -11,11 +11,11 @@ contract FixedStakingMock is FixedStaking {
 
     constructor(
         address _token,
-        uint256 _stakeDurationDays,
+        uint256 _stakeDuration,
         uint256 _rewardRate,
         uint256 _earlyUnstakeFee
     )  {
-        FixedStaking.initialize(_token, _stakeDurationDays, _rewardRate, _earlyUnstakeFee);
+        FixedStaking.initialize(_token, _stakeDuration, _rewardRate, _earlyUnstakeFee);
     }
 
     function setCurrentTime(uint256 _currentTime) public {
