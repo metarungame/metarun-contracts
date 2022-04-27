@@ -65,6 +65,9 @@ contract FixedStaking is OwnableUpgradeable {
     // The reward tokens get allocated at the moment of stake.
     uint256 public allocatedTokens;
 
+    // Number of mrun tokens required to reward one nft
+    uint256 public mrunPerSkin = 0;
+
     event Stake(address indexed user, uint256 indexed stakeId, uint256 amount, uint256 startTime, uint256 endTime);
 
     event Unstake(address indexed user, uint256 indexed stakeId, uint256 amount, uint256 startTime, uint256 endTime, bool early);
@@ -110,6 +113,10 @@ contract FixedStaking is OwnableUpgradeable {
         stakesOpen = false;
     }
 
+    function setMrunPerSkin(uint256 _amount) public onlyOwner {
+        mrunPerSkin = _amount;
+    }
+
     /**
      * @dev submit the stake
      * @param _amount   amount of tokens to be transferred from user's account
@@ -152,7 +159,8 @@ contract FixedStaking is OwnableUpgradeable {
             uint256 totalYield,
             uint256 harvestedYield,
             ,
-            uint256 harvestableYield
+            uint256 harvestableYield,
+
         ) = getStake(msg.sender, _stakeId);
         bool early;
         require(staked, "Unstaked already");
@@ -184,7 +192,7 @@ contract FixedStaking is OwnableUpgradeable {
      * @param _stakeId   Id of the stake
      */
     function harvest(uint256 _stakeId) external {
-        (, , , , , uint256 harvestedYield, , uint256 harvestableYield) = getStake(msg.sender, _stakeId);
+        (, , , , , uint256 harvestedYield, , uint256 harvestableYield, ) = getStake(msg.sender, _stakeId);
         require(harvestableYield != 0, "harvestableYield is zero");
         allocatedTokens = allocatedTokens - harvestableYield;
         stakes[msg.sender][_stakeId].harvestedYield = harvestedYield + harvestableYield;
@@ -214,6 +222,7 @@ contract FixedStaking is OwnableUpgradeable {
      * @return harvestedYield The part of yield user harvested already
      * @return lastHarvestTime The time of last harvest event
      * @return harvestableYield The unlocked part of yield available for harvesting
+     * @return skins Reward nft skin type tokens
      */
     function getStake(address _userAddress, uint256 _stakeId)
         public
@@ -226,7 +235,8 @@ contract FixedStaking is OwnableUpgradeable {
             uint256 totalYield, // Entire yield for the stake (totally released on endTime)
             uint256 harvestedYield, // The part of yield user harvested already
             uint256 lastHarvestTime, // The time of last harvest event
-            uint256 harvestableYield // The unlocked part of yield available for harvesting
+            uint256 harvestableYield, // The unlocked part of yield available for harvesting
+            uint256 skins // Reward nft skin type tokens
         )
     {
         StakeInfo memory _stake = stakes[_userAddress][_stakeId];
@@ -241,6 +251,11 @@ contract FixedStaking is OwnableUpgradeable {
             harvestableYield = totalYield - harvestedYield;
         } else {
             harvestableYield = (totalYield * (_now() - lastHarvestTime)) / (endTime - startTime);
+        }
+        if (mrunPerSkin > 0) {
+            skins = stakedAmount / mrunPerSkin;
+        } else {
+            skins = 0;
         }
     }
 
