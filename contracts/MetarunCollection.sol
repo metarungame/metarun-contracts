@@ -88,6 +88,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
     ) public {
         require(hasRole(MINTER_ROLE, _msgSender()), "METARUNCOLLECTION: need MINTER_ROLE");
         require(!isKind(kind << 16, FUNGIBLE_TOKEN_KIND), "Mint many is available only for NFT");
+        require(count > 0, "Count should be greater than 0");
         uint256[] memory tokenIds = new uint256[](count);
         uint256[] memory amounts = new uint256[](count);
         for (uint256 i = 0; i < count; i++) {
