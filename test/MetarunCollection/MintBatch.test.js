@@ -62,12 +62,12 @@ describe("MetarunCollection | mintBatch() function", function () {
     for (let i = 0; i < amount; i++) {
       if (i == 10) continue;
       const balance = await this.metarunCollection.balanceOf(this.recipient.address, skinIds[i]);
-      const tokenSupply = await this.metarunCollection.getTokenSupply(skinIds[i]);
+      const tokenSupply = await this.metarunCollection.totalSupply(skinIds[i]);
       expect(balance).to.be.eq(1);
       expect(tokenSupply).to.be.eq(1);
     }
     const balanceOfSingle = await this.metarunCollection.balanceOf(this.recipient.address, tokenIdOfSingle);
-    const tokenSupplyOfSingle = await this.metarunCollection.getTokenSupply(tokenIdOfSingle);
+    const tokenSupplyOfSingle = await this.metarunCollection.totalSupply(tokenIdOfSingle);
     expect(balanceOfSingle).to.be.eq(1);
     expect(tokenSupplyOfSingle).to.be.eq(1);
   });
