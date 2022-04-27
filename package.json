@@ -20,6 +20,7 @@
     "simplified-mint-tokens:mumbai": "hardhat simplified-mint-tokens --network mumbai --address-token $METARUN_COLLECTION_ADDRESS --address-receiver $RECEIVER_ADDRESS",
     "simplified-mint-tokens:bsctestnet": "hardhat simplified-mint-tokens --network bsctestnet --address-token $METARUN_COLLECTION_ADDRESS --address-receiver $RECEIVER_ADDRESS",
     "deploy:hardhat": "hardhat deploy",
+    "deploy:rinkeby": "hardhat deploy --network rinkeby",
     "deploy:polygon": "hardhat deploy --network polygon",
     "deploy:mumbai": "hardhat deploy --network mumbai",
     "deploy:bsctestnet": "hardhat deploy --network bsctestnet",
