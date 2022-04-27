@@ -7,16 +7,16 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     from: deployer,
     log: true,
     proxy: {
-      proxyContract: "OpenZeppelinTransparentProxy",
-      execute: {
-        methodName: "initialize",
-        args: ["https://app-staging.metarun.game/metadata/{id}.json"],
-      },
+        proxyContract: "OpenZeppelinTransparentProxy",
+        execute: {
+            init: {
+            methodName: "initialize",
+            args: ["https://app-staging.metarun.game/metadata/{id}.json"],
+            },
+        }
     },
   });
-
   console.log("Token address: ", deployResult.address);
-
 };
 
 module.exports.tags = ["MetarunCollection"];
