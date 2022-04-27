@@ -2,8 +2,9 @@
 
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-// import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
@@ -13,9 +14,16 @@ interface IERC20mintable is IERC20Upgradeable {
     function burn(uint256 amount) external;
 }
 
+interface IERC1155mintBatch is IERC1155Upgradeable {
+    function mintBatch(
+        address to,
+        uint256 kind,
+        uint256 count
+    ) external;
+}
+
 contract FixedStaking is OwnableUpgradeable {
     using SafeERC20Upgradeable for IERC20mintable;
-
     // user deposits are recorded in StakeInfo[] stakes struct
     struct StakeInfo {
         // staked is true if deposit is staked and hasn't been unstaked.
@@ -42,6 +50,9 @@ contract FixedStaking is OwnableUpgradeable {
 
     // The token accepted for staking and used for rewards (The same token for both).
     IERC20mintable public token;
+
+    // The NFT Collection used for rewards.
+    IERC1155mintBatch public nftCollection;
 
     // struccture that stores the records of users' stakes
     mapping(address => StakeInfo[]) public stakes;
@@ -85,7 +96,8 @@ contract FixedStaking is OwnableUpgradeable {
         address _token,
         uint256 _stakeDuration,
         uint256 _yieldRate,
-        uint256 _earlyUnstakeFee
+        uint256 _earlyUnstakeFee,
+        address _nftCollection
     ) public initializer {
         require(_token != address(0), "Empty token address");
         require(_yieldRate > 0, "Zero yield rate");
@@ -94,6 +106,7 @@ contract FixedStaking is OwnableUpgradeable {
         stakeDuration = _stakeDuration;
         yieldRate = _yieldRate;
         earlyUnstakeFee = _earlyUnstakeFee;
+        nftCollection = IERC1155mintBatch(_nftCollection);
         __Ownable_init();
     }
 
@@ -160,7 +173,7 @@ contract FixedStaking is OwnableUpgradeable {
             uint256 harvestedYield,
             ,
             uint256 harvestableYield,
-
+            uint256 skin
         ) = getStake(msg.sender, _stakeId);
         bool early;
         require(staked, "Unstaked already");
@@ -169,6 +182,9 @@ contract FixedStaking is OwnableUpgradeable {
             stakedTokens = stakedTokens - stakedAmount;
             early = false;
             token.safeTransfer(msg.sender, stakedAmount);
+            if (skin > 0) {
+                nftCollection.mintBatch(msg.sender, 0x0300, skin);
+            }
         } else {
             uint256 newTotalYield = harvestedYield + harvestableYield;
             allocatedTokens = allocatedTokens - (totalYield - newTotalYield);
@@ -236,7 +252,7 @@ contract FixedStaking is OwnableUpgradeable {
             uint256 harvestedYield, // The part of yield user harvested already
             uint256 lastHarvestTime, // The time of last harvest event
             uint256 harvestableYield, // The unlocked part of yield available for harvesting
-            uint256 skins // Reward nft skin type tokens
+            uint256 skins // Reward token's amount of kind skin
         )
     {
         StakeInfo memory _stake = stakes[_userAddress][_stakeId];

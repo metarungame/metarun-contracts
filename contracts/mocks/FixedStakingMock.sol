@@ -13,9 +13,10 @@ contract FixedStakingMock is FixedStaking {
         address _token,
         uint256 _stakeDuration,
         uint256 _rewardRate,
-        uint256 _earlyUnstakeFee
+        uint256 _earlyUnstakeFee,
+        address _nftCollection
     )  {
-        FixedStaking.initialize(_token, _stakeDuration, _rewardRate, _earlyUnstakeFee);
+        FixedStaking.initialize(_token, _stakeDuration, _rewardRate, _earlyUnstakeFee, _nftCollection);
     }
 
     function setCurrentTime(uint256 _currentTime) public {

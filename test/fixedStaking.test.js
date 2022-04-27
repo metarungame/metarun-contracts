@@ -1,4 +1,4 @@
-const { ethers } = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 const { expect } = require("chai");
 const { BigNumber } = require("ethers");
 
@@ -9,12 +9,15 @@ const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const stakeDuration30Days = 30 * 60 * 60 * 24;
 const stakeDuration90Days = 90 * 60 * 60 * 24;
 
+const URI_TOKEN = "localhost/api/{id}.json";
+
 describe("FixedStaking", function () {
   before(async function () {
     this.signers = await ethers.getSigners();
     this.alice = this.signers[0];
     this.bob = this.signers[1];
     this.tokenFactory = await ethers.getContractFactory("MetarunToken");
+    this.nftCollectionFactory = await ethers.getContractFactory("MetarunCollection");
     this.contract = await ethers.getContractFactory("FixedStakingMock");
   });
 
@@ -24,10 +27,13 @@ describe("FixedStaking", function () {
       this.token = await this.tokenFactory.deploy();
       await this.token.deployed();
       await this.token.mint(this.alice.address, initialSupply);
-      this.pool = await this.contract.deploy(this.token.address, stakeDuration30Days, 155, 155);
+      this.nftCollection = await upgrades.deployProxy(this.nftCollectionFactory, [URI_TOKEN]);
+      await this.nftCollection.deployed();
+      this.pool = await this.contract.deploy(this.token.address, stakeDuration30Days, 155, 155, this.nftCollection.address);
       await this.pool.deployed();
       await this.pool.setCurrentTime(0);
       await this.token.grantRole(await this.token.MINTER_ROLE(), this.pool.address);
+      await this.nftCollection.grantRole(await this.nftCollection.MINTER_ROLE(), this.pool.address);
     });
 
     it("initial states", async function () {
@@ -91,15 +97,17 @@ describe("FixedStaking", function () {
         });
 
         it("should revert if the contract address is zero", async function () {
-          await expect(this.contract.deploy(ZERO_ADDRESS, 30, 155, 155)).to.be.revertedWith("Empty token address");
+          await expect(this.contract.deploy(ZERO_ADDRESS, 30, 155, 155, this.nftCollection.address)).to.be.revertedWith("Empty token address");
         });
 
         it("should revert if the yield rate is zero", async function () {
-          await expect(this.contract.deploy(this.token.address, 30, 0, 155)).to.be.revertedWith("Zero yield rate");
+          await expect(this.contract.deploy(this.token.address, 30, 0, 155, this.nftCollection.address)).to.be.revertedWith("Zero yield rate");
         });
 
         it("should revert if the early unstake fee is zero", async function () {
-          await expect(this.contract.deploy(this.token.address, 30, 155, 0)).to.be.revertedWith("Zero early Unstake Fee");
+          await expect(this.contract.deploy(this.token.address, 30, 155, 0, this.nftCollection.address)).to.be.revertedWith(
+            "Zero early Unstake Fee"
+          );
         });
 
         describe("Alice staked", function () {
@@ -930,7 +938,7 @@ describe("FixedStaking", function () {
       beforeEach(async function () {
         this.token = await this.tokenFactory.deploy();
         await this.token.deployed();
-        this.pool = await this.contract.deploy(this.token.address, stakeDuration90Days, 1105, 1105);
+        this.pool = await this.contract.deploy(this.token.address, stakeDuration90Days, 1105, 1105, this.nftCollection.address);
         await this.pool.deployed();
         await this.pool.setCurrentTime(1700000000);
       });
