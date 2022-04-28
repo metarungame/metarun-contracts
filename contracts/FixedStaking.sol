@@ -76,7 +76,7 @@ contract FixedStaking is OwnableUpgradeable {
     uint256 public mrunPerSkin;
 
     // Skin kind identifier
-    uint256 public constant SKIN_KIND = 0x0300;
+    uint256 public skinKind;
 
     event Stake(address indexed user, uint256 indexed stakeId, uint256 amount, uint256 startTime, uint256 endTime);
 
@@ -115,6 +115,7 @@ contract FixedStaking is OwnableUpgradeable {
      */
     function start() public onlyOwner {
         require(!stakesOpen, "Stakes are open already");
+        require(skinKind > 0, "skinKind variable not set");
         stakesOpen = true;
     }
 
@@ -128,6 +129,10 @@ contract FixedStaking is OwnableUpgradeable {
 
     function setMrunPerSkin(uint256 _amount) public onlyOwner {
         mrunPerSkin = _amount;
+    }
+
+    function setSkinKind(uint256 _skinKind) public onlyOwner {
+        skinKind = _skinKind;
     }
 
     /**
@@ -182,7 +187,7 @@ contract FixedStaking is OwnableUpgradeable {
             early = false;
             token.safeTransfer(msg.sender, stakedAmount);
             if (skinsAmount > 0) {
-                nftCollection.mintBatch(msg.sender, SKIN_KIND, skinsAmount);
+                nftCollection.mintBatch(msg.sender, skinKind, skinsAmount);
             }
         } else {
             uint256 newTotalYield = harvestedYield + harvestableYield;

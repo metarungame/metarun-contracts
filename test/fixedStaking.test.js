@@ -47,6 +47,7 @@ describe("FixedStaking", function () {
       expect(await this.pool.stakedTokens()).to.equal("0");
       expect(await this.pool.getStakesLength(this.alice.address)).to.equal("0");
       expect(await this.pool.mrunPerSkin()).to.equal("0");
+      expect(await this.pool.skinKind()).to.equal("0");
       expect(await this.token.balanceOf(this.alice.address)).to.equal(BigNumber.from("3600000").mul(BigNumber.from(10).pow(18)));
     });
 
@@ -68,13 +69,22 @@ describe("FixedStaking", function () {
       await expect(this.pool.stop()).to.be.revertedWith("Stakes are stopped already");
     });
 
+    it("should revert when start () is called without set skinKind", async function () {
+      await expect(this.pool.start()).to.be.revertedWith("skinKind variable not set");
+    });
+
     describe("Start staking", async function () {
       beforeEach(async function () {
+        await this.pool.setSkinKind(0x0300);
         await this.pool.start();
       });
 
       it("should revert when start () is called again", async function () {
         await expect(this.pool.start()).to.be.revertedWith("Stakes are open already");
+      });
+
+      it("check skinKind value", async function () {
+        expect(await this.pool.skinKind()).to.equal(0x0300);
       });
 
       describe("Owner added reward token on the contract", async function () {
