@@ -1,13 +1,22 @@
 const { task } = require("hardhat/config");
 
-async function getTokenCategories(metarunCollection) {
-  const characterToken = await metarunCollection.CHARACTER();
-  const petToken = await metarunCollection.PET();
-  const artifactToken = await metarunCollection.ARTIFACT();
-  const skinToken = await metarunCollection.SKIN();
+async function getNonFungibaleKinds(metarunCollection) {
+  return [
+    (await metarunCollection.CRAFTSMAN_CHARACTER_KIND()).toNumber(),
+    (await metarunCollection.FIGHTER_CHARACTER_KIND()).toNumber(),
+    (await metarunCollection.SPRINTER_CHARACTER_KIND()).toNumber(),
+    (await metarunCollection.ARTIFACT_TOKEN_KIND()).toNumber(),
+    (await metarunCollection.PET_TOKEN_KIND()).toNumber(),
+  ]
+}
 
-  const categories = [characterToken, petToken, artifactToken, skinToken];
-  return categories;
+async function getFungibleTokens(metarunCollection) {
+  return [
+    (await metarunCollection.HEALTH_TOKEN_ID()).toNumber(),
+    (await metarunCollection.MANA_TOKEN_ID()).toNumber(),
+    (await metarunCollection.SPEED_TOKEN_ID()).toNumber(),
+    (await metarunCollection.COLLISION_DAMAGE_TOKEN_ID()).toNumber(),
+  ]
 }
 
 const addresses = [
@@ -21,63 +30,47 @@ const addresses = [
   "0x89d25f2166dc68be17c8aa8ecb711b1a9e96eb74",
   "0xc215b6c5936119c603df21c9a89d9423775670d3",
   "0x00fe7c821d66368bfc78753baf9b7639d708f662",
-];
+]
 
-/**
- * This task mints 1000 of tokens which are spreaded
- * amongst addresses and
- * amongst categories defined in getTokenCategories() function
- *
- * Usage: yarn mint-tokens:rinkeby -- execute in rinkedby
- *        yarn mint-tokens:local -- execute in local node
- * One should specify following environment variables:
- * METARUN_COLLECTION_ADDRESS -- address of MetarunCollection contract
- * (can be filled with 0x00 in local node because contract in local node will be re-deployed)
- * MNEMONIC -- mnemonic phrase to perform mint
- * INFURA_KEY -- your Infura key to connect to rinkeby
- * AMOUNT -- amount of tokens
- */
-task("mint-tokens", "Mint MetarunCollection tokens")
-  .addFlag("local")
-  .addParam("address")
-  .addParam("amount")
+async function mintMultiple (collection, addresses, kinds, fungibleTokens) {
+  for (i=0; i < addresses.length; i++) {
+    for (j=0; j < kinds.length; j++) {
+      console.log(`Minting token with type ${kinds[j]} for address ${addresses[i]}`);
+      tx = await collection.mintBatch(addresses[i], kinds[j], 1);
+      tx.wait();
+    }
+    for (j=0; j < fungibleTokens.length; j++) {
+      console.log(`Minting fungible token id ${fungibleTokens[j]} for address ${addresses[i]}`);
+      tx = await collection.mint(
+        addresses[i],
+        fungibleTokens[j],
+        (Math.random() * (100*10**18 - 10**18) + 10**18).toString()
+      );
+      tx.wait();
+    }
+  }
+}
+
+task("mint-multiple", "Mint MetarunCollection tokens")
+  .addFlag("maxMint", "Mint a lot")
+  .addOptionalParam("indexOfAddress", "Address index from the specified adderss list")
+  .addOptionalParam("kindOfNonFungibleToken", "non-fungible token kind or will be all existing ones")
+  .addOptionalParam("kindOfFungibleToken", "fungible token kind or will be all existing ones")
   .setAction(async (taskArgs, hre) => {
-    const metarunCollectionAddress = taskArgs.address;
-    const local = taskArgs.local;
-    const ethers = hre.ethers;
-    let metarunCollection;
-    if (local) {
-      const factory = await ethers.getContractFactory("MetarunCollection");
-      metarunCollection = await factory.deploy("https://app-staging.metarun.game/metadata/{id}.json");
-      console.log(`local execution, contract has been deployed at ${metarunCollection.address}`);
+    const addressReceiver = addresses[parseInt(taskArgs.indexOfAddress)];
+    const kindOfNonFungibleToken = parseInt(taskArgs.kindOfNonFungibleToken);
+    const kindOfFungibleToken = parseInt(taskArgs.kindOfFungibleToken);
+    const collectionArtifact = await hre.deployments.get("MetarunCollection");
+    const collection = await hre.ethers.getContractAt(collectionArtifact.abi, collectionArtifact.address);
+    const specifiedtAddresses = addressReceiver ? [addressReceiver] : addresses;
+    const nonFungibleKinds = await getNonFungibaleKinds(collection);
+    const specifiedNonFungibleKinds = kindOfNonFungibleToken in nonFungibleKinds ? [kindOfNonFungibleToken] : [];
+    const fungibleTokens = await getFungibleTokens(collection);
+    const specifiedFungibleKinds = kindOfFungibleToken in fungibleTokens ? [kindOfFungibleToken] : [];
+
+    if (taskArgs.maxMint) {
+      await mintMultiple(collection, addresses, nonFungibleKinds, fungibleTokens);
     } else {
-      metarunCollection = await ethers.getContractAt("MetarunCollection", metarunCollectionAddress);
-      console.log(`non-local execution, contract has been found on rinkeby with address ${metarunCollection.address}`);
-    }
-    const categories = await getTokenCategories(metarunCollection);
-    const amountPerMinting = 1;
-    const amountOfMinted = taskArgs.amount;
-    for (let i = 0; i < amountOfMinted; i++) {
-      const addressReceiver = addresses[i % addresses.length];
-      const tokenId = categories[i % categories.length];
-      const transaction = await metarunCollection.mint(addressReceiver, tokenId, amountPerMinting);
-      console.log(`Added ${i + 1}th token. Tx hash: ${transaction.hash}`);
-    }
-  });
-
-task("simplified-mint-tokens", "Simplified Mint MetarunCollection tokens")
-  .addParam("addressToken")
-  .addParam("addressReceiver")
-  .setAction(async (taskArgs, hre) => {
-    const ethers = hre.ethers;
-    const metarunCollectionAddress = taskArgs.addressToken;
-    const addressReceiver = taskArgs.addressReceiver;
-    const metarunCollection = await ethers.getContractAt("MetarunCollection", metarunCollectionAddress);
-    const categories = await getTokenCategories(metarunCollection);
-    const amount = ethers.BigNumber.from('1000000000000000000');
-    for (let i = 0; i < categories.length; i++) {
-      const tokenId = categories[i];
-      const transaction = await metarunCollection.mint(addressReceiver, tokenId, amount);
-      console.log(`Added ${i + 1}th token. Tx hash: ${transaction.hash}`);
-    }
+      await mintMultiple(collection, specifiedtAddresses, specifiedNonFungibleKinds, specifiedFungibleKinds);
+    } 
   });
