@@ -7,6 +7,7 @@ const ERC20Basic = require("../contracts/artifacts/ERC20Basic.json");
 const IDOPool = require("../contracts/artifacts/IDOPool.json");
 
 describe("Metarun IDO on TosDis platform", function () {
+
   const hasWhitelisting = false;
   const enableTierSystem = true;
 
@@ -35,7 +36,7 @@ describe("Metarun IDO on TosDis platform", function () {
     this.FeeTokenFactory = await ethers.getContractFactory(ERC20Basic.abi, ERC20Basic.bytecode);
     this.tokenFactory = await ethers.getContractFactory("MetarunToken");
 
-    const currentBlock = await ethers.provider.getBlock("latest"); //todo: remove from describe - slows down?
+    const currentBlock = await ethers.provider.getBlock('latest'); //todo: remove from describe - slows down?
     const now = currentBlock.timestamp;
     this.startTimestamp = now;
     this.finishTimestamp = this.startTimestamp + 60 * 60 * 24 * 7;
@@ -43,14 +44,7 @@ describe("Metarun IDO on TosDis platform", function () {
 
     this.feeToken = await this.FeeTokenFactory.deploy(totalSupply);
 
-    this.tierSystem = await this.tierSystemFactory.deploy(
-      vipDisAmount,
-      vipPercent,
-      holdersDisAmount,
-      holdersPercent,
-      publicDisAmount,
-      publicPercent
-    );
+    this.tierSystem = await this.tierSystemFactory.deploy(vipDisAmount, vipPercent, holdersDisAmount, holdersPercent, publicDisAmount, publicPercent);
     await this.tierSystem.addBalances([this.deployer.address], [ethers.utils.parseEther("0.001")]);
 
     this.idoMaster = await this.IDOMasterFactory.deploy(this.feeToken.address, ethers.constants.AddressZero, 0, 0);
@@ -69,7 +63,7 @@ describe("Metarun IDO on TosDis platform", function () {
       maxEthPayment,
       maxDistributedTokenAmount,
       hasWhitelisting,
-      enableTierSystem
+      enableTierSystem,
     );
     const txReceipt = await tx.wait();
     idoPoolAddress = this.idoMaster.interface.parseLog(txReceipt.logs[4]).args.idoPool;
@@ -109,7 +103,7 @@ describe("Metarun IDO on TosDis platform", function () {
   });
 
   it("buyer can purchase", async function () {
-    await this.idoPool.pay({ value: ethers.utils.parseEther("0.1") });
+    await this.idoPool.pay({value: ethers.utils.parseEther("0.1")});
     let userInfo = await this.idoPool.userInfo(this.deployer.address);
     expect(userInfo.total).to.equal(ethers.utils.parseEther("1"));
     expect(userInfo.debt).to.equal(ethers.utils.parseEther("1"));

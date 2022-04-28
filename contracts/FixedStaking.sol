@@ -173,7 +173,7 @@ contract FixedStaking is OwnableUpgradeable {
             uint256 harvestedYield,
             ,
             uint256 harvestableYield,
-            uint256 skin
+            uint256 skinsAmount
         ) = getStake(msg.sender, _stakeId);
         bool early;
         require(staked, "Unstaked already");
@@ -182,8 +182,8 @@ contract FixedStaking is OwnableUpgradeable {
             stakedTokens = stakedTokens - stakedAmount;
             early = false;
             token.safeTransfer(msg.sender, stakedAmount);
-            if (skin > 0) {
-                nftCollection.mintBatch(msg.sender, 0x0300, skin);
+            if (skinsAmount > 0) {
+                nftCollection.mintBatch(msg.sender, 0x0300, skinsAmount);
             }
         } else {
             uint256 newTotalYield = harvestedYield + harvestableYield;
@@ -238,7 +238,7 @@ contract FixedStaking is OwnableUpgradeable {
      * @return harvestedYield The part of yield user harvested already
      * @return lastHarvestTime The time of last harvest event
      * @return harvestableYield The unlocked part of yield available for harvesting
-     * @return skins Reward nft skin type tokens
+     * @return skinsAmount Reward nft skin type tokens
      */
     function getStake(address _userAddress, uint256 _stakeId)
         public
@@ -252,7 +252,7 @@ contract FixedStaking is OwnableUpgradeable {
             uint256 harvestedYield, // The part of yield user harvested already
             uint256 lastHarvestTime, // The time of last harvest event
             uint256 harvestableYield, // The unlocked part of yield available for harvesting
-            uint256 skins // Reward token's amount of kind skin
+            uint256 skinsAmount // Reward token's amount of kind skin
         )
     {
         StakeInfo memory _stake = stakes[_userAddress][_stakeId];
@@ -269,9 +269,9 @@ contract FixedStaking is OwnableUpgradeable {
             harvestableYield = (totalYield * (_now() - lastHarvestTime)) / (endTime - startTime);
         }
         if (mrunPerSkin > 0) {
-            skins = stakedAmount / mrunPerSkin;
+            skinsAmount = stakedAmount / mrunPerSkin;
         } else {
-            skins = 0;
+            skinsAmount = 0;
         }
     }
 
