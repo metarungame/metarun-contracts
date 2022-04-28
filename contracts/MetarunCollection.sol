@@ -86,19 +86,23 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         uint256 kind,
         uint256 count
     ) public {
-        require(hasRole(MINTER_ROLE, _msgSender()), "METARUNCOLLECTION: need MINTER_ROLE");
-        require(!isKind(kind << 16, FUNGIBLE_TOKEN_KIND), "Mint many is available only for NFT");
-        require(count > 0, "Count should be greater than 0");
+        require(hasRole(MINTER_ROLE, _msgSender()), "NEED_MINTER_ROLE");
+        require(kind != FUNGIBLE_TOKEN_KIND, "UNSUITABLE_KIND");
+        require(count > 0, "COUNT_UNDERFLOW");
         uint256[] memory tokenIds = new uint256[](count);
+        uint256 countOfReadyToMintIds = 0;
+        uint256 currentTokenId = kind << 16;
+        while (countOfReadyToMintIds < count) {
+            require(isKind(currentTokenId, kind), "KIND_OVERFLOW");
+            if (!exists(currentTokenId)) {
+                tokenIds[countOfReadyToMintIds] = currentTokenId;
+                countOfReadyToMintIds++;
+            }
+            currentTokenId++;
+        }
         uint256[] memory amounts = new uint256[](count);
         for (uint256 i = 0; i < count; i++) {
             amounts[i] = 1;
-        }
-        uint256 initialTokenId = kindSupply[kind];
-        for (uint256 i = 0; i < count; i++) {
-            uint256 tokenId = (kind << 16) | (initialTokenId + i);
-            require(!exists(tokenId), "Cannot mint more than one item");
-            tokenIds[i] = tokenId;
         }
 
         _mintBatch(to, tokenIds, amounts, "");

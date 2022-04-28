@@ -5,6 +5,7 @@ const URI_TOKEN = "localhost:8000/api/{id}.json";
 describe("MetarunCollection | mintBatch() function", function () {
   this.beforeAll(async function () {
     this.metarunCollectionFactory = await ethers.getContractFactory("MetarunCollection");
+    this.metarunCollectionMockFactory = await ethers.getContractFactory("MetarunCollectionMock");
   });
   describe("Mint scenarios", function () {
     beforeEach(async function () {
@@ -93,6 +94,40 @@ describe("MetarunCollection | mintBatch() function", function () {
         expect(balanceCharacter).to.be.eq(1);
       }
     });
+
+    it("should properly mint with pre-seeded random single tokens", async function () {
+      /*
+                In this test firstly we generate a bit of pre-seed token ids.
+                Mint batch should "avoid" them but anyway generate desired count of tokens.
+
+                Here is example. Assume we already have minted in single-mint way 5 tokens with following ids:
+                0 2 5 7 8
+                Then we call mintBatch() to mint additional 10 tokens. mintBatch() should
+                1) fill "empty" places (i.e. here these empty places are token ids 1 3 6)
+                2) continue minting further with token ids 9 10 11 12 13 14 15
+                Result: tokens from [0; 15) are minted
+            */
+      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const preSeedTokenIds = new Set();
+      const preSeedTokenIdMaxValue = 10;
+      const preSeedTokenIdsSize = 5;
+      while (preSeedTokenIds.size < preSeedTokenIdsSize) {
+        const number = Math.floor(Math.random() * 100);
+        const numberInDesiredLimits = number % preSeedTokenIdMaxValue;
+        const tokenId = (skinKind << 16) | numberInDesiredLimits;
+        preSeedTokenIds.add(tokenId);
+      }
+      preSeedTokenIds.forEach(async (tokenId) => await this.metarunCollection.mint(this.recipient.address, tokenId, 1));
+
+      const batchSize = 10;
+      await this.metarunCollection.mintBatch(this.recipient.address, skinKind, batchSize);
+      const totalSize = preSeedTokenIdsSize + batchSize;
+      for (let i = 0; i < totalSize; i++) {
+        const tokenId = (skinKind << 16) | i;
+        const exists = await this.metarunCollection.exists(tokenId);
+        expect(exists).to.be.true;
+      }
+    });
   });
 
   describe("Revert conditions", function () {
@@ -107,31 +142,31 @@ describe("MetarunCollection | mintBatch() function", function () {
     it("should revert on lack of MINTER_ROLE", async function () {
       const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
       const attemptToMintBatch = this.metarunCollection.connect(this.recipient).mintBatch(this.recipient.address, skinKind, 10);
-      await expect(attemptToMintBatch).to.be.revertedWith("METARUNCOLLECTION: need MINTER_ROLE");
+      await expect(attemptToMintBatch).to.be.revertedWith("NEED_MINTER_ROLE");
     });
 
     it("should revert on attempt to mint fungible", async function () {
       const fungibleKind = await this.metarunCollection.FUNGIBLE_TOKEN_KIND();
       const attemptToMintBatch = this.metarunCollection.mintBatch(this.recipient.address, fungibleKind, 10);
-      await expect(attemptToMintBatch).to.be.revertedWith("Mint many is available only for NFT");
+      await expect(attemptToMintBatch).to.be.revertedWith("UNSUITABLE_KIND");
     });
 
     it("should revert on attempt to mint 0 tokens", async function () {
       const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
       const attemptToMintBatch = this.metarunCollection.mintBatch(this.recipient.address, skinKind, 0);
-      await expect(attemptToMintBatch).to.be.revertedWith("Count should be greater than 0");
+      await expect(attemptToMintBatch).to.be.revertedWith("COUNT_UNDERFLOW");
     });
 
-    it("should revert on attempt to mint already existing", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
-      const alreadyMintedTokenId = (skinKind << 16) | 1;
-      await this.metarunCollection.mint(this.recipient.address, alreadyMintedTokenId, 1);
-      const attemptToMintBatch = this.metarunCollection.mintBatch(this.recipient.address, skinKind, 2);
-      await expect(attemptToMintBatch).to.be.revertedWith("Cannot mint more than one item");
+    it("should revert on overflow of ids", async function () {
+      const metarunCollectionMock = await upgrades.deployProxy(this.metarunCollectionMockFactory, [URI_TOKEN]);
+      await metarunCollectionMock.deployed();
+      const skinKind = await metarunCollectionMock.SKIN_TOKEN_KIND();
+      const attemptToMintWithOverflow = metarunCollectionMock.mintBatch(this.recipient.address, skinKind, 10);
+      await expect(attemptToMintWithOverflow).to.be.revertedWith("KIND_OVERFLOW");
     });
   });
 
-  describe("Behavior of kindSupply", function () {
+  describe("Getting kindSupply() scenarios", function () {
     beforeEach(async function () {
       this.metarunCollection = await upgrades.deployProxy(this.metarunCollectionFactory, [URI_TOKEN]);
       await this.metarunCollection.deployed();
@@ -178,8 +213,8 @@ describe("MetarunCollection | mintBatch() function", function () {
       await this.metarunCollection.mint(this.recipient.address, tokenId, 1);
 
       const beforeMint = await this.metarunCollection.getKindSupply(artifactKind);
-      const failingAttemptToMint = this.metarunCollection.mintBatch(this.recipient.address, artifactKind, 100);
-      await expect(failingAttemptToMint).to.be.revertedWith("Cannot mint more than one item");
+      const failingAttemptToMint = this.metarunCollection.mintBatch(this.recipient.address, artifactKind, 2 ** 16);
+      await expect(failingAttemptToMint).to.be.reverted;
       const afterMint = await this.metarunCollection.getKindSupply(artifactKind);
       expect(beforeMint).to.be.eq(afterMint);
     });
