@@ -146,10 +146,6 @@ describe("FixedStaking", function () {
             expect(await this.token.balanceOf(this.alice.address)).to.equal(aliceInitBalance.sub(10000));
           });
 
-          it("allocatedTokens increased", async function () {
-            expect(await this.pool.allocatedTokens()).to.equal(reward);
-          });
-
           it("check stake details", async function () {
             expect((await this.pool.getStake(this.alice.address, 0)).staked).to.equal(true);
             expect((await this.pool.getStake(this.alice.address, 0)).stakedAmount).to.equal("10000");
@@ -190,10 +186,6 @@ describe("FixedStaking", function () {
               expect(await this.pool.stakedTokens()).to.equal("30000");
               expect(await this.pool.getStakesLength(this.alice.address)).to.equal("2");
               expect(await this.token.balanceOf(this.pool.address)).to.equal(BigNumber.from(30000));
-            });
-
-            it("allocatedTokens increased", async function () {
-              expect(await this.pool.allocatedTokens()).to.equal(totalReward);
             });
 
             it("check details of Alice's second stake", async function () {
@@ -292,18 +284,10 @@ describe("FixedStaking", function () {
                   await expect(this.pool.unstake(0)).to.be.revertedWith("Unstaked already");
                 });
 
-                it("allocatedTokens decreased", async function () {
-                  expect(await this.pool.allocatedTokens()).to.equal(totalReward.sub(reward.sub(reward.div("2"))));
-                });
-
                 describe("harvesting on first stake", function () {
                   beforeEach(async function () {
                     expect(await this.token.balanceOf(this.alice.address)).to.equal(aliceInitBalance.sub(20000).sub(fee1));
                     harvest1 = await this.pool.harvest(0);
-                  });
-
-                  it("allocatedTokens decreased", async function () {
-                    expect(await this.pool.allocatedTokens()).to.equal(totalReward.sub(reward));
                   });
 
                   it("emits event Transfer with harvesting rewards", async function () {
@@ -378,20 +362,10 @@ describe("FixedStaking", function () {
                     await expect(this.pool.unstake(1)).to.be.revertedWith("Unstaked already");
                   });
 
-                  it("allocatedTokens decreased", async function () {
-                    expect(await this.pool.allocatedTokens()).to.equal(
-                      totalReward.sub(reward.sub(reward.div("2"))).sub(secondReward.sub(secondReward.div("2")))
-                    );
-                  });
-
                   describe("harvesting on second stake", function () {
                     beforeEach(async function () {
                       expect(await this.token.balanceOf(this.alice.address)).to.equal(aliceInitBalance.sub(fee1).sub(fee2));
                       harvest2 = await this.pool.harvest(1);
-                    });
-
-                    it("allocatedTokens decreased", async function () {
-                      expect(await this.pool.allocatedTokens()).to.equal(reward.div("2"));
                     });
 
                     it("emits Transfer event with harvesting", async function () {
@@ -512,10 +486,6 @@ describe("FixedStaking", function () {
                       await expect(harvest1).to.emit(this.pool, "Harvest").withArgs(this.alice.address, stakeId, harvestableYield, currentTime);
                     });
 
-                    it("allocatedTokens decreased", async function () {
-                      expect(await this.pool.allocatedTokens()).to.equal(totalReward.sub(reward));
-                    });
-
                     it("check resulting balance", async function () {
                       expect(await this.token.balanceOf(this.alice.address)).to.equal(aliceInitBalance.sub(20000));
 
@@ -580,8 +550,8 @@ describe("FixedStaking", function () {
                         harvest2 = await this.pool.harvest(1);
                       });
 
-                      it("allocatedTokens decreased", async function () {
-                        expect(await this.pool.allocatedTokens()).to.equal(totalReward.sub(secondReward));
+                      it("Staking contract token balance decreased", async function () {
+                        expect(await this.token.balanceOf(this.pool.address)).to.equal(0);
                       });
 
                       it("emits event Transfer on harvest", async function () {
@@ -700,10 +670,6 @@ describe("FixedStaking", function () {
                         harvest1 = await this.pool.harvest(0);
                       });
 
-                      it("allocatedTokens decreased", async function () {
-                        expect(await this.pool.allocatedTokens()).to.equal(fee2);
-                      });
-
                       it("emits event Transfer on harvest", async function () {
                         await expect(harvest1).to.emit(this.token, "Transfer").withArgs(ZERO_ADDRESS, this.alice.address, reward);
                       });
@@ -784,8 +750,8 @@ describe("FixedStaking", function () {
                           harvest2 = await this.pool.harvest(1);
                         });
 
-                        it("allocatedTokens decreased", async function () {
-                          expect(await this.pool.allocatedTokens()).to.equal(0);
+                        it("Staking contract token balance decreased", async function () {
+                          expect(await this.token.balanceOf(this.pool.address)).to.equal(0);
                         });
 
                         it("emits Transfers event on harvesting", async function () {

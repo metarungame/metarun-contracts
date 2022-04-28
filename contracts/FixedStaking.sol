@@ -72,12 +72,11 @@ contract FixedStaking is OwnableUpgradeable {
     // nominated in basis points (1/10000) of staked amount
     uint256 public yieldRate;
 
-    // Yield tokens reserved for existing stakes to pay on harvest.
-    // The reward tokens get allocated at the moment of stake.
-    uint256 public allocatedTokens;
-
     // Number of mrun tokens required to reward one nft
-    uint256 public mrunPerSkin = 0;
+    uint256 public mrunPerSkin;
+
+    // Skin kind identifier
+    uint256 public constant SKIN_KIND = 0x0300;
 
     event Stake(address indexed user, uint256 indexed stakeId, uint256 amount, uint256 startTime, uint256 endTime);
 
@@ -91,6 +90,7 @@ contract FixedStaking is OwnableUpgradeable {
      * @param _stakeDuration the stake duration in seconds
      * @param _yieldRate reward rate in basis points (1/10000)
      * @param _earlyUnstakeFee fee for unstaking before stake expiration
+     * @param _nftCollection ERC1155 token of NFT collection
      */
     function initialize(
         address _token,
@@ -152,7 +152,6 @@ contract FixedStaking is OwnableUpgradeable {
                 lastHarvestTime: startTime
             })
         );
-        allocatedTokens = allocatedTokens + totalYield;
         stakedTokens = stakedTokens + _amount;
         uint256 stakeId = getStakesLength(msg.sender) - 1;
         emit Stake(msg.sender, stakeId, _amount, startTime, endTime);
@@ -183,11 +182,10 @@ contract FixedStaking is OwnableUpgradeable {
             early = false;
             token.safeTransfer(msg.sender, stakedAmount);
             if (skinsAmount > 0) {
-                nftCollection.mintBatch(msg.sender, 0x0300, skinsAmount);
+                nftCollection.mintBatch(msg.sender, SKIN_KIND, skinsAmount);
             }
         } else {
             uint256 newTotalYield = harvestedYield + harvestableYield;
-            allocatedTokens = allocatedTokens - (totalYield - newTotalYield);
             stakes[msg.sender][_stakeId].staked = false;
             stakes[msg.sender][_stakeId].endTime = _now();
             stakes[msg.sender][_stakeId].totalYield = newTotalYield;
@@ -210,7 +208,6 @@ contract FixedStaking is OwnableUpgradeable {
     function harvest(uint256 _stakeId) external {
         (, , , , , uint256 harvestedYield, , uint256 harvestableYield, ) = getStake(msg.sender, _stakeId);
         require(harvestableYield != 0, "harvestableYield is zero");
-        allocatedTokens = allocatedTokens - harvestableYield;
         stakes[msg.sender][_stakeId].harvestedYield = harvestedYield + harvestableYield;
         stakes[msg.sender][_stakeId].lastHarvestTime = _now();
         emit Harvest(msg.sender, _stakeId, harvestableYield, _now());
