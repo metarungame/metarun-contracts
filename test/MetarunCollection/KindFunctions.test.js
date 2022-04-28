@@ -64,8 +64,22 @@ describe("MetarunCollection | isKind functions", function () {
   });
 
   describe("isSkin function", function () {
-    it("should correctly check skin", async function () {
-      const tokenKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+    it("should correctly check common skin", async function () {
+      const tokenKind = await this.metarunCollection.COMMON_SKIN_KIND();
+      const tokenId = (tokenKind << 16) | getTokenId();
+      const result = await this.metarunCollection.isKind(tokenId, tokenKind);
+      expect(result).to.be.true;
+    });
+
+    it("should correctly check rare skin", async function () {
+      const tokenKind = await this.metarunCollection.RARE_SKIN_KIND();
+      const tokenId = (tokenKind << 16) | getTokenId();
+      const result = await this.metarunCollection.isKind(tokenId, tokenKind);
+      expect(result).to.be.true;
+    });
+
+    it("should correctly check common skin", async function () {
+      const tokenKind = await this.metarunCollection.MYTHICAL_SKIN_KIND();
       const tokenId = (tokenKind << 16) | getTokenId();
       const result = await this.metarunCollection.isKind(tokenId, tokenKind);
       expect(result).to.be.true;

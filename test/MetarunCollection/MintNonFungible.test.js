@@ -60,8 +60,8 @@ describe("MetarunCollection | Non-fungible token mint", function () {
   });
 
   it("should mint skin token", async function () {
-    const tokenId = (0x0300 << 16) | getTokenId();
-    const tokenKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+    const tokenId = (0x0301 << 16) | getTokenId();
+    const tokenKind = await this.metarunCollection.RARE_SKIN_KIND();
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
 

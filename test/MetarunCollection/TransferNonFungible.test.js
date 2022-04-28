@@ -64,9 +64,21 @@ describe("MetarunCollection | Non-fungible token transfer", async function () {
     this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
   });
 
-  it("should transfer skin token", async function () {
+  it("should transfer common skin token", async function () {
     const tokenId = (0x0300 << 16) | getTokenId();
-    const tokenKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+    const tokenKind = await this.metarunCollection.COMMON_SKIN_KIND();
+    this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
+  });
+
+  it("should transfer rare skin token", async function () {
+    const tokenId = (0x0301 << 16) | getTokenId();
+    const tokenKind = await this.metarunCollection.RARE_SKIN_KIND();
+    this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
+  });
+
+  it("should transfer mythical skin token", async function () {
+    const tokenId = (0x0302 << 16) | getTokenId();
+    const tokenKind = await this.metarunCollection.MYTHICAL_SKIN_KIND();
     this.nonFungibleTokenTransferTestCase(tokenId, tokenKind);
   });
 

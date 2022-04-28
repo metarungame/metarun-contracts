@@ -10,7 +10,7 @@ describe("MetarunCollection | burn tokens", function () {
   beforeEach(async function () {
     this.metarunCollection = await upgrades.deployProxy(this.metarunCollectionFactory, [URI_TOKEN]);
     await this.metarunCollection.deployed();
-    this.skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+    this.skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
     this.signers = await ethers.getSigners();
     this.deployer = this.signers[0];
     this.stranger = this.signers[1];

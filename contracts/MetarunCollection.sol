@@ -15,7 +15,10 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
 
     uint256 public constant ARTIFACT_TOKEN_KIND = 0x0100;
     uint256 public constant PET_TOKEN_KIND = 0x0200;
-    uint256 public constant SKIN_TOKEN_KIND = 0x0300;
+
+    uint256 public constant COMMON_SKIN_KIND = 0x0300;
+    uint256 public constant RARE_SKIN_KIND = 0x0301;
+    uint256 public constant MYTHICAL_SKIN_KIND = 0x0302;
 
     uint256 public constant FUNGIBLE_TOKEN_KIND = 0x0500;
     uint256 public constant HEALTH_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0000;

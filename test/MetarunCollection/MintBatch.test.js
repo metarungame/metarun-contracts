@@ -18,7 +18,7 @@ describe("MetarunCollection | mintBatch() function", function () {
     });
 
     it("should properly mint a lot of tokens", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const amount = 10;
       let skinIds = [];
       for (let i = 0; i < amount; i++) {
@@ -32,7 +32,7 @@ describe("MetarunCollection | mintBatch() function", function () {
     });
 
     it("should properly mint batch after batch", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const amount = 20;
       let skinIds = [];
       for (let i = 0; i < amount; i++) {
@@ -47,7 +47,7 @@ describe("MetarunCollection | mintBatch() function", function () {
     });
 
     it("should properly mint in batch-single-batch mint schema", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const amount = 21;
       let skinIds = [];
       for (let i = 0; i < amount; i++) {
@@ -74,7 +74,7 @@ describe("MetarunCollection | mintBatch() function", function () {
     });
 
     it("should properly mint two different kinds", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const characterKind = await this.metarunCollection.CRAFTSMAN_CHARACTER_KIND();
       const amount = 20;
       let skinIds = [];
@@ -107,7 +107,7 @@ describe("MetarunCollection | mintBatch() function", function () {
                 2) continue minting further with token ids 9 10 11 12 13 14 15
                 Result: tokens from [0; 15) are minted
             */
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const preSeedTokenIds = new Set();
       const preSeedTokenIdMaxValue = 10;
       const preSeedTokenIdsSize = 5;
@@ -140,7 +140,7 @@ describe("MetarunCollection | mintBatch() function", function () {
       this.recipient = this.signers[2];
     });
     it("should revert on lack of MINTER_ROLE", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const attemptToMintBatch = this.metarunCollection.connect(this.recipient).mintBatch(this.recipient.address, skinKind, 10);
       await expect(attemptToMintBatch).to.be.revertedWith("NEED_MINTER_ROLE");
     });
@@ -152,7 +152,7 @@ describe("MetarunCollection | mintBatch() function", function () {
     });
 
     it("should revert on attempt to mint 0 tokens", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const attemptToMintBatch = this.metarunCollection.mintBatch(this.recipient.address, skinKind, 0);
       await expect(attemptToMintBatch).to.be.revertedWith("COUNT_UNDERFLOW");
     });
@@ -160,7 +160,7 @@ describe("MetarunCollection | mintBatch() function", function () {
     it("should revert on overflow of ids", async function () {
       const metarunCollectionMock = await upgrades.deployProxy(this.metarunCollectionMockFactory, [URI_TOKEN]);
       await metarunCollectionMock.deployed();
-      const skinKind = await metarunCollectionMock.SKIN_TOKEN_KIND();
+      const skinKind = await metarunCollectionMock.COMMON_SKIN_KIND();
       const attemptToMintWithOverflow = metarunCollectionMock.mintBatch(this.recipient.address, skinKind, 10);
       await expect(attemptToMintWithOverflow).to.be.revertedWith("KIND_OVERFLOW");
     });
@@ -177,7 +177,7 @@ describe("MetarunCollection | mintBatch() function", function () {
     });
 
     it("should increase after single-mint", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const tokenId = (skinKind << 16) | 3;
       const beforeMint = await this.metarunCollection.getKindSupply(skinKind);
       await this.metarunCollection.mint(this.recipient.address, tokenId, 1);
@@ -187,7 +187,7 @@ describe("MetarunCollection | mintBatch() function", function () {
     });
 
     it("should increase after batch-mint", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const beforeMint = await this.metarunCollection.getKindSupply(skinKind);
       const amount = 100;
       await this.metarunCollection.mintBatch(this.recipient.address, skinKind, amount);
@@ -196,7 +196,7 @@ describe("MetarunCollection | mintBatch() function", function () {
     });
 
     it("should stay the same if single-mint failed", async function () {
-      const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+      const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
       const tokenId = (skinKind << 16) | 3;
       await this.metarunCollection.mint(this.recipient.address, tokenId, 1);
 

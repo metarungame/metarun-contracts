@@ -15,14 +15,14 @@ describe("MetarunCollection | Token URI handling", function () {
   });
 
   it("should give token uri correctly", async function () {
-    const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+    const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
     const tokenId = (skinKind << 16) | 3;
     const tokenURI = await this.metarunCollection.uri(tokenId);
     expect(tokenURI).to.be.eq(URI_TOKEN);
   });
 
   it("should change token uri when admin", async function () {
-    const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+    const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
     const tokenId = (skinKind << 16) | 3;
 
     const tokenURIBefore = await this.metarunCollection.uri(tokenId);
@@ -36,7 +36,7 @@ describe("MetarunCollection | Token URI handling", function () {
   });
 
   it("should deny change token uri when stranger", async function () {
-    const skinKind = await this.metarunCollection.SKIN_TOKEN_KIND();
+    const skinKind = await this.metarunCollection.COMMON_SKIN_KIND();
     const tokenId = (skinKind << 16) | 3;
 
     const tokenURIBefore = await this.metarunCollection.connect(this.stranger).uri(tokenId);
