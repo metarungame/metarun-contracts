@@ -32,6 +32,9 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
   console.log(`${contractName}`+" address: ", deployResult.address);
 
+  /* Setters were muted to avoid re-execution on redeployments
+  Todo: need to check getters and set them if they have unexpected values
+
   await execute(contractName,
     {
       from: deployer,
@@ -49,6 +52,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     "setSkinKind",
     0x0302
   )
+  */
 }
 
 module.exports.tags = [contractName]
