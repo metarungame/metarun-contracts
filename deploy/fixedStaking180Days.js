@@ -5,6 +5,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deployer } = await getNamedAccounts()
 
   const token = (await deployments.get("MetarunToken")).address
+  const tokenCollection = (await deployments.get("MetarunCollection")).address
   const stakeDuration = 180 * 60 * 60 * 24
   const rewardRate = 2250
   const earlyUnstakeFee = 2250
@@ -13,14 +14,23 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
   console.log("Deploying contract:", contractName)
   console.log("Deployer:", deployer)
-  console.log("Arguments:", token, stakeDuration, rewardRate, earlyUnstakeFee)
+  console.log("Arguments:", token, stakeDuration, rewardRate, earlyUnstakeFee, tokenCollection)
 
-  await deploy(contractName, {
+  const deployResult = await deploy(contractName, {
     from: deployer,
     log: true,
-    args: [token, stakeDuration, rewardRate, earlyUnstakeFee],
     contract: "FixedStaking",
-  })
+    proxy: {
+        proxyContract: "OpenZeppelinTransparentProxy",
+        execute: {
+            init: {
+            methodName: "initialize",
+            args: [token, stakeDuration, rewardRate, earlyUnstakeFee, tokenCollection],
+            },
+        }
+    },
+  });
+  console.log(`${contractName}`+" address: ", deployResult.address);
 
   await execute(contractName,
     {
@@ -39,15 +49,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     "setSkinKind",
     0x0301
   )
-
-  await execute(contractName,
-    {
-      from: deployer,
-      log: true
-    },
-    "start"
-  )
 }
 
 module.exports.tags = [contractName]
-module.exports.dependencies = ["MetarunToken"]
+module.exports.dependencies = ["MetarunToken", "MetarunCollection"]
