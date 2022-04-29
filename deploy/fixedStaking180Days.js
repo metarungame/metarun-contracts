@@ -1,16 +1,16 @@
 const contractName = "FixedStaking180Days"
 
-module.exports = async function ({ getNamedAccounts, deployments }) {
+module.exports = async function ({ ethers, getNamedAccounts, deployments }) {
   const { deploy, execute } = deployments
   const { deployer } = await getNamedAccounts()
 
   const token = (await deployments.get("MetarunToken")).address
   const tokenCollection = (await deployments.get("MetarunCollection")).address
-  const stakeDuration = 180 * 60 * 60 * 24
+  const stakeDuration = 180 * 24 * 60 * 60
   const rewardRate = 2250
   const earlyUnstakeFee = 2250
-
   const mrunPerSkin = ethers.utils.parseEther("2000");
+  const skinKind = 0x0302;
 
   console.log("Deploying contract:", contractName)
   console.log("Deployer:", deployer)
@@ -30,25 +30,23 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         }
     },
   });
-  console.log(`${contractName}`+" address: ", deployResult.address);
+  console.log(`${contractName}`+" address:", deployResult.address);
+  
+  const fixedStakingDays = await ethers.getContractAt(deployResult.abi, deployResult.address);
 
-  await execute(contractName,
-    {
-      from: deployer,
-      log: true
-    },
-    "setMrunPerSkin",
-    mrunPerSkin
-  )
+  if (!(await fixedStakingDays.stakesOpen())) {
 
-  await execute(contractName,
-    {
-      from: deployer,
-      log: true
-    },
-    "setSkinKind",
-    0x0301
-  )
+    console.log(`Start ${contractName}`);
+    const setMrunPerSkinTx = await fixedStakingDays.setMrunPerSkin(mrunPerSkin);
+    await setMrunPerSkinTx.wait();
+  
+    const setSkinKindTx = await fixedStakingDays.setSkinKind(skinKind);
+    await setSkinKindTx.wait();
+
+    const startTx = await fixedStakingDays.start();
+    await startTx.wait();
+  }
+
 }
 
 module.exports.tags = [contractName]

@@ -1,5 +1,5 @@
 {
-  "address": "0xbf794fBe5b628C4d7b0A3e51A3378422225F01d1",
+  "address": "0x59aD4a4B81661822c53DE141C6ad250Dd70ab863",
   "abi": [
     {
       "anonymous": false,
@@ -117,391 +117,133 @@
         {
           "indexed": true,
           "internalType": "address",
-          "name": "account",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "stakeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "harvestTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "Harvest",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
           "type": "address"
         },
         {
           "indexed": true,
           "internalType": "address",
-          "name": "operator",
+          "name": "newOwner",
           "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "stakeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "startTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "endTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "Stake",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "stakeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "startTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "endTime",
+          "type": "uint256"
         },
         {
           "indexed": false,
           "internalType": "bool",
-          "name": "approved",
+          "name": "early",
           "type": "bool"
         }
       ],
-      "name": "ApprovalForAll",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "bytes32",
-          "name": "role",
-          "type": "bytes32"
-        },
-        {
-          "indexed": true,
-          "internalType": "bytes32",
-          "name": "previousAdminRole",
-          "type": "bytes32"
-        },
-        {
-          "indexed": true,
-          "internalType": "bytes32",
-          "name": "newAdminRole",
-          "type": "bytes32"
-        }
-      ],
-      "name": "RoleAdminChanged",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "bytes32",
-          "name": "role",
-          "type": "bytes32"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "sender",
-          "type": "address"
-        }
-      ],
-      "name": "RoleGranted",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "bytes32",
-          "name": "role",
-          "type": "bytes32"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "sender",
-          "type": "address"
-        }
-      ],
-      "name": "RoleRevoked",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "operator",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256[]",
-          "name": "values",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "TransferBatch",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "operator",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "value",
-          "type": "uint256"
-        }
-      ],
-      "name": "TransferSingle",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "value",
-          "type": "string"
-        },
-        {
-          "indexed": true,
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "URI",
+      "name": "Unstake",
       "type": "event"
     },
     {
       "inputs": [],
-      "name": "ARTIFACT_TOKEN_KIND",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "COLLISION_DAMAGE_TOKEN_ID",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "COMMON_SKIN_KIND",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "CRAFTSMAN_CHARACTER_KIND",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "DEFAULT_ADMIN_ROLE",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "FIGHTER_CHARACTER_KIND",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "FUNGIBLE_TOKEN_KIND",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "HEALTH_TOKEN_ID",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "MANA_TOKEN_ID",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "MINTER_ROLE",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "MYTHICAL_SKIN_KIND",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "PET_TOKEN_KIND",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "RARE_SKIN_KIND",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "SETTER_ROLE",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "SPEED_TOKEN_ID",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "SPRINTER_CHARACTER_KIND",
+      "name": "earlyUnstakeFee",
       "outputs": [
         {
           "internalType": "uint256",
@@ -516,45 +258,61 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "account",
+          "name": "_userAddress",
           "type": "address"
         },
         {
           "internalType": "uint256",
-          "name": "id",
+          "name": "_stakeId",
           "type": "uint256"
         }
       ],
-      "name": "balanceOf",
+      "name": "getStake",
       "outputs": [
         {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address[]",
-          "name": "accounts",
-          "type": "address[]"
+          "internalType": "bool",
+          "name": "staked",
+          "type": "bool"
         },
         {
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "balanceOfBatch",
-      "outputs": [
+          "internalType": "uint256",
+          "name": "stakedAmount",
+          "type": "uint256"
+        },
         {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
+          "internalType": "uint256",
+          "name": "startTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "endTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalYield",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "harvestedYield",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastHarvestTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "harvestableYield",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "skinsAmount",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -564,21 +322,30 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "account",
+          "name": "_userAddress",
           "type": "address"
-        },
+        }
+      ],
+      "name": "getStakesLength",
+      "outputs": [
         {
           "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "value",
+          "name": "",
           "type": "uint256"
         }
       ],
-      "name": "burn",
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_stakeId",
+          "type": "uint256"
+        }
+      ],
+      "name": "harvest",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -587,210 +354,28 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "account",
+          "name": "_token",
           "type": "address"
         },
         {
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
+          "internalType": "uint256",
+          "name": "_stakeDuration",
+          "type": "uint256"
         },
         {
-          "internalType": "uint256[]",
-          "name": "values",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "burnBatch",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
+          "internalType": "uint256",
+          "name": "_yieldRate",
+          "type": "uint256"
+        },
         {
           "internalType": "uint256",
-          "name": "id",
+          "name": "_earlyUnstakeFee",
           "type": "uint256"
-        }
-      ],
-      "name": "exists",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "getKind",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "pure",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "kind",
-          "type": "uint256"
-        }
-      ],
-      "name": "getKindSupply",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "getPerks",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "level",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "runs",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "wins",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "ability",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "health",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "mana",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "speed",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "collisionDamage",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct MetarunCollection.Perks",
-          "name": "",
-          "type": "tuple"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "role",
-          "type": "bytes32"
-        }
-      ],
-      "name": "getRoleAdmin",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "role",
-          "type": "bytes32"
         },
         {
           "internalType": "address",
-          "name": "account",
+          "name": "_nftCollection",
           "type": "address"
-        }
-      ],
-      "name": "grantRole",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "role",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "hasRole",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "uri",
-          "type": "string"
         }
       ],
       "name": "initialize",
@@ -799,339 +384,80 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "operator",
-          "type": "address"
-        }
-      ],
-      "name": "isApprovedForAll",
+      "inputs": [],
+      "name": "mrunPerSkin",
       "outputs": [
         {
-          "internalType": "bool",
+          "internalType": "uint256",
           "name": "",
-          "type": "bool"
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "isCharacter",
+      "inputs": [],
+      "name": "nftCollection",
       "outputs": [
         {
-          "internalType": "bool",
+          "internalType": "contract IERC1155mintBatch",
           "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "pure",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "kind",
-          "type": "uint256"
-        }
-      ],
-      "name": "isKind",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "pure",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "to",
           "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "mint",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "kind",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "count",
-          "type": "uint256"
-        }
-      ],
-      "name": "mintBatch",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "role",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "renounceRole",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "role",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "revokeRole",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "ids",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "amounts",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "bytes",
-          "name": "data",
-          "type": "bytes"
-        }
-      ],
-      "name": "safeBatchTransferFrom",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bytes",
-          "name": "data",
-          "type": "bytes"
-        }
-      ],
-      "name": "safeTransferFrom",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "operator",
-          "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "approved",
-          "type": "bool"
-        }
-      ],
-      "name": "setApprovalForAll",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "level",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "runs",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "wins",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "ability",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "health",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "mana",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "speed",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "collisionDamage",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct MetarunCollection.Perks",
-          "name": "perks",
-          "type": "tuple"
-        }
-      ],
-      "name": "setPerks",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "newUri",
-          "type": "string"
-        }
-      ],
-      "name": "setURI",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes4",
-          "name": "interfaceId",
-          "type": "bytes4"
-        }
-      ],
-      "name": "supportsInterface",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
         }
       ],
       "stateMutability": "view",
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "id",
+          "name": "_amount",
           "type": "uint256"
         }
       ],
-      "name": "totalSupply",
+      "name": "setMrunPerSkin",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_skinKind",
+          "type": "uint256"
+        }
+      ],
+      "name": "setSkinKind",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "skinKind",
       "outputs": [
         {
           "internalType": "uint256",
@@ -1146,16 +472,169 @@
       "inputs": [
         {
           "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "stake",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stakeDuration",
+      "outputs": [
+        {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
       ],
-      "name": "uri",
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stakedTokens",
       "outputs": [
         {
-          "internalType": "string",
+          "internalType": "uint256",
           "name": "",
-          "type": "string"
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "stakes",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "staked",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "stakedAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "endTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalYield",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "harvestedYield",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastHarvestTime",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stakesOpen",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "start",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stop",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "token",
+      "outputs": [
+        {
+          "internalType": "contract IERC20mintable",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_stakeId",
+          "type": "uint256"
+        }
+      ],
+      "name": "unstake",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "yieldRate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -1183,72 +662,41 @@
       "type": "constructor"
     }
   ],
-  "transactionHash": "0xc0edb99ab880b56dcaaf2c10b1e1c74e9e023852030cd2a2e292f859bf09ad6d",
+  "transactionHash": "0xaf706d33268f7f0edb9e8169872c4f9f66263e1f8244cc07a69ff127df2e436c",
   "receipt": {
     "to": null,
     "from": "0x5fCb8f7149E8aD03544157C90E6f81b26933d3a2",
-    "contractAddress": "0xbf794fBe5b628C4d7b0A3e51A3378422225F01d1",
+    "contractAddress": "0x59aD4a4B81661822c53DE141C6ad250Dd70ab863",
     "transactionIndex": 0,
-    "gasUsed": "713126",
-    "logsBloom": "0x00000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000020000000000000000000800000000000000000000000000001000000000000000000000000000000000000000000000000000000000004020000000000000000000080000000000000000000000000000000000001000000000000000000000000000000000000000004000001000000000000100000000000020040000000000000400000000000000000800000000000000000000001000000000",
-    "blockHash": "0x44752b5d61b56420d5df4a337dec1142a708e577e55e709d668f1dc0aa7d7804",
-    "transactionHash": "0xc0edb99ab880b56dcaaf2c10b1e1c74e9e023852030cd2a2e292f859bf09ad6d",
+    "gasUsed": "706943",
+    "logsBloom": "0x00000000000000000000000000000008000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000100000000000000000000000000000000020000000000000000000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000004000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000020000000000000000000000000000000000000000000000200000000000000000000",
+    "blockHash": "0xf02ae830f98f1742546600dbf428a9e587758758e130212d3413b84762873659",
+    "transactionHash": "0xaf706d33268f7f0edb9e8169872c4f9f66263e1f8244cc07a69ff127df2e436c",
     "logs": [
       {
         "transactionIndex": 0,
-        "blockNumber": 174,
-        "transactionHash": "0xc0edb99ab880b56dcaaf2c10b1e1c74e9e023852030cd2a2e292f859bf09ad6d",
-        "address": "0xbf794fBe5b628C4d7b0A3e51A3378422225F01d1",
+        "blockNumber": 181,
+        "transactionHash": "0xaf706d33268f7f0edb9e8169872c4f9f66263e1f8244cc07a69ff127df2e436c",
+        "address": "0x59aD4a4B81661822c53DE141C6ad250Dd70ab863",
         "topics": [
-          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
           "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000005fcb8f7149e8ad03544157c90e6f81b26933d3a2",
           "0x0000000000000000000000005fcb8f7149e8ad03544157c90e6f81b26933d3a2"
         ],
         "data": "0x",
         "logIndex": 0,
-        "blockHash": "0x44752b5d61b56420d5df4a337dec1142a708e577e55e709d668f1dc0aa7d7804"
-      },
-      {
-        "transactionIndex": 0,
-        "blockNumber": 174,
-        "transactionHash": "0xc0edb99ab880b56dcaaf2c10b1e1c74e9e023852030cd2a2e292f859bf09ad6d",
-        "address": "0xbf794fBe5b628C4d7b0A3e51A3378422225F01d1",
-        "topics": [
-          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
-          "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6",
-          "0x0000000000000000000000005fcb8f7149e8ad03544157c90e6f81b26933d3a2",
-          "0x0000000000000000000000005fcb8f7149e8ad03544157c90e6f81b26933d3a2"
-        ],
-        "data": "0x",
-        "logIndex": 1,
-        "blockHash": "0x44752b5d61b56420d5df4a337dec1142a708e577e55e709d668f1dc0aa7d7804"
-      },
-      {
-        "transactionIndex": 0,
-        "blockNumber": 174,
-        "transactionHash": "0xc0edb99ab880b56dcaaf2c10b1e1c74e9e023852030cd2a2e292f859bf09ad6d",
-        "address": "0xbf794fBe5b628C4d7b0A3e51A3378422225F01d1",
-        "topics": [
-          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
-          "0x61c92169ef077349011ff0b1383c894d86c5f0b41d986366b58a6cf31e93beda",
-          "0x0000000000000000000000005fcb8f7149e8ad03544157c90e6f81b26933d3a2",
-          "0x0000000000000000000000005fcb8f7149e8ad03544157c90e6f81b26933d3a2"
-        ],
-        "data": "0x",
-        "logIndex": 2,
-        "blockHash": "0x44752b5d61b56420d5df4a337dec1142a708e577e55e709d668f1dc0aa7d7804"
+        "blockHash": "0xf02ae830f98f1742546600dbf428a9e587758758e130212d3413b84762873659"
       }
     ],
-    "blockNumber": 174,
-    "cumulativeGasUsed": "713126",
+    "blockNumber": 181,
+    "cumulativeGasUsed": "706943",
     "status": 1,
     "byzantium": true
   },
   "args": [
-    "0xB8Fa6f2E68c9D9B890775B85f1366bB14565C2bf",
+    "0xfA8Cc21b8b1c2Af73441f0381dc3e6acD13319e4",
     "0x32877317Bb27b122d389bD139744Be1024D227E5",
-    "0xf62d18880000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003368747470733a2f2f6170702d73746167696e672e6d65746172756e2e67616d652f6d657461646174612f7b69647d2e6a736f6e00000000000000000000000000"
+    "0x6c28e349000000000000000000000000cafc2a13a4b1a69e9775ad0f4dec742ca5a7d0750000000000000000000000000000000000000000000000000000000001e1338000000000000000000000000000000000000000000000000000000000000002a600000000000000000000000000000000000000000000000000000000000002a6000000000000000000000000bf794fbe5b628c4d7b0a3e51a3378422225f01d1"
   ],
   "numDeployments": 1,
   "solcInputHash": "1635d55d57a0a2552952c0d22586ed23",
@@ -1258,10 +706,14 @@
   "execute": {
     "methodName": "initialize",
     "args": [
-      "https://app-staging.metarun.game/metadata/{id}.json"
+      "0xCAFC2A13A4B1A69e9775AD0f4Dec742cA5a7d075",
+      31536000,
+      678,
+      678,
+      "0xbf794fBe5b628C4d7b0A3e51A3378422225F01d1"
     ]
   },
-  "implementation": "0xB8Fa6f2E68c9D9B890775B85f1366bB14565C2bf",
+  "implementation": "0xfA8Cc21b8b1c2Af73441f0381dc3e6acD13319e4",
   "devdoc": {
     "details": "This contract implements a proxy that is upgradeable by an admin.  To avoid https://medium.com/nomic-labs-blog/malicious-backdoors-in-ethereum-proxies-62629adf3357[proxy selector clashing], which can potentially be used in an attack, this contract uses the https://blog.openzeppelin.com/the-transparent-proxy-pattern/[transparent proxy pattern]. This pattern implies two things that go hand in hand:  1. If any account other than the admin calls the proxy, the call will be forwarded to the implementation, even if that call matches one of the admin functions exposed by the proxy itself. 2. If the admin calls the proxy, it can access the admin functions, but its calls will never be forwarded to the implementation. If the admin tries to call a function on the implementation it will fail with an error that says \"admin cannot fallback to proxy target\".  These properties mean that the admin account can only be used for admin actions like upgrading the proxy or changing the admin, so it's best if it's a dedicated account that is not used for anything else. This will avoid headaches due to sudden errors when trying to call a function from the proxy implementation.  Our recommendation is for the dedicated account to be an instance of the {ProxyAdmin} contract. If set up this way, you should think of the `ProxyAdmin` instance as the real administrative inerface of your proxy.",
     "events": {
