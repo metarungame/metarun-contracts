@@ -4,6 +4,7 @@ require("solidity-coverage");
 require("@openzeppelin/hardhat-upgrades");
 
 require("./tasks/mint-tokens.js");
+require("./tasks/mint-deployer.js");
 require("./tasks/ido-pool-client.js");
 require("./tasks/create-order.js");
 require("./tasks/buy-token.js");
@@ -68,7 +69,7 @@ module.exports = {
     rinkeby: {
       chainId: 4,
       accounts,
-      url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.API_KEY}`,
+      url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
       live: true,
       saveDeployments: true,
     },
