@@ -29,6 +29,7 @@
     "verify:mumbai": "hardhat etherscan-verify --network mumbai --api-key $ETHERSCAN_API_KEY",
     "verify:rinkeby": "hardhat etherscan-verify --network rinkeby --api-key $ETHERSCAN_API_KEY",
     "verify:bsctestnet": "hardhat etherscan-verify --network bsctestnet --api-key $ETHERSCAN_API_KEY",
+    "verify:bsc": "hardhat etherscan-verify --network bsctestnet --api-key $ETHERSCAN_API_KEY",
     "writeBalancesToTierSystem:polygon": "hardhat writeBalancesToTierSystem --json-path tokens-snapshot/holders.json --network polygon --contract-address 0x768563eB8Ab74C255FCb0479791F236341c49d13 --balance-list-length 500",
     "prettier": "prettier --write test/*.js && prettier --write contracts/*.sol && prettier --write test/MetarunCollection/*.js ",
     "solhint": "solhint -c .solhint.json contracts/*.sol",
