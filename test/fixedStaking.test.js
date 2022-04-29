@@ -119,6 +119,29 @@ describe("FixedStaking", function () {
           );
         });
 
+        describe("Try stake with different mrunPerSkin", function () {
+          beforeEach(async function () {
+            aliceInitBalance = BigNumber.from(await this.token.balanceOf(this.alice.address));
+            await this.token.approve(this.pool.address, 1000000);
+          });
+
+          it("Stake should revert if reward greater than 100", async function () {
+            await this.pool.setMrunPerSkin(10);
+            await expect(this.pool.stake(10000)).to.be.revertedWith("stake: reward skins can't be greater than 100");
+          });
+
+          it("Stake should revert if reward equal than 100", async function () {
+            const stakeId = 0;
+            const depositAmount = 1000;
+            const startTime = 0;
+            const endTime = 30 * 24 * 60 * 60;
+            await this.pool.setMrunPerSkin(10);
+            await expect(await this.pool.stake(depositAmount))
+              .to.emit(this.pool, "Stake")
+              .withArgs(this.alice.address, stakeId, depositAmount, startTime, endTime);
+          });
+        });
+
         describe("Alice staked", function () {
           beforeEach(async function () {
             aliceInitBalance = BigNumber.from(await this.token.balanceOf(this.alice.address));
