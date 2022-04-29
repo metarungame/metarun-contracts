@@ -9,6 +9,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const rewardRate = 2250
   const earlyUnstakeFee = 2250
 
+  const mrunPerSkin = ethers.utils.parseEther("2000");
+
   console.log("Deploying contract:", contractName)
   console.log("Deployer:", deployer)
   console.log("Arguments:", token, stakeDuration, rewardRate, earlyUnstakeFee)
@@ -19,6 +21,24 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     args: [token, stakeDuration, rewardRate, earlyUnstakeFee],
     contract: "FixedStaking",
   })
+
+  await execute(contractName,
+    {
+      from: deployer,
+      log: true
+    },
+    "setMrunPerSkin",
+    mrunPerSkin
+  )
+
+  await execute(contractName,
+    {
+      from: deployer,
+      log: true
+    },
+    "setSkinKind",
+    0x0301
+  )
 
   await execute(contractName,
     {
