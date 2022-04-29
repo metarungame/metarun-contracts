@@ -26,12 +26,12 @@ async function mintMultiple(collection, address, kinds, fungibles) {
   for (let index = 0; index < kinds.length; index++) {
     console.log(`Minting token with type 0x${kinds[index].toString(16)} for address ${address}`);
     tx = await collection.mintBatch(address, kinds[index], 1);
-    tx.wait();
+    await tx.wait();
   }
   for (let index = 0; index < fungibles.length; index++) {
     console.log(`Minting fungible token id 0x${fungibles[index].toString(16)} for address ${address}`);
     tx = await collection.mint(address, fungibles[index], '100');
-    tx.wait();
+    await tx.wait();
   }
 }
 
