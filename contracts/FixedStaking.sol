@@ -142,6 +142,12 @@ contract FixedStaking is OwnableUpgradeable {
     function stake(uint256 _amount) external {
         require(stakesOpen, "stake: not open");
         require(_amount > 0, "stake: zero amount");
+        uint256 skinsAmount = 0;
+        if (mrunPerSkin > 0) {
+            skinsAmount = _amount / mrunPerSkin;
+        }
+        require(skinsAmount <= 100, "stake: reward skins can't be greater than 100");
+
         // entire reward allocated for the user for this stake
         uint256 totalYield = (_amount * yieldRate) / 10000;
         uint256 startTime = _now();
