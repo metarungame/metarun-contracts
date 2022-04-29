@@ -30,7 +30,7 @@ async function mintMultiple(collection, address, kinds, fungibles) {
   }
   for (let index = 0; index < fungibles.length; index++) {
     console.log(`Minting fungible token id 0x${fungibles[index].toString(16)} for address ${address}`);
-    tx = await collection.mint(address, fungibles[index], (Math.random() * (100 * 10 ** 18 - 10 ** 18) + 10 ** 18).toString());
+    tx = await collection.mint(address, fungibles[index], '100');
     tx.wait();
   }
 }
