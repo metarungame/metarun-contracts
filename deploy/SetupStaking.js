@@ -5,15 +5,13 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments }) {
   const token = (await deployments.get("MetarunToken"))
   const tokenCollection = (await deployments.get("MetarunCollection"))
 
-  const fixedStaking90Days = (await deployments.get("FixedStaking90Days"))
-  const fixedStaking180Days = (await deployments.get("FixedStaking180Days"))
-  const fixedStaking365Days = (await deployments.get("FixedStaking365Days"))
-
   const MINTER_ROLE = await read("MetarunCollection",
     "MINTER_ROLE",
   )
 
-  for (const minterContract of [fixedStaking90Days, fixedStaking180Days, fixedStaking365Days]) {
+  for (const stakingName of ["FixedStaking90Days", "FixedStaking180Days", "FixedStaking365Days"]) {
+    let stakingContract = await deployments.get(stakingName)
+    
     await execute("MetarunToken",
       {
         from: deployer,
@@ -21,7 +19,7 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments }) {
       },
       "grantRole",
       MINTER_ROLE,
-      minterContract.address
+      stakingContract.address
     )
 
     await execute("MetarunCollection",
@@ -31,11 +29,19 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments }) {
       },
       "grantRole",
       MINTER_ROLE,
-      minterContract.address
+      stakingContract.address
+    )
+
+    await execute(stakingName,
+      {
+        from: deployer,
+        log: true
+      },
+      "start"
     )
   }
 
 }
 
-module.exports.tags = ["AssignMinterRolesForStaking"]
+module.exports.tags = ["SetupStaking"]
 module.exports.dependencies = ["MetarunToken", "MetarunCollection", "FixedStaking90Days", "FixedStaking180Days", "FixedStaking365Days"]
