@@ -14,7 +14,7 @@ const accounts = {
 };
 
 module.exports = {
-  solidity: "0.8.11",
+  solidity: "0.8.13",
   namedAccounts: {
     deployer: {
       default: 0,
