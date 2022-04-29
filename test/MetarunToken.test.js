@@ -154,7 +154,7 @@ describe("Metarun token", function () {
             .connect(this.account1)
             .transferFrom(this.deployer.address, this.account2.address, amount.add(1));
 
-          await expect(transferFrom).to.be.revertedWith("ERC20: transfer amount exceeds allowance");
+          await expect(transferFrom).to.be.revertedWith("ERC20: insufficient allowance");
         });
       });
     });

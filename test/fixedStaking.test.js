@@ -97,7 +97,7 @@ describe("FixedStaking", function () {
         });
 
         it("should revert if stake without approve", async function () {
-          await expect(this.pool.stake(10000)).to.be.revertedWith("ERC20: transfer amount exceeds allowance");
+          await expect(this.pool.stake(10000)).to.be.revertedWith("ERC20: insufficient allowance");
         });
 
         it("Stop() called by owner closes stakes", async function () {
