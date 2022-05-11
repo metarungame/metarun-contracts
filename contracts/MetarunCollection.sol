@@ -25,6 +25,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
     uint256 public constant MANA_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0001;
     uint256 public constant SPEED_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0002;
     uint256 public constant COLLISION_DAMAGE_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0003;
+    uint256 public constant OPAL_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0004;
 
     mapping(uint256 => uint256) kindSupply;
     struct Perks {

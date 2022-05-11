@@ -40,4 +40,9 @@ describe("MetarunCollection | Fungible token mint", function () {
     const token = await this.metarunCollection.COLLISION_DAMAGE_TOKEN_ID();
     this.fungibleTokenMintTestCase(token);
   });
+
+  it("should mint successfully opal token", async function () {
+    const token = await this.metarunCollection.OPAL_TOKEN_ID();
+    this.fungibleTokenMintTestCase(token);
+  });
 });
