@@ -19,7 +19,7 @@ contract RunExecutor is Initializable, OwnableUpgradeable {
 
     MetarunCollection _metarunCollection;
 
-    function initialize(address metarunCollectionAddress) public initializer{
+    function initialize(address metarunCollectionAddress) public initializer {
         __Ownable_init();
         _metarunCollection = MetarunCollection(metarunCollectionAddress);
     }
