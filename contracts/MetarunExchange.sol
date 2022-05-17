@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
-import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 
@@ -11,9 +11,9 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeab
  * @dev Ensures the sale of tokens (exchanging them on Ether) by matching orders
  */
 
-contract MetarunExchange is EIP712 {
+contract MetarunExchange is EIP712Upgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
-    IERC1155 public token;
+    IERC1155Upgradeable public collection;
     IERC20Upgradeable public mrunToken;
     mapping(bytes32 => bool) sellOrderPerformed;
     struct SellOrder {
@@ -38,20 +38,21 @@ contract MetarunExchange is EIP712 {
 
     /**
      * @dev the constructor arguments:
-     * @param _token address of token - the same used for playing
+     * @param _collection address of collection - the same used for playing
      * @param _mrunToken address of token - the same used for purchases
      */
-    constructor(address _token, address _mrunToken) EIP712("metarun.game", "0.1") {
-        require(_token != address(0), "token address cannot be zero");
+    function initialize(address _collection, address _mrunToken) public initializer {
+        __EIP712_init("metarun.game", "0.1");
+        require(_collection != address(0), "collection address cannot be zero");
         require(_mrunToken != address(0), "mrun address cannot be zero");
-        token = IERC1155(_token);
+        collection = IERC1155Upgradeable(_collection);
         mrunToken = IERC20Upgradeable(_mrunToken);
     }
 
     // todo: SECURITY! make non-reentrant!
     function buy(SellOrder memory sellOrder, bytes memory signature) external payable {
         bytes32 sellOrderHash = hashSellOrder(sellOrder);
-        address signer = ECDSA.recover(sellOrderHash, signature);
+        address signer = ECDSAUpgradeable.recover(sellOrderHash, signature);
         require(signer != address(0), "BAD_SIGNATURE");
         require(signer == sellOrder.seller, "BAD SIGNER");
         require(msg.value == sellOrder.price, "BAD VALUE");
@@ -59,7 +60,7 @@ contract MetarunExchange is EIP712 {
         require(block.timestamp < sellOrder.expirationTime, "EXPIRED");
         bytes32 orderHash = hashSellOrder(sellOrder);
         emit Purchase(orderHash, sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, sellOrder.price);
-        token.safeTransferFrom(sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, "");
+        collection.safeTransferFrom(sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, "");
         mrunToken.safeTransferFrom(msg.sender, sellOrder.seller, sellOrder.price);
         sellOrderPerformed[sellOrderHash] = true;
     }

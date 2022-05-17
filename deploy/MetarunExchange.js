@@ -7,8 +7,16 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
 
   exchange = await deploy("MetarunExchange", {
     from: deployer,
-    args: [collection.address, mrunToken.address],
     log: true,
+    proxy: {
+      proxyContract: "OpenZeppelinTransparentProxy",
+      execute: {
+          init: {
+          methodName: "initialize",
+          args: [collection.address, mrunToken.address],
+          },
+      }
+  },
     deterministicDeployment: false,
     skipIfAlreadyDeployed: true
   })

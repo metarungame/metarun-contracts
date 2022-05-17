@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { ethers } = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 
 const URI_TOKEN = "ipfs://ipfs/dag/{id}.json";
 
@@ -47,7 +47,7 @@ describe("Metarun Exchange", function () {
     await this.collection.initialize(URI_TOKEN);
     this.collection.mint(this.seller.address, 0, 1);
     await this.token.mint(this.buyer.address, this.sellOrder.price);
-    this.exchange = await this.metarunExchangeFactory.deploy(this.collection.address, this.token.address);
+    this.exchange = await upgrades.deployProxy(this.metarunExchangeFactory, [this.collection.address, this.token.address]);
     await this.token.connect(this.buyer).approve(this.exchange.address, this.sellOrder.price);
     this.domain.verifyingContract = this.exchange.address;
   });
