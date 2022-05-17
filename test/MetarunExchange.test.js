@@ -7,6 +7,7 @@ describe("Metarun Exchange", function () {
   before(async function () {
     this.metarunCollectionFactory = await ethers.getContractFactory("MetarunCollection");
     this.metarunExchangeFactory = await ethers.getContractFactory("MetarunExchange");
+    this.metarunTokenFactory = await ethers.getContractFactory("MetarunToken");
     this.signers = await ethers.getSigners();
     this.deployer = this.signers[0];
     this.stranger = this.signers[1];
@@ -42,9 +43,12 @@ describe("Metarun Exchange", function () {
 
   beforeEach(async function () {
     this.collection = await this.metarunCollectionFactory.deploy();
+    this.token = await this.metarunTokenFactory.deploy();
     await this.collection.initialize(URI_TOKEN);
     this.collection.mint(this.seller.address, 0, 1);
-    this.exchange = await this.metarunExchangeFactory.deploy(this.collection.address);
+    await this.token.mint(this.buyer.address, this.sellOrder.price);
+    this.exchange = await this.metarunExchangeFactory.deploy(this.collection.address, this.token.address);
+    await this.token.connect(this.buyer).approve(this.exchange.address, this.sellOrder.price);
     this.domain.verifyingContract = this.exchange.address;
   });
 
@@ -69,9 +73,18 @@ describe("Metarun Exchange", function () {
     await expect(purchaseTx)
       .to.emit(this.exchange, "Purchase")
       .withArgs(sellOrderHash, this.sellOrder.seller, this.buyer.address, this.sellOrder.tokenId, this.sellOrder.amount, this.sellOrder.price);
-    await expect(purchaseTx).to.changeEtherBalance(this.seller, this.sellOrder.price);
     expect(await this.collection.balanceOf(this.seller.address, 0)).to.be.equal("0");
     expect(await this.collection.balanceOf(this.buyer.address, 0)).to.be.equal("1");
+  });
+
+  it("change mrun balance after buy", async function () {
+    expect(await this.token.balanceOf(this.buyer.address)).to.be.equal(this.sellOrder.price);
+    expect(await this.token.balanceOf(this.seller.address)).to.be.equal("0");
+    await this.collection.connect(this.seller).setApprovalForAll(this.exchange.address, true);
+    const signature = await this.seller._signTypedData(this.domain, this.types, this.sellOrder);
+    await this.exchange.connect(this.buyer).buy(this.sellOrder, signature, { value: this.sellOrder.price });
+    expect(await this.token.balanceOf(this.buyer.address)).to.be.equal("0");
+    expect(await this.token.balanceOf(this.seller.address)).to.be.equal(this.sellOrder.price);
   });
 
   it("reverts an expired sell order", async function () {

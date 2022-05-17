@@ -3,10 +3,11 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
   const { deployer } = await getNamedAccounts();
 
   const collection = await deployments.get("MetarunCollection");
+  const mrunToken = await deployments.get("MetarunToken");
 
   exchange = await deploy("MetarunExchange", {
     from: deployer,
-    args: [collection.address],
+    args: [collection.address, mrunToken.address],
     log: true,
     deterministicDeployment: false,
     skipIfAlreadyDeployed: true
@@ -17,4 +18,4 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
 };
 
 module.exports.tags = ["MetarunExchange"];
-module.exports.dependencies = ["MetarunCollection"];
+module.exports.dependencies = ["MetarunCollection", "MetarunToken"];

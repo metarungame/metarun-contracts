@@ -3,13 +3,18 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 
 /**
  * @title Metarun ERC-1155 exchange
  * @dev Ensures the sale of tokens (exchanging them on Ether) by matching orders
  */
+
 contract MetarunExchange is EIP712 {
+    using SafeERC20Upgradeable for IERC20Upgradeable;
     IERC1155 public token;
+    IERC20Upgradeable public mrunToken;
     mapping(bytes32 => bool) sellOrderPerformed;
     struct SellOrder {
         // address of the current tokenholder
@@ -29,17 +34,18 @@ contract MetarunExchange is EIP712 {
     /**
      * @dev Gets emitted on token purchase
      */
-    event Purchase(
-        bytes32 indexed orderHash,
-        address indexed seller,
-        address indexed buyer,
-        uint256 tokenId,
-        uint256 amount,
-        uint256 price
-    );
-    constructor(address _token) EIP712("metarun.game", "0.1") {
+    event Purchase(bytes32 indexed orderHash, address indexed seller, address indexed buyer, uint256 tokenId, uint256 amount, uint256 price);
+
+    /**
+     * @dev the constructor arguments:
+     * @param _token address of token - the same used for playing
+     * @param _mrunToken address of token - the same used for purchases
+     */
+    constructor(address _token, address _mrunToken) EIP712("metarun.game", "0.1") {
         require(_token != address(0), "token address cannot be zero");
+        require(_mrunToken != address(0), "mrun address cannot be zero");
         token = IERC1155(_token);
+        mrunToken = IERC20Upgradeable(_mrunToken);
     }
 
     // todo: SECURITY! make non-reentrant!
@@ -54,7 +60,7 @@ contract MetarunExchange is EIP712 {
         bytes32 orderHash = hashSellOrder(sellOrder);
         emit Purchase(orderHash, sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, sellOrder.price);
         token.safeTransferFrom(sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, "");
-        sellOrder.seller.transfer(msg.value);
+        mrunToken.safeTransferFrom(msg.sender, sellOrder.seller, sellOrder.price);
         sellOrderPerformed[sellOrderHash] = true;
     }
 
