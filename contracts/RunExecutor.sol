@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.1;
+pragma solidity ^0.8.0;
 
 import "contracts/MetarunCollection.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract RunExecutor is Initializable, OwnableUpgradeable {
+contract RunExecutor is Initializable, AccessControlUpgradeable {
     struct Run {
         address winner;
         address looser;
@@ -17,25 +17,28 @@ contract RunExecutor is Initializable, OwnableUpgradeable {
         uint256 winnerExperience;
     }
 
-    MetarunCollection _metarunCollection;
+    MetarunCollection public metarunCollection;
+    bytes32 public constant EXECUTOR_ROLE = keccak256("EXECUTOR_ROLE");
 
     function initialize(address metarunCollectionAddress) public initializer {
-        __Ownable_init();
-        _metarunCollection = MetarunCollection(metarunCollectionAddress);
+        __AccessControl_init();
+        metarunCollection = MetarunCollection(metarunCollectionAddress);
+        _grantRole(EXECUTOR_ROLE, _msgSender());
     }
 
-    function executeRun(Run memory run) public onlyOwner {
+    function executeRun(Run memory run) public {
+        require(hasRole(EXECUTOR_ROLE, _msgSender()), "RunExecutor: tx sender should have EXECUTOR_ROLE");
         require(run.winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
-        require(_metarunCollection.isCharacter(run.winnerCharacterTokenId), "RunExecutor: winner's character token id should be valid");
-        require(_metarunCollection.isCharacter(run.looserCharacterTokenId), "RunExecutor: looser's character token id should be valid");
-        _metarunCollection.mint(run.winner, _metarunCollection.OPAL_TOKEN_ID(), run.winnerOpal);
+        require(metarunCollection.isCharacter(run.winnerCharacterTokenId), "RunExecutor: winner's character token id should be valid");
+        require(metarunCollection.isCharacter(run.looserCharacterTokenId), "RunExecutor: looser's character token id should be valid");
+        metarunCollection.mint(run.winner, metarunCollection.OPAL_TOKEN_ID(), run.winnerOpal);
         if (run.looserOpal > 0) {
-            _metarunCollection.mint(run.looser, _metarunCollection.OPAL_TOKEN_ID(), run.looserOpal);
+            metarunCollection.mint(run.looser, metarunCollection.OPAL_TOKEN_ID(), run.looserOpal);
         }
         if (run.winnerExperience > 0) {
-            MetarunCollection.Perks memory winnerCharacterPerks = _metarunCollection.getPerks(run.winnerCharacterTokenId);
+            MetarunCollection.Perks memory winnerCharacterPerks = metarunCollection.getPerks(run.winnerCharacterTokenId);
             winnerCharacterPerks.level += run.winnerExperience;
-            _metarunCollection.setPerks(run.winnerCharacterTokenId, winnerCharacterPerks);
+            metarunCollection.setPerks(run.winnerCharacterTokenId, winnerCharacterPerks);
         }
     }
 }

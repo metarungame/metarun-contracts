@@ -54,7 +54,7 @@ describe("RunExecutor", function () {
       winnerExperience: 1,
     };
     const attempt = this.runExecutor.connect(this.signers[1]).executeRun(run);
-    await expect(attempt).to.be.revertedWith("Ownable: caller is not the owner");
+    await expect(attempt).to.be.revertedWith("RunExecutor: tx sender should have EXECUTOR_ROLE");
   });
 
   it("should revert for bad winner token id", async function () {
