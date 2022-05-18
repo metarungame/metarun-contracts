@@ -50,12 +50,11 @@ contract MetarunExchange is EIP712Upgradeable {
     }
 
     // todo: SECURITY! make non-reentrant!
-    function buy(SellOrder memory sellOrder, bytes memory signature) external payable {
+    function buy(SellOrder memory sellOrder, bytes memory signature) external {
         bytes32 sellOrderHash = hashSellOrder(sellOrder);
         address signer = ECDSAUpgradeable.recover(sellOrderHash, signature);
         require(signer != address(0), "BAD_SIGNATURE");
         require(signer == sellOrder.seller, "BAD SIGNER");
-        require(msg.value == sellOrder.price, "BAD VALUE");
         require(!sellOrderPerformed[sellOrderHash], "ALREADY_DONE");
         require(block.timestamp < sellOrder.expirationTime, "EXPIRED");
         bytes32 orderHash = hashSellOrder(sellOrder);
