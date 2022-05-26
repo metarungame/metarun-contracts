@@ -17,8 +17,6 @@ module.exports = async function ({ ethers, getNamedAccounts, deployments, hre })
           },
       }
   },
-    deterministicDeployment: false,
-    skipIfAlreadyDeployed: true
   })
 
   console.log("Exchange address:", exchange.address);
