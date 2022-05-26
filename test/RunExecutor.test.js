@@ -24,6 +24,8 @@ describe("RunExecutor", function () {
   it("should perform a run successfully", async function () {
     const winnerCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 1;
     const looserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 3;
+    await this.metarunCollection.mint(this.winner, winnerCharacterTokenId, 1);
+    await this.metarunCollection.mint(this.looser, looserCharacterTokenId, 1);
     const expectedWinnerBalance = 100;
     const expectedLooserBalance = 10;
     let run = {
@@ -48,11 +50,13 @@ describe("RunExecutor", function () {
       winner: this.winner,
       looser: this.looser,
       winnerCharacterTokenId: 1,
-      looserCharacterTokenId: 1,
+      looserCharacterTokenId: 2,
       winnerOpal: 1,
       looserOpal: 1,
       winnerExperience: 1,
     };
+    await this.metarunCollection.mint(this.winner, 1, 1);
+    await this.metarunCollection.mint(this.looser, 2, 1);
     const attempt = this.runExecutor.connect(this.signers[1]).executeRun(run);
     await expect(attempt).to.be.revertedWith("RunExecutor: tx sender should have EXECUTOR_ROLE");
   });
@@ -60,6 +64,8 @@ describe("RunExecutor", function () {
   it("should revert for bad winner token id", async function () {
     const badWinnerCharacterTokenId = ((await this.metarunCollection.RARE_SKIN_KIND()) << 16) + 1;
     const looserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 3;
+    await this.metarunCollection.mint(this.winner, badWinnerCharacterTokenId, 1);
+    await this.metarunCollection.mint(this.looser, looserCharacterTokenId, 1);
     let run = {
       winner: this.winner,
       looser: this.looser,
@@ -76,6 +82,8 @@ describe("RunExecutor", function () {
   it("should revert for bad looser token id", async function () {
     const winnerCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 1;
     const badLooserCharacterTokenId = ((await this.metarunCollection.RARE_SKIN_KIND()) << 16) + 3;
+    await this.metarunCollection.mint(this.winner, winnerCharacterTokenId, 1);
+    await this.metarunCollection.mint(this.looser, badLooserCharacterTokenId, 1);
     let run = {
       winner: this.winner,
       looser: this.looser,
@@ -92,6 +100,8 @@ describe("RunExecutor", function () {
   it("should revert for bad winner opal amount", async function () {
     const winnerCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 1;
     const looserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 3;
+    await this.metarunCollection.mint(this.winner, winnerCharacterTokenId, 1);
+    await this.metarunCollection.mint(this.looser, looserCharacterTokenId, 1);
     let run = {
       winner: this.winner,
       looser: this.looser,
@@ -103,5 +113,46 @@ describe("RunExecutor", function () {
     };
     const attempt = this.runExecutor.executeRun(run);
     await expect(attempt).to.be.revertedWith("RunExecutor: winner's opal to be minted should be defined");
+  });
+
+  it("should revert if winner doesn't have a winner character", async function () {
+    const winnerCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 1;
+    const looserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 3;
+    await this.metarunCollection.mint(this.winner, looserCharacterTokenId, 1);
+    await this.metarunCollection.mint(this.looser, winnerCharacterTokenId, 1);
+    const expectedWinnerBalance = 100;
+    const expectedLooserBalance = 10;
+    let run = {
+      winner: this.winner,
+      looser: this.looser,
+      winnerCharacterTokenId: winnerCharacterTokenId,
+      looserCharacterTokenId: looserCharacterTokenId,
+      winnerOpal: expectedWinnerBalance,
+      looserOpal: expectedLooserBalance,
+      winnerExperience: 500,
+    };
+    const attempt = this.runExecutor.executeRun(run);
+    await expect(attempt).to.be.revertedWith("RunExecutor: winner should own winner character");
+  });
+
+  it("should revert if looser doesn't have a looser character", async function () {
+    const winnerCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 1;
+    const looserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 3;
+    const dummyLooserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 100;
+    await this.metarunCollection.mint(this.winner, winnerCharacterTokenId, 1);
+    await this.metarunCollection.mint(this.looser, looserCharacterTokenId, 1); // dummy value on mint
+    const expectedWinnerBalance = 100;
+    const expectedLooserBalance = 10;
+    let run = {
+      winner: this.winner,
+      looser: this.looser,
+      winnerCharacterTokenId: winnerCharacterTokenId,
+      looserCharacterTokenId: dummyLooserCharacterTokenId,
+      winnerOpal: expectedWinnerBalance,
+      looserOpal: expectedLooserBalance,
+      winnerExperience: 500,
+    };
+    const attempt = this.runExecutor.executeRun(run);
+    await expect(attempt).to.be.revertedWith("RunExecutor: looser should own looser character");
   });
 });

@@ -31,6 +31,9 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
         require(run.winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
         require(metarunCollection.isCharacter(run.winnerCharacterTokenId), "RunExecutor: winner's character token id should be valid");
         require(metarunCollection.isCharacter(run.looserCharacterTokenId), "RunExecutor: looser's character token id should be valid");
+        require(metarunCollection.balanceOf(run.winner, run.winnerCharacterTokenId) == 1, "RunExecutor: winner should own winner character");
+        require(metarunCollection.balanceOf(run.looser, run.looserCharacterTokenId) == 1, "RunExecutor: looser should own looser character");
+
         metarunCollection.mint(run.winner, metarunCollection.OPAL_TOKEN_ID(), run.winnerOpal);
         if (run.looserOpal > 0) {
             metarunCollection.mint(run.looser, metarunCollection.OPAL_TOKEN_ID(), run.looserOpal);
