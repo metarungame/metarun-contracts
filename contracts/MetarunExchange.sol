@@ -16,6 +16,7 @@ contract MetarunExchange is EIP712Upgradeable {
     IERC1155Upgradeable public collection;
     IERC20Upgradeable public mrunToken;
     mapping(bytes32 => bool) sellOrderPerformed;
+    mapping(bytes32 => bool) sellOrderCancelled;
     struct SellOrder {
         // address of the current tokenholder
         address payable seller;
@@ -35,6 +36,8 @@ contract MetarunExchange is EIP712Upgradeable {
      * @dev Gets emitted on token purchase
      */
     event Purchase(bytes32 indexed orderHash, address indexed seller, address indexed buyer, uint256 tokenId, uint256 amount, uint256 price);
+
+    event Cancel(bytes32 indexed orderHash, uint256 timestamp);
 
     /**
      * @dev the constructor arguments:
@@ -56,6 +59,7 @@ contract MetarunExchange is EIP712Upgradeable {
         require(signer != address(0), "BAD_SIGNATURE");
         require(signer == sellOrder.seller, "BAD SIGNER");
         require(!sellOrderPerformed[sellOrderHash], "ALREADY_DONE");
+        require(!sellOrderCancelled[sellOrderHash], "ALREADY_CANCELLED");
         require(block.timestamp < sellOrder.expirationTime, "EXPIRED");
         bytes32 orderHash = hashSellOrder(sellOrder);
         emit Purchase(orderHash, sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, sellOrder.price);
@@ -83,5 +87,15 @@ contract MetarunExchange is EIP712Upgradeable {
             )
         );
         return (_hashTypedDataV4(orderHash));
+    }
+
+    function cancel(SellOrder memory sellOrder, bytes memory signature) public {
+        bytes32 hash = hashSellOrder(sellOrder);
+        address signer = ECDSAUpgradeable.recover(hash, signature);
+        require(!sellOrderCancelled[hash], "ALREADY_CANCELLED");
+        require(!sellOrderPerformed[hash], "ALREADY_DONE");
+        require(signer == msg.sender, "BAD_SENDER");
+        sellOrderCancelled[hash] = true;
+        emit Cancel(hash, block.timestamp);
     }
 }
