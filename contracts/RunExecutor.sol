@@ -7,15 +7,6 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract RunExecutor is Initializable, AccessControlUpgradeable {
-    struct Run {
-        address winner;
-        address looser;
-        uint256 winnerCharacterTokenId;
-        uint256 looserCharacterTokenId;
-        uint256 winnerOpal;
-        uint256 looserOpal;
-        uint256 winnerExperience;
-    }
 
     MetarunCollection public metarunCollection;
     bytes32 public constant EXECUTOR_ROLE = keccak256("EXECUTOR_ROLE");
@@ -26,7 +17,7 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
         _grantRole(EXECUTOR_ROLE, _msgSender());
     }
 
-    function executeRun(Run memory run) public {
+    function executeRun(address winner, uint256 winnerOpal, address loser, uint256 loserOpal) public {
         /*
         TODO: check task: https://ongrid.atlassian.net/browse/MRN-395
 
@@ -49,10 +40,10 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
         }
         */
         require(hasRole(EXECUTOR_ROLE, _msgSender()), "RunExecutor: tx sender should have EXECUTOR_ROLE");
-        require(run.winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
-        metarunCollection.mint(run.winner, metarunCollection.OPAL_TOKEN_ID(), run.winnerOpal);
-        if (run.looserOpal > 0) {
-            metarunCollection.mint(run.looser, metarunCollection.OPAL_TOKEN_ID(), run.looserOpal);
+        require(winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
+        metarunCollection.mint(winner, metarunCollection.OPAL_TOKEN_ID(), winnerOpal);
+        if (loserOpal > 0) {
+            metarunCollection.mint(loser, metarunCollection.OPAL_TOKEN_ID(), loserOpal);
         }
     }
 }

@@ -28,16 +28,7 @@ describe("RunExecutor", function () {
     await this.metarunCollection.mint(this.looser, looserCharacterTokenId, 1);
     const expectedWinnerBalance = 100;
     const expectedLooserBalance = 10;
-    let run = {
-      winner: this.winner,
-      looser: this.looser,
-      winnerCharacterTokenId: winnerCharacterTokenId,
-      looserCharacterTokenId: looserCharacterTokenId,
-      winnerOpal: expectedWinnerBalance,
-      looserOpal: expectedLooserBalance,
-      winnerExperience: 500,
-    };
-    this.runExecutor.executeRun(run);
+    this.runExecutor.executeRun(this.winner, expectedWinnerBalance, this.looser, expectedLooserBalance);
     const opalId = await this.metarunCollection.OPAL_TOKEN_ID();
     const actualWinnerBalance = await this.metarunCollection.balanceOf(this.winner, opalId);
     const actualLooserBalance = await this.metarunCollection.balanceOf(this.looser, opalId);
@@ -46,18 +37,9 @@ describe("RunExecutor", function () {
   });
 
   it("should revert for non-deployer", async function () {
-    let run = {
-      winner: this.winner,
-      looser: this.looser,
-      winnerCharacterTokenId: 1,
-      looserCharacterTokenId: 2,
-      winnerOpal: 1,
-      looserOpal: 1,
-      winnerExperience: 1,
-    };
     await this.metarunCollection.mint(this.winner, 1, 1);
     await this.metarunCollection.mint(this.looser, 2, 1);
-    const attempt = this.runExecutor.connect(this.signers[1]).executeRun(run);
+    const attempt = this.runExecutor.connect(this.signers[1]).executeRun(this.winner, 100, this.looser, 20);
     await expect(attempt).to.be.revertedWith("RunExecutor: tx sender should have EXECUTOR_ROLE");
   });
 
@@ -67,16 +49,7 @@ describe("RunExecutor", function () {
     const looserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 3;
     await this.metarunCollection.mint(this.winner, badWinnerCharacterTokenId, 1);
     await this.metarunCollection.mint(this.looser, looserCharacterTokenId, 1);
-    let run = {
-      winner: this.winner,
-      looser: this.looser,
-      winnerCharacterTokenId: badWinnerCharacterTokenId,
-      looserCharacterTokenId: looserCharacterTokenId,
-      winnerOpal: 1,
-      looserOpal: 1,
-      winnerExperience: 1,
-    };
-    const attempt = this.runExecutor.executeRun(run);
+    const attempt = this.runExecutor.executeRun(this.winner, 100, this.looser, 20);
     await expect(attempt).to.be.revertedWith("RunExecutor: winner's character token id should be valid");
   });
 
@@ -86,16 +59,7 @@ describe("RunExecutor", function () {
     const badLooserCharacterTokenId = ((await this.metarunCollection.RARE_SKIN_KIND()) << 16) + 3;
     await this.metarunCollection.mint(this.winner, winnerCharacterTokenId, 1);
     await this.metarunCollection.mint(this.looser, badLooserCharacterTokenId, 1);
-    let run = {
-      winner: this.winner,
-      looser: this.looser,
-      winnerCharacterTokenId: winnerCharacterTokenId,
-      looserCharacterTokenId: badLooserCharacterTokenId,
-      winnerOpal: 1,
-      looserOpal: 1,
-      winnerExperience: 1,
-    };
-    const attempt = this.runExecutor.executeRun(run);
+    const attempt = this.runExecutor.executeRun(this.winner, 100, this.looser, 20);
     await expect(attempt).to.be.revertedWith("RunExecutor: looser's character token id should be valid");
   });
 
@@ -104,16 +68,7 @@ describe("RunExecutor", function () {
     const looserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 3;
     await this.metarunCollection.mint(this.winner, winnerCharacterTokenId, 1);
     await this.metarunCollection.mint(this.looser, looserCharacterTokenId, 1);
-    let run = {
-      winner: this.winner,
-      looser: this.looser,
-      winnerCharacterTokenId: winnerCharacterTokenId,
-      looserCharacterTokenId: looserCharacterTokenId,
-      winnerOpal: 0,
-      looserOpal: 1,
-      winnerExperience: 1,
-    };
-    const attempt = this.runExecutor.executeRun(run);
+    const attempt = this.runExecutor.executeRun(this.winner, 0, this.looser, 20);
     await expect(attempt).to.be.revertedWith("RunExecutor: winner's opal to be minted should be defined");
   });
 
@@ -125,16 +80,7 @@ describe("RunExecutor", function () {
     await this.metarunCollection.mint(this.looser, winnerCharacterTokenId, 1);
     const expectedWinnerBalance = 100;
     const expectedLooserBalance = 10;
-    let run = {
-      winner: this.winner,
-      looser: this.looser,
-      winnerCharacterTokenId: winnerCharacterTokenId,
-      looserCharacterTokenId: looserCharacterTokenId,
-      winnerOpal: expectedWinnerBalance,
-      looserOpal: expectedLooserBalance,
-      winnerExperience: 500,
-    };
-    const attempt = this.runExecutor.executeRun(run);
+    const attempt = this.runExecutor.executeRun(this.winner, expectedWinnerBalance, this.looser, expectedLooserBalance);
     await expect(attempt).to.be.revertedWith("RunExecutor: winner should own winner character");
   });
 
@@ -147,16 +93,7 @@ describe("RunExecutor", function () {
     await this.metarunCollection.mint(this.looser, looserCharacterTokenId, 1); // dummy value on mint
     const expectedWinnerBalance = 100;
     const expectedLooserBalance = 10;
-    let run = {
-      winner: this.winner,
-      looser: this.looser,
-      winnerCharacterTokenId: winnerCharacterTokenId,
-      looserCharacterTokenId: dummyLooserCharacterTokenId,
-      winnerOpal: expectedWinnerBalance,
-      looserOpal: expectedLooserBalance,
-      winnerExperience: 500,
-    };
-    const attempt = this.runExecutor.executeRun(run);
+    const attempt = this.runExecutor.executeRun(this.winner, expectedWinnerBalance, this.looser, expectedLooserBalance);
     await expect(attempt).to.be.revertedWith("RunExecutor: looser should own looser character");
   });
 });
