@@ -27,6 +27,10 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
     }
 
     function executeRun(Run memory run) public {
+        /*
+        TODO: check task: https://ongrid.atlassian.net/browse/MRN-395
+
+        
         require(hasRole(EXECUTOR_ROLE, _msgSender()), "RunExecutor: tx sender should have EXECUTOR_ROLE");
         require(run.winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
         require(metarunCollection.isCharacter(run.winnerCharacterTokenId), "RunExecutor: winner's character token id should be valid");
@@ -42,6 +46,13 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
             MetarunCollection.Perks memory winnerCharacterPerks = metarunCollection.getPerks(run.winnerCharacterTokenId);
             winnerCharacterPerks.level += run.winnerExperience;
             metarunCollection.setPerks(run.winnerCharacterTokenId, winnerCharacterPerks);
+        }
+        */
+        require(hasRole(EXECUTOR_ROLE, _msgSender()), "RunExecutor: tx sender should have EXECUTOR_ROLE");
+        require(run.winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
+        metarunCollection.mint(run.winner, metarunCollection.OPAL_TOKEN_ID(), run.winnerOpal);
+        if (run.looserOpal > 0) {
+            metarunCollection.mint(run.looser, metarunCollection.OPAL_TOKEN_ID(), run.looserOpal);
         }
     }
 }
