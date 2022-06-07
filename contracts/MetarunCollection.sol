@@ -20,6 +20,10 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
     uint256 public constant RARE_SKIN_KIND = 0x0301;
     uint256 public constant MYTHICAL_SKIN_KIND = 0x0302;
 
+    uint256 public constant BRONZE_TICKET_KIND = 0x0400;
+    uint256 public constant SILVER_TICKET_KIND = 0x0401;
+    uint256 public constant GOLD_TICKET_KIND = 0x0402;
+
     uint256 public constant FUNGIBLE_TOKEN_KIND = 0x0500;
     uint256 public constant HEALTH_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0000;
     uint256 public constant MANA_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0001;
@@ -37,6 +41,8 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         uint256 mana;
         uint256 speed;
         uint256 collisionDamage;
+        uint256 runsPerDayLimit;
+        uint256 runsTotalLimit;
     }
 
     mapping(uint256 => Perks) tokenPerks;
@@ -117,6 +123,10 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         return isKind(id, CRAFTSMAN_CHARACTER_KIND) || isKind(id, FIGHTER_CHARACTER_KIND) || isKind(id, SPRINTER_CHARACTER_KIND);
     }
 
+    function isTicket(uint256 id) public pure returns (bool) {
+        return isKind(id, BRONZE_TICKET_KIND) || isKind(id, SILVER_TICKET_KIND) || isKind(id, GOLD_TICKET_KIND);
+    }
+
     function getKind(uint256 id) public pure returns (uint256) {
         return (KIND_MASK & id) >> 16;
     }
@@ -131,12 +141,12 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
     }
 
     function getPerks(uint256 id) external view returns (Perks memory) {
-        require(isCharacter(id) || isKind(id, PET_TOKEN_KIND), "Perks are available only for characters and pets");
+        require(isCharacter(id) || isKind(id, PET_TOKEN_KIND) || isTicket(id), "Perks are available only for characters, pets and tickets");
         return tokenPerks[id];
     }
 
     function setPerks(uint256 id, Perks memory perks) public {
-        require(isCharacter(id) || isKind(id, PET_TOKEN_KIND), "Perks are available only for characters and pets");
+        require(isCharacter(id) || isKind(id, PET_TOKEN_KIND) || isTicket(id), "Perks are available only for characters, pets and tickets");
         require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenPerks[id] = perks;
     }

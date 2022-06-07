@@ -24,7 +24,9 @@ describe("MetarunCollection | getters and setters of Character properties", func
     const mana = 1234;
     const speed = 100;
     const collisionDamage = 15;
-    const values = { level, runs, wins, ability, health, mana, speed, collisionDamage };
+    const runsPerDayLimit = 10;
+    const runsTotalLimit = 200;
+    const values = { level, runs, wins, ability, health, mana, speed, collisionDamage, runsPerDayLimit, runsTotalLimit };
     await this.metarunCollection.setPerks(this.characterId, values);
     const valuesInContract = await this.metarunCollection.getPerks(this.characterId);
     expect(valuesInContract.health).to.be.eq(health);

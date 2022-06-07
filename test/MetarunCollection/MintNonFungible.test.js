@@ -65,6 +65,12 @@ describe("MetarunCollection | Non-fungible token mint", function () {
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
 
+  it("should mint ticket token", async function () {
+    const tokenId = (0x0400 << 16) | getTokenId();
+    const tokenKind = await this.metarunCollection.BRONZE_TICKET_KIND();
+    this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
+  });
+
   it("should deny minting more than 1 character craftsman token", async function () {
     const tokenId = (0x0000 << 16) | getTokenId();
     const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
@@ -97,6 +103,24 @@ describe("MetarunCollection | Non-fungible token mint", function () {
 
   it("should deny minting more than 1 skin token", async function () {
     const tokenId = (0x0300 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
+
+  it("should deny minting more than 1 bronze ticket token", async function () {
+    const tokenId = (0x0400 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
+
+  it("should deny minting more than 1 silver ticket token", async function () {
+    const tokenId = (0x0401 << 16) | getTokenId();
+    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
+    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
+  });
+
+  it("should deny minting more than 1 gold ticket token", async function () {
+    const tokenId = (0x0402 << 16) | getTokenId();
     const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
     await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
   });

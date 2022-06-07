@@ -7,7 +7,6 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract RunExecutor is Initializable, AccessControlUpgradeable {
-
     MetarunCollection public metarunCollection;
     bytes32 public constant EXECUTOR_ROLE = keccak256("EXECUTOR_ROLE");
 
@@ -17,7 +16,12 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
         _grantRole(EXECUTOR_ROLE, _msgSender());
     }
 
-    function executeRun(address winner, uint256 winnerOpal, address loser, uint256 loserOpal) public {
+    function executeRun(
+        address winner,
+        uint256 winnerOpal,
+        address loser,
+        uint256 loserOpal
+    ) public {
         /*
         TODO: check task: https://ongrid.atlassian.net/browse/MRN-395
 

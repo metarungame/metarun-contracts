@@ -10,7 +10,9 @@ const health = 11;
 const mana = 1234;
 const speed = 100;
 const collisionDamage = 15;
-const values = { level, runs, wins, ability, health, mana, speed, collisionDamage };
+const runsPerDayLimit = 10;
+const runsTotalLimit = 200;
+const values = { level, runs, wins, ability, health, mana, speed, collisionDamage, runsPerDayLimit, runsTotalLimit };
 
 describe("MetarunCollection | Manage perks of pets and characters", function () {
   this.beforeAll(async function () {
@@ -39,6 +41,8 @@ describe("MetarunCollection | Manage perks of pets and characters", function () 
       expect(perks.mana).to.be.eq(0);
       expect(perks.speed).to.be.eq(0);
       expect(perks.collisionDamage).to.be.eq(0);
+      expect(perks.runsPerDayLimit).to.be.eq(0);
+      expect(perks.runsTotalLimit).to.be.eq(0);
     });
 
     it("should correctly give perks for non-SETTER_ROLE", async function () {
@@ -51,6 +55,8 @@ describe("MetarunCollection | Manage perks of pets and characters", function () 
       expect(perks.mana).to.be.eq(0);
       expect(perks.speed).to.be.eq(0);
       expect(perks.collisionDamage).to.be.eq(0);
+      expect(perks.runsPerDayLimit).to.be.eq(0);
+      expect(perks.runsTotalLimit).to.be.eq(0);
     });
 
     it("should correctly set perks", async function () {
@@ -64,6 +70,8 @@ describe("MetarunCollection | Manage perks of pets and characters", function () 
       expect(perks.mana).to.be.eq(mana);
       expect(perks.speed).to.be.eq(speed);
       expect(perks.collisionDamage).to.be.eq(collisionDamage);
+      expect(perks.runsPerDayLimit).to.be.eq(runsPerDayLimit);
+      expect(perks.runsTotalLimit).to.be.eq(runsTotalLimit);
     });
 
     it("should deny set perks for non-SETTER_ROLE", async function () {
@@ -83,6 +91,8 @@ describe("MetarunCollection | Manage perks of pets and characters", function () 
       expect(perks.mana).to.be.eq(0);
       expect(perks.speed).to.be.eq(0);
       expect(perks.collisionDamage).to.be.eq(0);
+      expect(perks.runsPerDayLimit).to.be.eq(0);
+      expect(perks.runsTotalLimit).to.be.eq(0);
     });
 
     it("should correctly give level for non-SETTER_ROLE", async function () {
@@ -95,6 +105,8 @@ describe("MetarunCollection | Manage perks of pets and characters", function () 
       expect(perks.mana).to.be.eq(0);
       expect(perks.speed).to.be.eq(0);
       expect(perks.collisionDamage).to.be.eq(0);
+      expect(perks.runsPerDayLimit).to.be.eq(0);
+      expect(perks.runsTotalLimit).to.be.eq(0);
     });
 
     it("should correctly set perks", async function () {
@@ -108,6 +120,8 @@ describe("MetarunCollection | Manage perks of pets and characters", function () 
       expect(perks.mana).to.be.eq(mana);
       expect(perks.speed).to.be.eq(speed);
       expect(perks.collisionDamage).to.be.eq(collisionDamage);
+      expect(perks.runsPerDayLimit).to.be.eq(runsPerDayLimit);
+      expect(perks.runsTotalLimit).to.be.eq(runsTotalLimit);
     });
 
     it("should deny set perks for non-SETTER_ROLE", async function () {

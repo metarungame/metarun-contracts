@@ -9,6 +9,7 @@ require("./tasks/ido-pool-client.js");
 require("./tasks/create-order.js");
 require("./tasks/buy-token.js");
 require("./tasks/write-balances-to-tiersystem.js");
+require("./tasks/buy-tickets.js");
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
@@ -76,7 +77,7 @@ module.exports = {
     bsctestnet: {
       chainId: 97,
       accounts,
-      url: `https://data-seed-prebsc-1-s2.binance.org:8545/`,
+      url: `https://data-seed-prebsc-2-s1.binance.org:8545/`,
       live: true,
       saveDeployments: true,
     },
