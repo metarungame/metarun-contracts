@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.0;
 import "./MetarunCollection.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC1155/utils/ERC1155HolderUpgradeable.sol";
 
-contract BetaTicketSale is AccessControl, ERC1155Holder {
+contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
     MetarunCollection private collection;
 
     uint256 internal constant KIND_MASK = 0xffff0000;
@@ -18,7 +18,9 @@ contract BetaTicketSale is AccessControl, ERC1155Holder {
 
     event TicketBought(address owner, uint256 ticketId);
 
-    constructor(address _collection) {
+    function initialize(address _collection) public initializer {
+        __AccessControl_init();
+        __ERC1155Holder_init();
         collection = MetarunCollection(_collection);
         ticketKindPrices[collection.BRONZE_TICKET_KIND()] = 100 gwei;
         ticketKindPrices[collection.SILVER_TICKET_KIND()] = 200 gwei;
@@ -27,7 +29,13 @@ contract BetaTicketSale is AccessControl, ERC1155Holder {
         _grantRole(SETTER_ROLE, msg.sender);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(AccessControl, ERC1155Receiver) returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(AccessControlUpgradeable, ERC1155ReceiverUpgradeable)
+        returns (bool)
+    {
         return super.supportsInterface(interfaceId);
     }
 

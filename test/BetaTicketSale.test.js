@@ -14,7 +14,7 @@ describe("BetaTicketSale", function () {
 
   beforeEach(async function () {
     this.metarunCollection = await upgrades.deployProxy(this.metarunCollectionFactory, [TOKEN_URI]);
-    this.betaTicketSale = await this.betaTicketSaleFactory.deploy(this.metarunCollection.address);
+    this.betaTicketSale = await upgrades.deployProxy(this.betaTicketSaleFactory, [this.metarunCollection.address]);
     this.bronzeTicketKind = await this.metarunCollection.BRONZE_TICKET_KIND();
     this.silverTicketKind = await this.metarunCollection.SILVER_TICKET_KIND();
     this.goldTicketKind = await this.metarunCollection.GOLD_TICKET_KIND();
