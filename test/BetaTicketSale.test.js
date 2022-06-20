@@ -10,6 +10,8 @@ describe("BetaTicketSale", function () {
     this.signers = await ethers.getSigners();
     this.deployer = this.signers[0];
     this.buyer = this.signers[1];
+    this.firstVIPUser = this.signers[2];
+    this.secondVIPUser = this.signers[3];
   });
 
   beforeEach(async function () {
@@ -30,6 +32,21 @@ describe("BetaTicketSale", function () {
       const balanceAfter = await this.metarunCollection.balanceOf(this.buyer.address, tokenId);
       expect(balanceAfter).to.be.eq(1);
       const boughtTicketId = await this.betaTicketSale.getBoughtTicketId(this.buyer.address);
+      expect(boughtTicketId).to.be.eq(tokenId);
+    });
+
+    it("vip user should buy single-minted ticket", async function () {
+      const tokenId = this.bronzeTicketKind << 16;
+      await this.metarunCollection.mint(this.betaTicketSale.address, tokenId, 1);
+      await this.betaTicketSale.addVip(this.firstVIPUser.address);
+      const balanceBefore = await this.metarunCollection.balanceOf(this.firstVIPUser.address, tokenId);
+      expect(balanceBefore).to.be.eq(0);
+      await this.betaTicketSale.connect(this.firstVIPUser).buy(this.bronzeTicketKind, {
+        value: "100000000000",
+      });
+      const balanceAfter = await this.metarunCollection.balanceOf(this.firstVIPUser.address, tokenId);
+      expect(balanceAfter).to.be.eq(1);
+      const boughtTicketId = await this.betaTicketSale.getBoughtTicketId(this.firstVIPUser.address);
       expect(boughtTicketId).to.be.eq(tokenId);
     });
 
@@ -96,6 +113,15 @@ describe("BetaTicketSale", function () {
       });
       await expect(attempt).to.be.revertedWith("Buyer should provide exactly the price of ticket");
     });
+
+    it("should revert if not enough tickets for the common user on contract ", async function () {
+      await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.goldTicketKind, 1);
+      await this.betaTicketSale.addVip(this.firstVIPUser.address);
+      const attempt = this.betaTicketSale.connect(this.buyer).buy(this.goldTicketKind, {
+        value: "300000000000",
+      });
+      await expect(attempt).to.be.revertedWith("Not enough tickets on contract balance");
+    });
   });
 
   describe("Getters", function () {
@@ -113,12 +139,40 @@ describe("BetaTicketSale", function () {
       expect(ticketPrice).to.be.eq(ethers.utils.parseUnits("100", "gwei"));
     });
 
-    it("Should properly give tickets left amount", async function () {
+    it("should properly give tickets left amount", async function () {
       await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.bronzeTicketKind, 100);
       await this.betaTicketSale.connect(this.buyer).buy(this.bronzeTicketKind, {
         value: ethers.utils.parseUnits("100", "gwei"),
       });
       const tokensLeft = await this.betaTicketSale.getTicketsLeftByKind(this.bronzeTicketKind);
+      expect(tokensLeft).to.be.eq(99);
+    });
+
+    it("should properly give tickets left amount for common user when the list of VIP users is not empty", async function () {
+      await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.bronzeTicketKind, 100);
+      const tokensLeftBefore = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind);
+      expect(tokensLeftBefore).to.be.eq(100);
+      await this.betaTicketSale.addVip(this.firstVIPUser.address);
+      await this.betaTicketSale.addVip(this.secondVIPUser.address);
+      const tokensLeftAfter = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind);
+      expect(tokensLeftAfter).to.be.eq(98);
+      await this.betaTicketSale.connect(this.firstVIPUser).buy(this.bronzeTicketKind, {
+        value: ethers.utils.parseUnits("100", "gwei"),
+      });
+      const tokensLeft = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind);
+      expect(tokensLeft).to.be.eq(98);
+    });
+
+    it("should properly give tickets left amount for VIP user", async function () {
+      await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.bronzeTicketKind, 100);
+      const tokensLeftBefore = await this.betaTicketSale.connect(this.firstVIPUser).getTicketsLeftByKind(this.bronzeTicketKind);
+      expect(tokensLeftBefore).to.be.eq(100);
+      await this.betaTicketSale.addVip(this.firstVIPUser.address);
+      await this.betaTicketSale.addVip(this.secondVIPUser.address);
+      await this.betaTicketSale.connect(this.firstVIPUser).buy(this.bronzeTicketKind, {
+        value: ethers.utils.parseUnits("100", "gwei"),
+      });
+      const tokensLeft = await this.betaTicketSale.connect(this.secondVIPUser).getTicketsLeftByKind(this.bronzeTicketKind);
       expect(tokensLeft).to.be.eq(99);
     });
   });
@@ -140,6 +194,20 @@ describe("BetaTicketSale", function () {
       const values = [1, 1, 1];
       const attempt = this.betaTicketSale.onERC1155Received(operator, from, ids, values);
       await expect(attempt).to.be.reverted;
+    });
+  });
+
+  describe("Add vip user", function () {
+    it("should return when trying to add vip user again", async function () {
+      await this.betaTicketSale.addVip(this.firstVIPUser.address);
+      await this.betaTicketSale.addVip(this.secondVIPUser.address);
+      attempt = this.betaTicketSale.addVip(this.secondVIPUser.address);
+      await expect(attempt).to.be.revertedWith("Address already exists in the VIP list");
+    });
+    it("should return when trying to add vip user without SETTER_ROLE role", async function () {
+      await this.betaTicketSale.addVip(this.firstVIPUser.address);
+      attempt = this.betaTicketSale.connect(this.buyer).addVip(this.secondVIPUser.address);
+      await expect(attempt).to.be.revertedWith("You should have SETTER_ROLE");
     });
   });
 });

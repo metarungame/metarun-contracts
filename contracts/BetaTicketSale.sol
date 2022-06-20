@@ -15,6 +15,8 @@ contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
     mapping(uint256 => uint256[]) tickets;
     mapping(uint256 => uint256) ticketKindPrices;
     mapping(address => uint256) boughtTicketId;
+    mapping(address => bool) vipList;
+    uint256 internal availableVipTickets;
 
     event TicketBought(address owner, uint256 ticketId);
 
@@ -45,6 +47,13 @@ contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
         // TODO: return this check when beta starts. Task 472
         // require(boughtTicketId[msg.sender] == 0, "Buyer should not buy a ticket before");
         uint256 ticketId = tickets[kind][tickets[kind].length - 1];
+        uint256 ticketsAvailable = tickets[kind].length - availableVipTickets;
+        if (vipList[msg.sender] == true) {
+            availableVipTickets--;
+        } else {
+            require(ticketsAvailable > 0, "Not enough tickets on contract balance");
+        }
+
         tickets[kind].pop();
         collection.safeTransferFrom(address(this), msg.sender, ticketId, 1, "");
         boughtTicketId[msg.sender] = ticketId;
@@ -62,6 +71,13 @@ contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
 
     function addTicket(uint256 id) internal {
         tickets[getKind(id)].push(id);
+    }
+
+    function addVip(address vip) public {
+        require(hasRole(SETTER_ROLE, msg.sender), "You should have SETTER_ROLE");
+        require(vipList[vip] == false, "Address already exists in the VIP list");
+        vipList[vip] = true;
+        availableVipTickets++;
     }
 
     function onERC1155Received(
@@ -109,6 +125,12 @@ contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
 
     function getTicketsLeftByKind(uint256 kind) public view returns (uint256) {
         require(isTicket(kind), "Kind should be ticket");
-        return tickets[kind].length;
+        uint256 ticketsAvailable;
+        if (vipList[msg.sender] == true) {
+            ticketsAvailable = tickets[kind].length;
+        } else {
+            ticketsAvailable = tickets[kind].length - availableVipTickets;
+        }
+        return ticketsAvailable;
     }
 }
