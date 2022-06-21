@@ -47,10 +47,10 @@ contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
         // TODO: return this check when beta starts. Task 472
         // require(boughtTicketId[msg.sender] == 0, "Buyer should not buy a ticket before");
         uint256 ticketId = tickets[kind][tickets[kind].length - 1];
-        uint256 ticketsAvailable = tickets[kind].length - availableVipTickets;
         if (vipList[msg.sender] == true) {
             availableVipTickets--;
         } else {
+            uint256 ticketsAvailable = tickets[kind].length - availableVipTickets;
             require(ticketsAvailable > 0, "Not enough tickets on contract balance");
         }
 
@@ -123,10 +123,10 @@ contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
         return ticketKindPrices[kind];
     }
 
-    function getTicketsLeftByKind(uint256 kind) public view returns (uint256) {
+    function getTicketsLeftByKind(uint256 kind, address user) public view returns (uint256) {
         require(isTicket(kind), "Kind should be ticket");
         uint256 ticketsAvailable;
-        if (vipList[msg.sender] == true) {
+        if (vipList[user] == true) {
             ticketsAvailable = tickets[kind].length;
         } else {
             ticketsAvailable = tickets[kind].length - availableVipTickets;

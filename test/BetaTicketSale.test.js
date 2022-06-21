@@ -144,35 +144,39 @@ describe("BetaTicketSale", function () {
       await this.betaTicketSale.connect(this.buyer).buy(this.bronzeTicketKind, {
         value: ethers.utils.parseUnits("100", "gwei"),
       });
-      const tokensLeft = await this.betaTicketSale.getTicketsLeftByKind(this.bronzeTicketKind);
+      const tokensLeft = await this.betaTicketSale.getTicketsLeftByKind(this.bronzeTicketKind, this.buyer.address);
       expect(tokensLeft).to.be.eq(99);
     });
 
     it("should properly give tickets left amount for common user when the list of VIP users is not empty", async function () {
       await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.bronzeTicketKind, 100);
-      const tokensLeftBefore = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind);
+      const tokensLeftBefore = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind, this.buyer.address);
       expect(tokensLeftBefore).to.be.eq(100);
       await this.betaTicketSale.addVip(this.firstVIPUser.address);
       await this.betaTicketSale.addVip(this.secondVIPUser.address);
-      const tokensLeftAfter = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind);
+      const tokensLeftAfter = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind, this.buyer.address);
       expect(tokensLeftAfter).to.be.eq(98);
       await this.betaTicketSale.connect(this.firstVIPUser).buy(this.bronzeTicketKind, {
         value: ethers.utils.parseUnits("100", "gwei"),
       });
-      const tokensLeft = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind);
+      const tokensLeft = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind, this.buyer.address);
       expect(tokensLeft).to.be.eq(98);
     });
 
     it("should properly give tickets left amount for VIP user", async function () {
       await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.bronzeTicketKind, 100);
-      const tokensLeftBefore = await this.betaTicketSale.connect(this.firstVIPUser).getTicketsLeftByKind(this.bronzeTicketKind);
+      const tokensLeftBefore = await this.betaTicketSale
+        .connect(this.firstVIPUser)
+        .getTicketsLeftByKind(this.bronzeTicketKind, this.firstVIPUser.address);
       expect(tokensLeftBefore).to.be.eq(100);
       await this.betaTicketSale.addVip(this.firstVIPUser.address);
       await this.betaTicketSale.addVip(this.secondVIPUser.address);
       await this.betaTicketSale.connect(this.firstVIPUser).buy(this.bronzeTicketKind, {
         value: ethers.utils.parseUnits("100", "gwei"),
       });
-      const tokensLeft = await this.betaTicketSale.connect(this.secondVIPUser).getTicketsLeftByKind(this.bronzeTicketKind);
+      const tokensLeft = await this.betaTicketSale
+        .connect(this.secondVIPUser)
+        .getTicketsLeftByKind(this.bronzeTicketKind, this.secondVIPUser.address);
       expect(tokensLeft).to.be.eq(99);
     });
   });
