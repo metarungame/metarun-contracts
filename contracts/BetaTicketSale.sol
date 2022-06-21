@@ -132,4 +132,11 @@ contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
         }
         return ticketsAvailable;
     }
+
+    function withdrawPayments(address payable payee) public payable {
+        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "You should have DEFAULT_ADMIN_ROLE");
+        uint256 payment = payable(address(this)).balance;
+        require(payment != 0, "Zero balance");
+        payee.transfer(payment);
+    }
 }

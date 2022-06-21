@@ -121,6 +121,29 @@ describe("BetaTicketSale", function () {
       });
       await expect(attempt).to.be.revertedWith("Not enough tickets on contract balance");
     });
+
+    describe("Withdraw", function () {
+      beforeEach(async function () {
+        const tokenId = this.bronzeTicketKind << 16;
+        await this.metarunCollection.mint(this.betaTicketSale.address, tokenId, 1);
+        await this.betaTicketSale.connect(this.buyer).buy(this.bronzeTicketKind, {
+          value: "100000000000",
+        });
+      });
+      it("msg.sender with DEFAULT_ADMIN_ROLE can withdraw", async function () {
+        attempt = await this.betaTicketSale.connect(this.deployer).withdrawPayments(this.buyer.address);
+        await expect(attempt).to.changeEtherBalance(this.buyer, "100000000000");
+      });
+      it("should revert if msg.sender without DEFAULT_ADMIN_ROLE role", async function () {
+        attempt = this.betaTicketSale.connect(this.buyer).withdrawPayments(this.deployer.address);
+        await expect(attempt).to.be.revertedWith("You should have DEFAULT_ADMIN_ROLE");
+      });
+      it("should revert if zero balance", async function () {
+        await this.betaTicketSale.connect(this.deployer).withdrawPayments(this.buyer.address);
+        attempt = this.betaTicketSale.connect(this.deployer).withdrawPayments(this.buyer.address);
+        await expect(attempt).to.be.revertedWith("Zero balance");
+      });
+    });
   });
 
   describe("Getters", function () {
