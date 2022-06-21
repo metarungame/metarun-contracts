@@ -63,7 +63,6 @@ describe("BetaTicketSale", function () {
     });
 
     it("should revert on second attempt to buy", async function () {
-      this.skip();
       const tokenToBuy = this.silverTicketKind << 16;
       await this.metarunCollection.mint(this.betaTicketSale.address, tokenToBuy, 1);
       await this.betaTicketSale.connect(this.buyer).buy(this.silverTicketKind, {

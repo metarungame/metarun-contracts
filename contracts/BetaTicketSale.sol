@@ -44,8 +44,7 @@ contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
     function buy(uint256 kind) external payable {
         require(isTicket(kind), "Provided kind should be ticket");
         require(msg.value == ticketKindPrices[kind], "Buyer should provide exactly the price of ticket");
-        // TODO: return this check when beta starts. Task 472
-        // require(boughtTicketId[msg.sender] == 0, "Buyer should not buy a ticket before");
+        require(boughtTicketId[msg.sender] == 0, "Buyer should not buy a ticket before");
         uint256 ticketId = tickets[kind][tickets[kind].length - 1];
         if (vipList[msg.sender] == true) {
             availableVipTickets--;
