@@ -13,8 +13,17 @@ module.exports = async function ({ getNamedAccounts, deployments, ethers }) {
     const deployResult = await deploy(contractName, {
         from: deployer,
         log: true,
-        args: [metarunCollection.address]
-        }
+        contract: contractName,
+        proxy: {
+          proxyContract: "OpenZeppelinTransparentProxy",
+          execute: {
+            init: {
+              methodName: "initialize",
+              args: [collectionAddress],
+            },
+          }
+        },
+      }
     );
     console.log(`Deployed BetaTicketSale at ${deployResult.address}`);
     const betaTicketSale = await ethers.getContractAt("BetaTicketSale", deployResult.address);
