@@ -16,38 +16,37 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
         _grantRole(EXECUTOR_ROLE, _msgSender());
     }
 
+    function isGameToken(uint256 tokenId) private view returns (bool) {
+        bool isCharacter = metarunCollection.isCharacter(tokenId);
+        bool isTicket = metarunCollection.isTicket(tokenId);
+        return isCharacter || isTicket;
+    }
+
     function executeRun(
         address winner,
         uint256 winnerOpal,
+        uint256 winnerCharacterTokenId,
         address loser,
-        uint256 loserOpal
+        uint256 loserOpal,
+        uint256 loserCharacterTokenId
     ) public {
-        /*
-        TODO: check task: https://ongrid.atlassian.net/browse/MRN-395
-
-        
         require(hasRole(EXECUTOR_ROLE, _msgSender()), "RunExecutor: tx sender should have EXECUTOR_ROLE");
-        require(run.winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
-        require(metarunCollection.isCharacter(run.winnerCharacterTokenId), "RunExecutor: winner's character token id should be valid");
-        require(metarunCollection.isCharacter(run.looserCharacterTokenId), "RunExecutor: looser's character token id should be valid");
-        require(metarunCollection.balanceOf(run.winner, run.winnerCharacterTokenId) == 1, "RunExecutor: winner should own winner character");
-        require(metarunCollection.balanceOf(run.looser, run.looserCharacterTokenId) == 1, "RunExecutor: looser should own looser character");
-
-        metarunCollection.mint(run.winner, metarunCollection.OPAL_TOKEN_ID(), run.winnerOpal);
-        if (run.looserOpal > 0) {
-            metarunCollection.mint(run.looser, metarunCollection.OPAL_TOKEN_ID(), run.looserOpal);
+        if (winner != address(0)) {
+            require(winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
+            require(isGameToken(winnerCharacterTokenId), "RunExecutor: winner's token id should be character or ticket");
+            require(metarunCollection.balanceOf(winner, winnerCharacterTokenId) == 1, "RunExecutor: winner should own winner character");
+            metarunCollection.mint(winner, metarunCollection.OPAL_TOKEN_ID(), winnerOpal);
+            MetarunCollection.Perks memory winnerCharacterPerks = metarunCollection.getPerks(winnerCharacterTokenId);
+            winnerCharacterPerks.runs += 1;
+            metarunCollection.setPerks(winnerCharacterTokenId, winnerCharacterPerks);
         }
-        if (run.winnerExperience > 0) {
-            MetarunCollection.Perks memory winnerCharacterPerks = metarunCollection.getPerks(run.winnerCharacterTokenId);
-            winnerCharacterPerks.level += run.winnerExperience;
-            metarunCollection.setPerks(run.winnerCharacterTokenId, winnerCharacterPerks);
-        }
-        */
-        require(hasRole(EXECUTOR_ROLE, _msgSender()), "RunExecutor: tx sender should have EXECUTOR_ROLE");
-        require(winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
-        metarunCollection.mint(winner, metarunCollection.OPAL_TOKEN_ID(), winnerOpal);
-        if (loserOpal > 0) {
+        if (loser != 0x0000000000000000000000000000000000000000 && loserOpal > 0) {
+            require(isGameToken(loserCharacterTokenId), "RunExecutor: loser's token id should be character or ticket");
+            require(metarunCollection.balanceOf(loser, loserCharacterTokenId) == 1, "RunExecutor: loser should own loser character");
             metarunCollection.mint(loser, metarunCollection.OPAL_TOKEN_ID(), loserOpal);
+            MetarunCollection.Perks memory loserCharacterPerks = metarunCollection.getPerks(loserCharacterTokenId);
+            loserCharacterPerks.runs += 1;
+            metarunCollection.setPerks(loserCharacterTokenId, loserCharacterPerks);
         }
     }
 }
