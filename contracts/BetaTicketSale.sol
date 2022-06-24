@@ -24,9 +24,9 @@ contract BetaTicketSale is AccessControlUpgradeable, ERC1155HolderUpgradeable {
         __AccessControl_init();
         __ERC1155Holder_init();
         collection = MetarunCollection(_collection);
-        ticketKindPrices[collection.BRONZE_TICKET_KIND()] = 100 gwei;
-        ticketKindPrices[collection.SILVER_TICKET_KIND()] = 200 gwei;
-        ticketKindPrices[collection.GOLD_TICKET_KIND()] = 300 gwei;
+        ticketKindPrices[collection.BRONZE_TICKET_KIND()] = 180000000 gwei;
+        ticketKindPrices[collection.SILVER_TICKET_KIND()] = 340000000 gwei;
+        ticketKindPrices[collection.GOLD_TICKET_KIND()] = 450000000 gwei;
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(SETTER_ROLE, msg.sender);
     }

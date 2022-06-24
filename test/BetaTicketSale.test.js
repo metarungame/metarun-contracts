@@ -20,6 +20,9 @@ describe("BetaTicketSale", function () {
     this.bronzeTicketKind = await this.metarunCollection.BRONZE_TICKET_KIND();
     this.silverTicketKind = await this.metarunCollection.SILVER_TICKET_KIND();
     this.goldTicketKind = await this.metarunCollection.GOLD_TICKET_KIND();
+    this.bronzeTicketPrice = await this.betaTicketSale.getTicketKindPrice(this.bronzeTicketKind);
+    this.silverTicketPrice = await this.betaTicketSale.getTicketKindPrice(this.silverTicketKind);
+    this.goldTicketPrice = await this.betaTicketSale.getTicketKindPrice(this.goldTicketKind);
   });
 
   describe("Buy", function () {
@@ -27,7 +30,7 @@ describe("BetaTicketSale", function () {
       const tokenId = this.bronzeTicketKind << 16;
       await this.metarunCollection.mint(this.betaTicketSale.address, tokenId, 1);
       await this.betaTicketSale.connect(this.buyer).buy(this.bronzeTicketKind, {
-        value: "100000000000",
+        value: this.bronzeTicketPrice,
       });
       const balanceAfter = await this.metarunCollection.balanceOf(this.buyer.address, tokenId);
       expect(balanceAfter).to.be.eq(1);
@@ -42,7 +45,7 @@ describe("BetaTicketSale", function () {
       const balanceBefore = await this.metarunCollection.balanceOf(this.firstVIPUser.address, tokenId);
       expect(balanceBefore).to.be.eq(0);
       await this.betaTicketSale.connect(this.firstVIPUser).buy(this.bronzeTicketKind, {
-        value: "100000000000",
+        value: this.bronzeTicketPrice,
       });
       const balanceAfter = await this.metarunCollection.balanceOf(this.firstVIPUser.address, tokenId);
       expect(balanceAfter).to.be.eq(1);
@@ -56,7 +59,7 @@ describe("BetaTicketSale", function () {
       const tokenId = (this.bronzeTicketKind << 16) + 9;
       await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.bronzeTicketKind, 10);
       await this.betaTicketSale.connect(this.buyer).buy(this.bronzeTicketKind, {
-        value: "100000000000",
+        value: this.bronzeTicketPrice,
       });
       const balanceAfter = await this.metarunCollection.balanceOf(this.buyer.address, tokenId);
       expect(balanceAfter).to.be.eq(1);
@@ -66,12 +69,12 @@ describe("BetaTicketSale", function () {
       const tokenToBuy = this.silverTicketKind << 16;
       await this.metarunCollection.mint(this.betaTicketSale.address, tokenToBuy, 1);
       await this.betaTicketSale.connect(this.buyer).buy(this.silverTicketKind, {
-        value: ethers.utils.parseUnits("200", "gwei"),
+        value: this.silverTicketPrice,
       });
       const tokenReverted = this.bronzeTicketKind << 16;
       await this.metarunCollection.mint(this.betaTicketSale.address, tokenReverted, 1);
       const buyAttempt = this.betaTicketSale.connect(this.buyer).buy(this.bronzeTicketKind, {
-        value: ethers.utils.parseUnits("100", "gwei"),
+        value: this.bronzeTicketPrice,
       });
       await expect(buyAttempt).to.be.revertedWith("Buyer should not buy a ticket before");
     });
@@ -92,7 +95,7 @@ describe("BetaTicketSale", function () {
     it("should revert if kind being bought is invalid", async function () {
       const invalidKind = await this.metarunCollection.ARTIFACT_TOKEN_KIND();
       const attemptToBuy = this.betaTicketSale.connect(this.buyer).buy(invalidKind, {
-        value: ethers.utils.parseUnits("100", "gwei"),
+        value: this.bronzeTicketPrice,
       });
       await expect(attemptToBuy).to.be.revertedWith("Provided kind should be ticket");
     });
@@ -100,7 +103,7 @@ describe("BetaTicketSale", function () {
     it("should revert if msg.value is low", async function () {
       await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.goldTicketKind, 10);
       const attempt = this.betaTicketSale.connect(this.buyer).buy(this.goldTicketKind, {
-        value: ethers.utils.parseUnits("100", "gwei"),
+        value: this.bronzeTicketPrice,
       });
       await expect(attempt).to.be.revertedWith("Buyer should provide exactly the price of ticket");
     });
@@ -117,7 +120,7 @@ describe("BetaTicketSale", function () {
       await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.goldTicketKind, 1);
       await this.betaTicketSale.addVip(this.firstVIPUser.address);
       const attempt = this.betaTicketSale.connect(this.buyer).buy(this.goldTicketKind, {
-        value: "300000000000",
+        value: this.goldTicketPrice,
       });
       await expect(attempt).to.be.revertedWith("Not enough tickets on contract balance");
     });
@@ -127,12 +130,12 @@ describe("BetaTicketSale", function () {
         const tokenId = this.bronzeTicketKind << 16;
         await this.metarunCollection.mint(this.betaTicketSale.address, tokenId, 1);
         await this.betaTicketSale.connect(this.buyer).buy(this.bronzeTicketKind, {
-          value: "100000000000",
+          value: this.bronzeTicketPrice,
         });
       });
       it("msg.sender with DEFAULT_ADMIN_ROLE can withdraw", async function () {
         attempt = await this.betaTicketSale.connect(this.deployer).withdrawPayments(this.buyer.address);
-        await expect(attempt).to.changeEtherBalance(this.buyer, "100000000000");
+        await expect(attempt).to.changeEtherBalance(this.buyer, this.bronzeTicketPrice);
       });
       it("should revert if msg.sender without DEFAULT_ADMIN_ROLE role", async function () {
         attempt = this.betaTicketSale.connect(this.buyer).withdrawPayments(this.deployer.address);
@@ -150,7 +153,7 @@ describe("BetaTicketSale", function () {
     it("should properly give bought ticket", async function () {
       await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.bronzeTicketKind, 100);
       await this.betaTicketSale.connect(this.buyer).buy(this.bronzeTicketKind, {
-        value: ethers.utils.parseUnits("100", "gwei"),
+        value: this.bronzeTicketPrice,
       });
       const boughtTicket = await this.betaTicketSale.getBoughtTicketId(this.buyer.address);
       expect(boughtTicket).to.be.eq((this.bronzeTicketKind << 16) + 99);
@@ -158,13 +161,13 @@ describe("BetaTicketSale", function () {
 
     it("should properly give ticket price", async function () {
       const ticketPrice = await this.betaTicketSale.getTicketKindPrice(this.bronzeTicketKind);
-      expect(ticketPrice).to.be.eq(ethers.utils.parseUnits("100", "gwei"));
+      expect(ticketPrice).to.be.eq(this.bronzeTicketPrice);
     });
 
     it("should properly give tickets left amount", async function () {
       await this.metarunCollection.mintBatch(this.betaTicketSale.address, this.bronzeTicketKind, 100);
       await this.betaTicketSale.connect(this.buyer).buy(this.bronzeTicketKind, {
-        value: ethers.utils.parseUnits("100", "gwei"),
+        value: this.bronzeTicketPrice,
       });
       const tokensLeft = await this.betaTicketSale.getTicketsLeftByKind(this.bronzeTicketKind, this.buyer.address);
       expect(tokensLeft).to.be.eq(99);
@@ -179,7 +182,7 @@ describe("BetaTicketSale", function () {
       const tokensLeftAfter = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind, this.buyer.address);
       expect(tokensLeftAfter).to.be.eq(98);
       await this.betaTicketSale.connect(this.firstVIPUser).buy(this.bronzeTicketKind, {
-        value: ethers.utils.parseUnits("100", "gwei"),
+        value: this.bronzeTicketPrice,
       });
       const tokensLeft = await this.betaTicketSale.connect(this.buyer).getTicketsLeftByKind(this.bronzeTicketKind, this.buyer.address);
       expect(tokensLeft).to.be.eq(98);
@@ -194,7 +197,7 @@ describe("BetaTicketSale", function () {
       await this.betaTicketSale.addVip(this.firstVIPUser.address);
       await this.betaTicketSale.addVip(this.secondVIPUser.address);
       await this.betaTicketSale.connect(this.firstVIPUser).buy(this.bronzeTicketKind, {
-        value: ethers.utils.parseUnits("100", "gwei"),
+        value: this.bronzeTicketPrice,
       });
       const tokensLeft = await this.betaTicketSale
         .connect(this.secondVIPUser)
