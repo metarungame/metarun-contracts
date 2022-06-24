@@ -89,6 +89,21 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         }
         _mint(to, id, amount, "");
         kindSupply[getKind(id)]++;
+
+        if (getKind(id) == BRONZE_TICKET_KIND) {
+            tokenPerks[id].runsPerDayLimit = 10;
+            tokenPerks[id].runsTotalLimit = 100;
+        }
+
+        if (getKind(id) == SILVER_TICKET_KIND) {
+            tokenPerks[id].runsPerDayLimit = 15;
+            tokenPerks[id].runsTotalLimit = 135;
+        }
+
+        if (getKind(id) == GOLD_TICKET_KIND) {
+            tokenPerks[id].runsPerDayLimit = 20;
+            tokenPerks[id].runsTotalLimit = 150;
+        }
     }
 
     function mintBatch(
@@ -117,6 +132,27 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
 
         _mintBatch(to, tokenIds, amounts, "");
         kindSupply[kind] += count;
+
+        if (kind == BRONZE_TICKET_KIND) {
+            Perks memory bronzePerks = Perks(0, 0, 0, 0, 0, 0, 0, 0, 10, 100);
+            for (uint256 i = 0; i < tokenIds.length; i++) {
+                setPerks(tokenIds[i], bronzePerks);
+            }
+        }
+
+        if (kind == SILVER_TICKET_KIND) {
+            Perks memory silverPerks = Perks(0, 0, 0, 0, 0, 0, 0, 0, 15, 135);
+            for (uint256 i = 0; i < tokenIds.length; i++) {
+                setPerks(tokenIds[i], silverPerks);
+            }
+        }
+
+        if (kind == GOLD_TICKET_KIND) {
+            Perks memory goldPerks = Perks(0, 0, 0, 0, 0, 0, 0, 0, 20, 150);
+            for (uint256 i = 0; i < tokenIds.length; i++) {
+                setPerks(tokenIds[i], goldPerks);
+            }
+        }
     }
 
     function isCharacter(uint256 id) public pure returns (bool) {
