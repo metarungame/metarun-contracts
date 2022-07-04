@@ -13,6 +13,7 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
     function initialize(address metarunCollectionAddress) public initializer {
         __AccessControl_init();
         metarunCollection = MetarunCollection(metarunCollectionAddress);
+        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(EXECUTOR_ROLE, _msgSender());
     }
 

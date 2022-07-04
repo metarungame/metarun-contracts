@@ -36,6 +36,8 @@ module.exports = {
       chainId: 56,
       live: true,
       saveDeployments: true,
+      timeout: 240000,
+      gasPrice: 10000000000,
     },
     ftm: {
       url: "https://rpcapi-tracing.fantom.network/",
@@ -64,7 +66,7 @@ module.exports = {
       gasPrice: 2000000000,
     },
     hardhat: {
-      chainId: 137,
+      chainId: 56,
       accounts,
     },
     rinkeby: {

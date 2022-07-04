@@ -1,5 +1,5 @@
 module.exports = async function ({ getNamedAccounts, deployments, ethers }) {
-  const { execute } = deployments;
+  const { execute,read } = deployments;
   const { deployer } = await getNamedAccounts();
 
   const bronzeTicketsPrice = ethers.utils.parseUnits("180000000", "gwei");
@@ -8,11 +8,10 @@ module.exports = async function ({ getNamedAccounts, deployments, ethers }) {
   
   const collection = await deployments.get("MetarunCollection");
   console.log(`Using MetarunCollection at ${collection.address}`);
-  const metarunCollection = await ethers.getContractAt("MetarunCollection", collection.address);
 
-  const bronzeTicketKind = await metarunCollection.BRONZE_TICKET_KIND();
-  const silverTicketKind = await metarunCollection.SILVER_TICKET_KIND();
-  const goldTicketKind = await metarunCollection.GOLD_TICKET_KIND();
+  const bronzeTicketKind = await read("MetarunCollection",  "BRONZE_TICKET_KIND",)
+  const silverTicketKind = await read("MetarunCollection",  "SILVER_TICKET_KIND",)
+  const goldTicketKind = await read("MetarunCollection",  "GOLD_TICKET_KIND",)
 
   await execute("BetaTicketSale", 
     { 
