@@ -15,32 +15,32 @@ describe("MetarunCollection | isKind functions", function () {
     this.metarunCollection = await upgrades.deployProxy(this.metarunCollectionFactory, [URI_TOKEN]);
   });
 
-  describe("isCharacter function", function () {
+  describe("isGameToken function", function () {
     it("should correctly check for craftsman", async function () {
       const tokenKind = await this.metarunCollection.CRAFTSMAN_CHARACTER_KIND();
       const tokenId = (tokenKind << 16) | getTokenId();
-      const result = await this.metarunCollection.isCharacter(tokenId);
+      const result = await this.metarunCollection.isGameToken(tokenId);
       expect(result).to.be.true;
     });
 
     it("should correctly check for fighter", async function () {
       const tokenKind = await this.metarunCollection.FIGHTER_CHARACTER_KIND();
       const tokenId = (tokenKind << 16) | getTokenId();
-      const result = await this.metarunCollection.isCharacter(tokenId);
+      const result = await this.metarunCollection.isGameToken(tokenId);
       expect(result).to.be.true;
     });
 
     it("should correctly check for sprinter", async function () {
       const tokenKind = await this.metarunCollection.SPRINTER_CHARACTER_KIND();
       const tokenId = (tokenKind << 16) | getTokenId();
-      const result = await this.metarunCollection.isCharacter(tokenId);
+      const result = await this.metarunCollection.isGameToken(tokenId);
       expect(result).to.be.true;
     });
 
     it("should fail check for bad value", async function () {
       const tokenKind = 0xfff;
       const tokenId = (tokenKind << 16) | getTokenId();
-      const result = await this.metarunCollection.isCharacter(tokenId);
+      const result = await this.metarunCollection.isGameToken(tokenId);
       expect(result).to.be.false;
     });
   });

@@ -17,12 +17,6 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
         _grantRole(EXECUTOR_ROLE, _msgSender());
     }
 
-    function isGameToken(uint256 tokenId) private view returns (bool) {
-        bool isCharacter = metarunCollection.isCharacter(tokenId);
-        bool isTicket = metarunCollection.isTicket(tokenId);
-        return isCharacter || isTicket;
-    }
-
     function executeRun(
         address winner,
         uint256 winnerOpal,
@@ -34,7 +28,7 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
         require(hasRole(EXECUTOR_ROLE, _msgSender()), "RunExecutor: tx sender should have EXECUTOR_ROLE");
         if (winner != address(0)) {
             require(winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
-            require(isGameToken(winnerCharacterTokenId), "RunExecutor: winner's token id should be character or ticket");
+            require(metarunCollection.isGameToken(winnerCharacterTokenId), "RunExecutor: winner's token id should be character or ticket");
             require(metarunCollection.balanceOf(winner, winnerCharacterTokenId) == 1, "RunExecutor: winner should own winner character");
             metarunCollection.mint(winner, metarunCollection.OPAL_TOKEN_ID(), winnerOpal);
             MetarunCollection.Perks memory winnerCharacterPerks = metarunCollection.getPerks(winnerCharacterTokenId);
@@ -42,7 +36,7 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
             metarunCollection.setPerks(winnerCharacterTokenId, winnerCharacterPerks);
         }
         if (loser != 0x0000000000000000000000000000000000000000 && loserOpal > 0) {
-            require(isGameToken(loserCharacterTokenId), "RunExecutor: loser's token id should be character or ticket");
+            require(metarunCollection.isGameToken(loserCharacterTokenId), "RunExecutor: loser's token id should be character or ticket");
             require(metarunCollection.balanceOf(loser, loserCharacterTokenId) == 1, "RunExecutor: loser should own loser character");
             metarunCollection.mint(loser, metarunCollection.OPAL_TOKEN_ID(), loserOpal);
             MetarunCollection.Perks memory loserCharacterPerks = metarunCollection.getPerks(loserCharacterTokenId);

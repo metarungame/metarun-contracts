@@ -23,6 +23,9 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
     uint256 public constant BRONZE_TICKET_KIND = 0x0400;
     uint256 public constant SILVER_TICKET_KIND = 0x0401;
     uint256 public constant GOLD_TICKET_KIND = 0x0402;
+    uint256 public constant BRONZE_GIVEAWAY_KIND = 0x0403;
+    uint256 public constant SILVER_GIVEAWAY_KIND = 0x0404;
+    uint256 public constant GOLD_GIVEAWAY_KIND = 0x0405;
 
     uint256 public constant FUNGIBLE_TOKEN_KIND = 0x0500;
     uint256 public constant HEALTH_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0000;
@@ -53,7 +56,6 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
     function initialize(string memory uri) public initializer {
         __ERC1155_init(uri);
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-
         _setupRole(MINTER_ROLE, _msgSender());
         _setupRole(SETTER_ROLE, _msgSender());
     }
@@ -104,6 +106,21 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
             tokenPerks[id].runsPerDayLimit = 20;
             tokenPerks[id].runsTotalLimit = 150;
         }
+
+        if (getKind(id) == BRONZE_GIVEAWAY_KIND) {
+            tokenPerks[id].runsPerDayLimit = 5;
+            tokenPerks[id].runsTotalLimit = 70;
+        }
+
+        if (getKind(id) == SILVER_GIVEAWAY_KIND) {
+            tokenPerks[id].runsPerDayLimit = 7;
+            tokenPerks[id].runsTotalLimit = 70;
+        }
+
+        if (getKind(id) == GOLD_GIVEAWAY_KIND) {
+            tokenPerks[id].runsPerDayLimit = 10;
+            tokenPerks[id].runsTotalLimit = 70;
+        }
     }
 
     function mintBatch(
@@ -153,14 +170,39 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
                 setPerks(tokenIds[i], goldPerks);
             }
         }
+
+        if (kind == BRONZE_GIVEAWAY_KIND) {
+            Perks memory bronzePerks = Perks(0, 0, 0, 0, 0, 0, 0, 0, 5, 70);
+            for (uint256 i = 0; i < tokenIds.length; i++) {
+                setPerks(tokenIds[i], bronzePerks);
+            }
+        }
+
+        if (kind == SILVER_GIVEAWAY_KIND) {
+            Perks memory silverPerks = Perks(0, 0, 0, 0, 0, 0, 0, 0, 7, 70);
+            for (uint256 i = 0; i < tokenIds.length; i++) {
+                setPerks(tokenIds[i], silverPerks);
+            }
+        }
+        if (kind == GOLD_GIVEAWAY_KIND) {
+            Perks memory goldPerks = Perks(0, 0, 0, 0, 0, 0, 0, 0, 10, 70);
+            for (uint256 i = 0; i < tokenIds.length; i++) {
+                setPerks(tokenIds[i], goldPerks);
+            }
+        }
     }
 
-    function isCharacter(uint256 id) public pure returns (bool) {
-        return isKind(id, CRAFTSMAN_CHARACTER_KIND) || isKind(id, FIGHTER_CHARACTER_KIND) || isKind(id, SPRINTER_CHARACTER_KIND);
-    }
-
-    function isTicket(uint256 id) public pure returns (bool) {
-        return isKind(id, BRONZE_TICKET_KIND) || isKind(id, SILVER_TICKET_KIND) || isKind(id, GOLD_TICKET_KIND);
+    function isGameToken(uint256 id) public pure returns (bool) {
+        return
+            isKind(id, CRAFTSMAN_CHARACTER_KIND) ||
+            isKind(id, FIGHTER_CHARACTER_KIND) ||
+            isKind(id, SPRINTER_CHARACTER_KIND) ||
+            isKind(id, BRONZE_TICKET_KIND) ||
+            isKind(id, SILVER_TICKET_KIND) ||
+            isKind(id, GOLD_TICKET_KIND) ||
+            isKind(id, BRONZE_GIVEAWAY_KIND) ||
+            isKind(id, SILVER_GIVEAWAY_KIND) ||
+            isKind(id, GOLD_GIVEAWAY_KIND);
     }
 
     function getKind(uint256 id) public pure returns (uint256) {
@@ -177,12 +219,18 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
     }
 
     function getPerks(uint256 id) external view returns (Perks memory) {
-        require(isCharacter(id) || isKind(id, PET_TOKEN_KIND) || isTicket(id), "Perks are available only for characters, pets and tickets");
+        require(
+            isGameToken(id) || isKind(id, PET_TOKEN_KIND),
+            "Perks are available only for characters, pets and tickets"
+        );
         return tokenPerks[id];
     }
 
     function setPerks(uint256 id, Perks memory perks) public {
-        require(isCharacter(id) || isKind(id, PET_TOKEN_KIND) || isTicket(id), "Perks are available only for characters, pets and tickets");
+        require(
+            isGameToken(id) || isKind(id, PET_TOKEN_KIND),
+            "Perks are available only for characters, pets and tickets"
+        );
         require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenPerks[id] = perks;
     }
