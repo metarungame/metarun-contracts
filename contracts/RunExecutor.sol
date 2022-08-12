@@ -28,20 +28,47 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
         require(hasRole(EXECUTOR_ROLE, _msgSender()), "RunExecutor: tx sender should have EXECUTOR_ROLE");
         if (winner != address(0)) {
             require(winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
-            require(metarunCollection.isGameToken(winnerCharacterTokenId), "RunExecutor: winner's token id should be character or ticket");
-            require(metarunCollection.balanceOf(winner, winnerCharacterTokenId) == 1, "RunExecutor: winner should own winner character");
-            metarunCollection.mint(winner, metarunCollection.OPAL_TOKEN_ID(), winnerOpal);
-            MetarunCollection.Perks memory winnerCharacterPerks = metarunCollection.getPerks(winnerCharacterTokenId);
-            winnerCharacterPerks.runs += 1;
-            metarunCollection.setPerks(winnerCharacterTokenId, winnerCharacterPerks);
+            handleRunParticipant(winner, winnerOpal, winnerCharacterTokenId);
         }
-        if (loser != 0x0000000000000000000000000000000000000000 && loserOpal > 0) {
-            require(metarunCollection.isGameToken(loserCharacterTokenId), "RunExecutor: loser's token id should be character or ticket");
-            require(metarunCollection.balanceOf(loser, loserCharacterTokenId) == 1, "RunExecutor: loser should own loser character");
-            metarunCollection.mint(loser, metarunCollection.OPAL_TOKEN_ID(), loserOpal);
-            MetarunCollection.Perks memory loserCharacterPerks = metarunCollection.getPerks(loserCharacterTokenId);
-            loserCharacterPerks.runs += 1;
-            metarunCollection.setPerks(loserCharacterTokenId, loserCharacterPerks);
+        if (loser != address(0) && loserOpal > 0) {
+            handleRunParticipant(loser, loserOpal, loserCharacterTokenId);
         }
+    }
+
+    function executeThreeParticipantsRun(
+        address winner,
+        uint256 winnerOpal,
+        uint256 winnerCharacterTokenId,
+        address second,
+        uint256 secondOpal,
+        uint256 secondCharacterTokenId,
+        address loser,
+        uint256 loserOpal,
+        uint256 loserCharacterTokenId
+    ) public {
+        require(hasRole(EXECUTOR_ROLE, _msgSender()), "RunExecutor: tx sender should have EXECUTOR_ROLE");
+        if (winner != address(0)) {
+            require(winnerOpal > 0, "RunExecutor: winner's opal to be minted should be defined");
+            handleRunParticipant(winner, winnerOpal, winnerCharacterTokenId);
+        }
+        if (second != address(0) && secondOpal > 0) {
+            handleRunParticipant(second, secondOpal, secondCharacterTokenId);
+        }
+        if (loser != address(0) && loserOpal > 0) {
+            handleRunParticipant(loser, loserOpal, loserCharacterTokenId);
+        }
+    }
+
+    function handleRunParticipant(
+        address participant,
+        uint256 opal,
+        uint256 characterTokenId
+    ) internal {
+        require(metarunCollection.isGameToken(characterTokenId), "RunExecutor: participant's token id should be game token");
+        require(metarunCollection.balanceOf(participant, characterTokenId) == 1, "RunExecutor: participant should own its character");
+        metarunCollection.mint(participant, metarunCollection.OPAL_TOKEN_ID(), opal);
+        MetarunCollection.Perks memory perks = metarunCollection.getPerks(characterTokenId);
+        perks.runs += 1;
+        metarunCollection.setPerks(characterTokenId, perks);
     }
 }
