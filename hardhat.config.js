@@ -2,6 +2,7 @@ require("@nomiclabs/hardhat-waffle");
 require("hardhat-deploy");
 require("solidity-coverage");
 require("@openzeppelin/hardhat-upgrades");
+require('hardhat-contract-sizer');
 
 require("./tasks/mint-tokens.js");
 require("./tasks/mint-deployer.js");
@@ -17,6 +18,10 @@ const accounts = {
 
 module.exports = {
   solidity: "0.8.13",
+  contractSizer: {
+    runOnCompile: true,
+    strict: true,
+  },
   namedAccounts: {
     deployer: {
       default: 0,
