@@ -128,24 +128,6 @@ describe("MetarunCollection | mintBatch() function", function () {
         expect(exists).to.be.true;
       }
     });
-
-    it("should set perks after mint batch of tickets", async function () {
-      const bronzeTicketKind = await this.metarunCollection.BRONZE_TICKET_KIND();
-      const amount = 20;
-      let ticketIds = [];
-      for (let i = 0; i < amount; i++) {
-        ticketIds[i] = (bronzeTicketKind << 16) | i;
-      }
-      await this.metarunCollection.mintBatch(this.recipient.address, bronzeTicketKind, amount);
-
-      for (let i = 0; i < amount; i++) {
-        const balanceTicket = await this.metarunCollection.balanceOf(this.recipient.address, ticketIds[i]);
-        expect(balanceTicket).to.be.eq(1);
-        const ticketPerks = await this.metarunCollection.getPerks(ticketIds[i]);
-        expect(ticketPerks.runsPerDayLimit).to.be.eq(10);
-        expect(ticketPerks.runsTotalLimit).to.be.eq(100);
-      }
-    });
   });
 
   describe("Revert conditions", function () {

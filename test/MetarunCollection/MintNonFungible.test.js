@@ -124,11 +124,4 @@ describe("MetarunCollection | Non-fungible token mint", function () {
     const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
     await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
   });
-  it("should set perks after mint ticket", async function () {
-    const tokenId = (0x0400 << 16) | getTokenId();
-    await this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 1);
-    const ticketPerks = await this.metarunCollection.getPerks(tokenId);
-    expect(ticketPerks.runsPerDayLimit).to.be.eq(10);
-    expect(ticketPerks.runsTotalLimit).to.be.eq(100);
-  });
 });
