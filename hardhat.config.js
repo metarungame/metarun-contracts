@@ -24,7 +24,7 @@ module.exports = {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200,
+            runs: 2,
           },
         },
       },
@@ -99,6 +99,7 @@ module.exports = {
       url: `https://data-seed-prebsc-2-s1.binance.org:8545/`,
       live: true,
       saveDeployments: true,
+      gasPrice: 100000000000,
     },
     local: {
       chainId: 137,
