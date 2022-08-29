@@ -29,21 +29,21 @@ describe("MetarunCollection | Non-fungible token mint", function () {
     return Math.floor((Math.random() * 100000) % 2 ** 16);
   }
 
-  it("should mint character craftsman token", async function () {
-    const tokenId = (0x0000 << 16) | getTokenId();
-    const tokenKind = await this.metarunCollection.CRAFTSMAN_CHARACTER_KIND();
+  it("should mint character Ignis token", async function () {
+    const tokenId = 0x000106000003;
+    const tokenKind = await this.metarunCollection.IGNIS_CLASSIC_COMMON();
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
 
-  it("should mint character fighter token", async function () {
-    const tokenId = (0x0001 << 16) | getTokenId();
-    const tokenKind = await this.metarunCollection.FIGHTER_CHARACTER_KIND();
+  it("should mint character Penna token", async function () {
+    const tokenId = 0x000206000003;
+    const tokenKind = await this.metarunCollection.PENNA_CLASSIC_COMMON();
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
 
-  it("should mint character sprinter token", async function () {
-    const tokenId = (0x0002 << 16) | getTokenId();
-    const tokenKind = await this.metarunCollection.SPRINTER_CHARACTER_KIND();
+  it("should mint character Oro token", async function () {
+    const tokenId = 0x000306000003;
+    const tokenKind = await this.metarunCollection.ORO_CLASSIC_COMMON();
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
 
@@ -59,32 +59,26 @@ describe("MetarunCollection | Non-fungible token mint", function () {
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
 
-  it("should mint skin token", async function () {
-    const tokenId = (0x0301 << 16) | getTokenId();
-    const tokenKind = await this.metarunCollection.RARE_SKIN_KIND();
-    this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
-  });
-
   it("should mint ticket token", async function () {
     const tokenId = (0x0400 << 16) | getTokenId();
     const tokenKind = await this.metarunCollection.BRONZE_TICKET_KIND();
     this.nonFungibleTokenMintTestCase(tokenId, tokenKind);
   });
 
-  it("should deny minting more than 1 character craftsman token", async function () {
-    const tokenId = (0x0000 << 16) | getTokenId();
+  it("should deny minting more than 1 character Ignis token", async function () {
+    const tokenId = 0x000106000003;
     const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
     await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
   });
 
-  it("should deny minting more than 1 character fighter token", async function () {
-    const tokenId = (0x0001 << 16) | getTokenId();
+  it("should deny minting more than 1 character Penna token", async function () {
+    const tokenId = 0x000206000003;
     const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
     await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
   });
 
-  it("should deny minting more than 1 character sprinter token", async function () {
-    const tokenId = (0x0002 << 16) | getTokenId();
+  it("should deny minting more than 1 character Oro token", async function () {
+    const tokenId = 0x000206000003;
     const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
     await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
   });
@@ -97,12 +91,6 @@ describe("MetarunCollection | Non-fungible token mint", function () {
 
   it("should deny minting more than 1 pet token", async function () {
     const tokenId = (0x0200 << 16) | getTokenId();
-    const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
-    await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
-  });
-
-  it("should deny minting more than 1 skin token", async function () {
-    const tokenId = (0x0300 << 16) | getTokenId();
     const attemptToMint = this.metarunCollection.connect(this.deployer).mint(this.stranger.address, tokenId, 100);
     await expect(attemptToMint).to.be.revertedWith("Cannot mint more than one item");
   });

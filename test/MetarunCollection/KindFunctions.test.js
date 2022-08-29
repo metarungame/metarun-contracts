@@ -16,23 +16,20 @@ describe("MetarunCollection | isKind functions", function () {
   });
 
   describe("isGameToken function", function () {
-    it("should correctly check for craftsman", async function () {
-      const tokenKind = await this.metarunCollection.CRAFTSMAN_CHARACTER_KIND();
-      const tokenId = (tokenKind << 16) | getTokenId();
+    it("should correctly check for Ignis", async function () {
+      const tokenId = 0x000106000003;
       const result = await this.metarunCollection.isGameToken(tokenId);
       expect(result).to.be.true;
     });
 
-    it("should correctly check for fighter", async function () {
-      const tokenKind = await this.metarunCollection.FIGHTER_CHARACTER_KIND();
-      const tokenId = (tokenKind << 16) | getTokenId();
+    it("should correctly check for Penna", async function () {
+      const tokenId = 0x000206000003;
       const result = await this.metarunCollection.isGameToken(tokenId);
       expect(result).to.be.true;
     });
 
-    it("should correctly check for sprinter", async function () {
-      const tokenKind = await this.metarunCollection.SPRINTER_CHARACTER_KIND();
-      const tokenId = (tokenKind << 16) | getTokenId();
+    it("should correctly check for Oro", async function () {
+      const tokenId = 0x000306000003;
       const result = await this.metarunCollection.isGameToken(tokenId);
       expect(result).to.be.true;
     });
@@ -57,29 +54,6 @@ describe("MetarunCollection | isKind functions", function () {
   describe("isPet function", function () {
     it("should correctly check pet", async function () {
       const tokenKind = await this.metarunCollection.PET_TOKEN_KIND();
-      const tokenId = (tokenKind << 16) | getTokenId();
-      const result = await this.metarunCollection.isKind(tokenId, tokenKind);
-      expect(result).to.be.true;
-    });
-  });
-
-  describe("isSkin function", function () {
-    it("should correctly check common skin", async function () {
-      const tokenKind = await this.metarunCollection.COMMON_SKIN_KIND();
-      const tokenId = (tokenKind << 16) | getTokenId();
-      const result = await this.metarunCollection.isKind(tokenId, tokenKind);
-      expect(result).to.be.true;
-    });
-
-    it("should correctly check rare skin", async function () {
-      const tokenKind = await this.metarunCollection.RARE_SKIN_KIND();
-      const tokenId = (tokenKind << 16) | getTokenId();
-      const result = await this.metarunCollection.isKind(tokenId, tokenKind);
-      expect(result).to.be.true;
-    });
-
-    it("should correctly check common skin", async function () {
-      const tokenKind = await this.metarunCollection.MYTHICAL_SKIN_KIND();
       const tokenId = (tokenKind << 16) | getTokenId();
       const result = await this.metarunCollection.isKind(tokenId, tokenKind);
       expect(result).to.be.true;
@@ -113,6 +87,25 @@ describe("MetarunCollection | isKind functions", function () {
       const token = await this.metarunCollection.COLLISION_DAMAGE_TOKEN_ID();
       const result = await this.metarunCollection.isKind(token, this.fungibleTokenKind);
       expect(result).to.be.true;
+    });
+  });
+
+  describe("getType function", function () {
+    this.beforeAll(async function () {
+      this.fungibleTokenKind = await this.metarunCollection.FUNGIBLE_TOKEN_KIND();
+      this.characterTokenKind = await this.metarunCollection.PENNA_CLASSIC_COMMON();
+    });
+
+    it("should correctly check for character token", async function () {
+      const tokenId = 0x000206000003;
+      const result = await this.metarunCollection.getType(tokenId);
+      expect(result).to.be.equal(this.characterTokenKind >> 16);
+    });
+
+    it("should correctly check for non-character token", async function () {
+      const tokenId = (this.fungibleTokenKind << 16) | 3;
+      const result = await this.metarunCollection.getType(tokenId);
+      expect(result).to.be.equal(0x0000);
     });
   });
 });

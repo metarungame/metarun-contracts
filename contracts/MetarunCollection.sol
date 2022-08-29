@@ -7,32 +7,56 @@ import "@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155Supp
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 
 contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1155BurnableUpgradeable, ERC1155SupplyUpgradeable {
-    uint256 internal constant KIND_MASK = 0xffff0000;
+    uint256 internal constant KIND_MASK = 0xffffffff0000;
 
-    uint256 public constant CRAFTSMAN_CHARACTER_KIND = 0x0000;
-    uint256 public constant FIGHTER_CHARACTER_KIND = 0x0001;
-    uint256 public constant SPRINTER_CHARACTER_KIND = 0x0002;
+    uint256 public constant BRONZE_TICKET_KIND = 0x00000400;
+    uint256 public constant SILVER_TICKET_KIND = 0x00000401;
+    uint256 public constant GOLD_TICKET_KIND = 0x00000402;
+    uint256 public constant BRONZE_GIVEAWAY_KIND = 0x00000403;
+    uint256 public constant SILVER_GIVEAWAY_KIND = 0x00000404;
+    uint256 public constant GOLD_GIVEAWAY_KIND = 0x00000405;
 
-    uint256 public constant ARTIFACT_TOKEN_KIND = 0x0100;
-    uint256 public constant PET_TOKEN_KIND = 0x0200;
+    uint256 public constant MYSTERY_BOX_KIND = 0x00000406;
 
-    uint256 public constant COMMON_SKIN_KIND = 0x0300;
-    uint256 public constant RARE_SKIN_KIND = 0x0301;
-    uint256 public constant MYTHICAL_SKIN_KIND = 0x0302;
+    uint256 public constant ARTIFACT_TOKEN_KIND = 0x00000100;
+    uint256 public constant PET_TOKEN_KIND = 0x00000200;
 
-    uint256 public constant BRONZE_TICKET_KIND = 0x0400;
-    uint256 public constant SILVER_TICKET_KIND = 0x0401;
-    uint256 public constant GOLD_TICKET_KIND = 0x0402;
-    uint256 public constant BRONZE_GIVEAWAY_KIND = 0x0403;
-    uint256 public constant SILVER_GIVEAWAY_KIND = 0x0404;
-    uint256 public constant GOLD_GIVEAWAY_KIND = 0x0405;
+    uint256 public constant IGNIS_CLASSIC_COMMON = 0x00010600;
+    uint256 public constant IGNIS_CLASSIC_RARE = 0x000010601;
+    uint256 public constant IGNIS_CLASSIC_MYTHICAL = 0x00010602;
+    uint256 public constant IGNIS_EPIC_COMMON = 0x00010700;
+    uint256 public constant IGNIS_EPIC_RARE = 0x00010701;
+    uint256 public constant IGNIS_EPIC_MYTHICAL = 0x00010702;
+    uint256 public constant IGNIS_LEGENDARY_COMMON = 0x00010800;
+    uint256 public constant IGNIS_LEGENDARY_RARE = 0x00010801;
+    uint256 public constant IGNIS_LEGENDARY_MYTHICAL = 0x00010802;
 
-    uint256 public constant FUNGIBLE_TOKEN_KIND = 0x0500;
-    uint256 public constant HEALTH_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0000;
-    uint256 public constant MANA_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0001;
-    uint256 public constant SPEED_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0002;
-    uint256 public constant COLLISION_DAMAGE_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0003;
-    uint256 public constant OPAL_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x0004;
+    uint256 public constant PENNA_CLASSIC_COMMON = 0x00020600;
+    uint256 public constant PENNA_CLASSIC_RARE = 0x00020601;
+    uint256 public constant PENNA_CLASSIC_MYTHICAL = 0x00020602;
+    uint256 public constant PENNA_EPIC_COMMON = 0x00020700;
+    uint256 public constant PENNA_EPIC_RARE = 0x00020701;
+    uint256 public constant PENNA_EPIC_MYTHICAL = 0x00020702;
+    uint256 public constant PENNA_LEGENDARY_COMMON = 0x00020800;
+    uint256 public constant PENNA_LEGENDARY_RARE = 0x00020801;
+    uint256 public constant PENNA_LEGENDARY_MYTHICAL = 0x00020802;
+
+    uint256 public constant ORO_CLASSIC_COMMON = 0x00030600;
+    uint256 public constant ORO_CLASSIC_RARE = 0x00030601;
+    uint256 public constant ORO_CLASSIC_MYTHICAL = 0x00030602;
+    uint256 public constant ORO_EPIC_COMMON = 0x00030700;
+    uint256 public constant ORO_EPIC_RARE = 0x00030701;
+    uint256 public constant ORO_EPIC_MYTHICAL = 0x00030702;
+    uint256 public constant ORO_LEGENDARY_COMMON = 0x00030800;
+    uint256 public constant ORO_LEGENDARY_RARE = 0x00030801;
+    uint256 public constant ORO_LEGENDARY_MYTHICAL = 0x00030802;
+
+    uint256 public constant FUNGIBLE_TOKEN_KIND = 0x00000500;
+    uint256 public constant HEALTH_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x00000000;
+    uint256 public constant MANA_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x00000001;
+    uint256 public constant SPEED_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x00000002;
+    uint256 public constant COLLISION_DAMAGE_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x00000003;
+    uint256 public constant OPAL_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x00000004;
 
     mapping(uint256 => uint256) kindSupply;
     struct Perks {
@@ -123,9 +147,9 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
 
     function isGameToken(uint256 id) public pure returns (bool) {
         return
-            isKind(id, CRAFTSMAN_CHARACTER_KIND) ||
-            isKind(id, FIGHTER_CHARACTER_KIND) ||
-            isKind(id, SPRINTER_CHARACTER_KIND) ||
+            getType(id) == IGNIS_CLASSIC_COMMON >> 16 ||
+            getType(id) == PENNA_CLASSIC_COMMON >> 16 ||
+            getType(id) == ORO_CLASSIC_COMMON >> 16 ||
             isKind(id, BRONZE_TICKET_KIND) ||
             isKind(id, SILVER_TICKET_KIND) ||
             isKind(id, GOLD_TICKET_KIND) ||
@@ -136,6 +160,10 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
 
     function getKind(uint256 id) public pure returns (uint256) {
         return (KIND_MASK & id) >> 16;
+    }
+
+    function getType(uint256 id) public pure returns (uint256) {
+        return (id >> 16) >> 16;
     }
 
     function isKind(uint256 id, uint256 kind) public pure returns (bool) {

@@ -23,10 +23,10 @@ describe("MetarunCollection | Manage perks of pets and characters", function () 
     this.metarunCollection = await upgrades.deployProxy(this.metarunCollectionFactory, [URI_TOKEN]);
     this.signers = await ethers.getSigners();
     this.characterOwner = this.signers[1];
-    this.characterTokenId = 0x00020001;
+    this.characterTokenId = 0x000106000003;
     await this.metarunCollection.mint(this.characterOwner.address, this.characterTokenId, 1);
     this.petOwner = this.signers[1];
-    this.petTokenId = 0x02000001;
+    this.petTokenId = 0x000002000001;
     await this.metarunCollection.mint(this.petOwner.address, this.petTokenId, 1);
   });
 

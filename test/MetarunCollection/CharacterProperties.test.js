@@ -7,7 +7,7 @@ describe("MetarunCollection | getters and setters of Character properties", func
     this.metarunCollectionFactory = await ethers.getContractFactory("MetarunCollection");
     this.signers = await ethers.getSigners();
     this.characterOwner = this.signers[2];
-    this.characterId = (0x0002 << 16) | 0xfa01;
+    this.characterId = 0x000106000003;
   });
 
   beforeEach(async function () {

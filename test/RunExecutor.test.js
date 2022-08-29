@@ -23,12 +23,12 @@ describe("RunExecutor", function () {
     this.metarunCollection.grantRole(MINTER_ROLE, this.runExecutor.address);
     this.metarunCollection.grantRole(SETTER_ROLE, this.runExecutor.address);
 
-    this.winnerCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 1;
-    this.secondCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 2;
-    this.loserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 3;
-    this.badWinnerCharacterTokenId = ((await this.metarunCollection.RARE_SKIN_KIND()) << 16) + 1;
-    this.badSecondCharacterTokenId = ((await this.metarunCollection.RARE_SKIN_KIND()) << 16) + 1;
-    this.badLoserCharacterTokenId = ((await this.metarunCollection.RARE_SKIN_KIND()) << 16) + 3;
+    this.winnerCharacterTokenId = 0x0000106010001;
+    this.secondCharacterTokenId = 0x000207020002;
+    this.loserCharacterTokenId = 0x000308020003;
+    this.badWinnerCharacterTokenId = ((await this.metarunCollection.ARTIFACT_TOKEN_KIND()) << 16) + 1;
+    this.badSecondCharacterTokenId = ((await this.metarunCollection.ARTIFACT_TOKEN_KIND()) << 16) + 2;
+    this.badLoserCharacterTokenId = ((await this.metarunCollection.ARTIFACT_TOKEN_KIND()) << 16) + 3;
 
     this.winnerInfo = {
       adds: this.winner,
@@ -173,7 +173,7 @@ describe("RunExecutor", function () {
     });
 
     it("should revert if loser doesn't have a loser character", async function () {
-      const dummyLoserCharacterTokenId = ((await this.metarunCollection.FIGHTER_CHARACTER_KIND()) << 16) + 100;
+      const dummyLoserCharacterTokenId = this.loserCharacterTokenId + 100;
       await this.metarunCollection.mint(this.winner, this.winnerCharacterTokenId, 1);
       await this.metarunCollection.mint(this.loser, this.loserCharacterTokenId, 1); // dummy value on mint
       const attempt = this.runExecutor.executeRun(
