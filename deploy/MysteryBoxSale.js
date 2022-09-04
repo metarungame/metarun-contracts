@@ -1,4 +1,4 @@
-const contractName = "MysteryBoxSale";
+xconst contractName = "MysteryBoxSale";
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deploy, execute, read } = deployments;
