@@ -89,7 +89,7 @@ contract MetarunExchange is EIP712Upgradeable {
         return (_hashTypedDataV4(orderHash));
     }
 
-    function cancel(SellOrder memory sellOrder, bytes memory signature) public {
+    function cancel(SellOrder memory sellOrder, bytes memory signature) external {
         bytes32 hash = hashSellOrder(sellOrder);
         address signer = ECDSAUpgradeable.recover(hash, signature);
         require(!sellOrderCancelled[hash], "ALREADY_CANCELLED");

@@ -173,7 +173,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         return getKind(id) == kind;
     }
 
-    function setURI(string memory newUri) public {
+    function setURI(string memory newUri) external {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need DEFAULT_ADMIN_ROLE");
         _setURI(newUri);
     }
@@ -183,7 +183,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         return tokenPerks[id];
     }
 
-    function setPerks(uint256 id, Perks memory perks) public {
+    function setPerks(uint256 id, Perks memory perks) external {
         require(isGameToken(id) || isKind(id, PET_TOKEN_KIND), "Perks are available only for characters, pets and tickets");
         require(hasRole(SETTER_ROLE, _msgSender()), "need SETTER_ROLE");
         tokenPerks[id] = perks;

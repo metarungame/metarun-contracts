@@ -67,7 +67,7 @@ contract MysteryBoxSale is AccessControlUpgradeable {
      * @param value new price of mystery box
      */
 
-    function setMysteryBoxPrice(uint256 value) public {
+    function setMysteryBoxPrice(uint256 value) external {
         require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "You should have DEFAULT_ADMIN_ROLE");
         mysteryBoxPrice = value;
     }
@@ -77,7 +77,7 @@ contract MysteryBoxSale is AccessControlUpgradeable {
      * @param payee recipient of funds
      */
 
-    function withdrawPayments(address payee) public {
+    function withdrawPayments(address payee) external {
         require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "You should have DEFAULT_ADMIN_ROLE");
         uint256 payment = BUSD.balanceOf(address(this));
         require(payment != 0, "Zero balance");
