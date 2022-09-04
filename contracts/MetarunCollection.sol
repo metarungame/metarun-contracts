@@ -79,6 +79,9 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
 
     function initialize(string memory uri) public initializer {
         __ERC1155_init(uri);
+        __AccessControl_init();
+        __ERC1155Burnable_init();
+        __ERC1155Supply_init();
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _setupRole(MINTER_ROLE, _msgSender());
         _setupRole(SETTER_ROLE, _msgSender());
