@@ -116,8 +116,8 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
             require(amount == 1, "Cannot mint more than one item");
             require(!exists(id), "Cannot mint more than one item");
         }
-        _mint(to, id, amount, "");
         kindSupply[getKind(id)]++;
+        _mint(to, id, amount, "");
     }
 
     function mintBatch(
@@ -143,9 +143,8 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         for (uint256 i = 0; i < count; i++) {
             amounts[i] = 1;
         }
-
-        _mintBatch(to, tokenIds, amounts, "");
         kindSupply[kind] += count;
+        _mintBatch(to, tokenIds, amounts, "");
     }
 
     function isGameToken(uint256 id) public pure returns (bool) {

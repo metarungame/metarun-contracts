@@ -62,10 +62,10 @@ contract MetarunExchange is EIP712Upgradeable {
         require(!sellOrderCancelled[sellOrderHash], "ALREADY_CANCELLED");
         require(block.timestamp < sellOrder.expirationTime, "EXPIRED");
         bytes32 orderHash = hashSellOrder(sellOrder);
+        sellOrderPerformed[sellOrderHash] = true;
         emit Purchase(orderHash, sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, sellOrder.price);
         collection.safeTransferFrom(sellOrder.seller, msg.sender, sellOrder.tokenId, sellOrder.amount, "");
         mrunToken.safeTransferFrom(msg.sender, sellOrder.seller, sellOrder.price);
-        sellOrderPerformed[sellOrderHash] = true;
     }
 
     // Returns the hash of the fully encoded EIP712 SellOrder for this domain.
