@@ -56,11 +56,3 @@ To add balances snapshot to the TierSystem contract:
 Note: Hardhat tasks in this repo for balances parsing and snapshot preparation are deprecated and were removed because
 they accounted just ERC-20 balances, and farming/staking deposits were ignored.
 
-# Vesting contracts
-
-Hold and gradually releases allocated funds to investors. Funds are divided into two volumes accounted independently:
-
-* TimeLocked portion gets entirely released after `lockClaimTime`
-* Vested portion gets released gradually after vestStart and ends on `vestStart + vestDuration`
-
-![vesting diagram](vesting-diagram.png)
