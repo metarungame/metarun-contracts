@@ -22,7 +22,7 @@ contract MysteryBoxSale is AccessControlUpgradeable {
     uint256 public mysteryBoxPrice;
     uint256 public constant maxBoxCount = 35175;
 
-    event MysteryBoxBought(address owner, uint256 mysteryBoxId, bytes32 referrer);
+    event MysteryBoxBought(address indexed owner, uint256 indexed mysteryBoxId, bytes32 indexed referrer);
 
     /**
      * @dev the constructor arguments:
