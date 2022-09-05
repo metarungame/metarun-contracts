@@ -176,34 +176,34 @@ describe("MetarunCollection | mintBatch() function", function () {
       this.recipient = this.signers[2];
     });
 
-    it("should increase after single-mint", async function () {
-      const characterKind = await this.metarunCollection.IGNIS_EPIC_RARE();
-      const tokenId = 0x000107010003;
-      const beforeMint = await this.metarunCollection.getKindSupply(characterKind);
+    it("should increase after single-mint nft", async function () {
+      const skinKind = await this.metarunCollection.BRONZE_TICKET_KIND();
+      const tokenId = (skinKind << 16) | 3;
+      const beforeMint = await this.metarunCollection.getNFTKindSupply(skinKind);
       await this.metarunCollection.mint(this.recipient.address, tokenId, 1);
-      const afterMint = await this.metarunCollection.getKindSupply(characterKind);
+      const afterMint = await this.metarunCollection.getNFTKindSupply(skinKind);
       expect(beforeMint).to.be.eq(0);
       expect(afterMint).to.be.eq(1);
     });
 
     it("should increase after batch-mint", async function () {
-      const ticketKind = await this.metarunCollection.GOLD_TICKET_KIND();
-      const beforeMint = await this.metarunCollection.getKindSupply(ticketKind);
+      const skinKind = await this.metarunCollection.BRONZE_TICKET_KIND();
+      const beforeMint = await this.metarunCollection.getNFTKindSupply(skinKind);
       const amount = 100;
-      await this.metarunCollection.mintBatch(this.recipient.address, ticketKind, amount);
-      const afterMint = await this.metarunCollection.getKindSupply(ticketKind);
+      await this.metarunCollection.mintBatch(this.recipient.address, skinKind, amount);
+      const afterMint = await this.metarunCollection.getNFTKindSupply(skinKind);
       expect(afterMint - amount).to.be.eq(beforeMint);
     });
 
     it("should stay the same if single-mint failed", async function () {
-      const ticketKind = await this.metarunCollection.GOLD_TICKET_KIND();
-      const tokenId = (ticketKind << 16) | 3;
+      const skinKind = await this.metarunCollection.BRONZE_TICKET_KIND();
+      const tokenId = (skinKind << 16) | 3;
       await this.metarunCollection.mint(this.recipient.address, tokenId, 1);
 
-      const beforeMint = await this.metarunCollection.getKindSupply(ticketKind);
+      const beforeMint = await this.metarunCollection.getNFTKindSupply(skinKind);
       const failingAttemptToMint = this.metarunCollection.mint(this.recipient.address, tokenId, 1);
       await expect(failingAttemptToMint).to.be.revertedWith("Cannot mint more than one item");
-      const afterMint = await this.metarunCollection.getKindSupply(ticketKind);
+      const afterMint = await this.metarunCollection.getNFTKindSupply(skinKind);
       expect(beforeMint).to.be.eq(afterMint);
     });
 
@@ -212,11 +212,21 @@ describe("MetarunCollection | mintBatch() function", function () {
       const tokenId = (artifactKind << 16) | 3;
       await this.metarunCollection.mint(this.recipient.address, tokenId, 1);
 
-      const beforeMint = await this.metarunCollection.getKindSupply(artifactKind);
+      const beforeMint = await this.metarunCollection.getNFTKindSupply(artifactKind);
       const failingAttemptToMint = this.metarunCollection.mintBatch(this.recipient.address, artifactKind, 2 ** 16);
       await expect(failingAttemptToMint).to.be.reverted;
-      const afterMint = await this.metarunCollection.getKindSupply(artifactKind);
+      const afterMint = await this.metarunCollection.getNFTKindSupply(artifactKind);
       expect(beforeMint).to.be.eq(afterMint);
+    });
+
+    it("should stay the same after single-mint fungible token", async function () {
+      const fungibleKind = await this.metarunCollection.FUNGIBLE_TOKEN_KIND();
+      const healthId = (fungibleKind << 16) + 0x0000;
+      const beforeMint = await this.metarunCollection.getNFTKindSupply(fungibleKind);
+      await this.metarunCollection.mint(this.recipient.address, healthId, 1);
+      const afterMint = await this.metarunCollection.getNFTKindSupply(fungibleKind);
+      expect(beforeMint).to.be.eq(0);
+      expect(afterMint).to.be.eq(0);
     });
   });
 });

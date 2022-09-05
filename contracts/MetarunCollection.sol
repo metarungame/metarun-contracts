@@ -58,7 +58,7 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
     uint256 public constant COLLISION_DAMAGE_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x00000003;
     uint256 public constant OPAL_TOKEN_ID = (FUNGIBLE_TOKEN_KIND << 16) + 0x00000004;
 
-    mapping(uint256 => uint256) kindSupply;
+    mapping(uint256 => uint256) nftKindSupply;
     struct Perks {
         uint256 level;
         uint256 runs;
@@ -102,8 +102,8 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
-    function getKindSupply(uint256 kind) public view returns (uint256) {
-        return kindSupply[kind];
+    function getNFTKindSupply(uint256 kind) public view returns (uint256) {
+        return nftKindSupply[kind];
     }
 
     function mint(
@@ -115,8 +115,9 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         if (!isKind(id, FUNGIBLE_TOKEN_KIND)) {
             require(amount == 1, "Cannot mint more than one item");
             require(!exists(id), "Cannot mint more than one item");
+            nftKindSupply[getKind(id)]++;
         }
-        kindSupply[getKind(id)]++;
+
         _mint(to, id, amount, "");
     }
 
@@ -143,7 +144,8 @@ contract MetarunCollection is ERC1155Upgradeable, AccessControlUpgradeable, ERC1
         for (uint256 i = 0; i < count; i++) {
             amounts[i] = 1;
         }
-        kindSupply[kind] += count;
+
+        nftKindSupply[kind] += count;
         _mintBatch(to, tokenIds, amounts, "");
     }
 
