@@ -94,6 +94,13 @@ describe("RunExecutor", function () {
     };
   });
 
+  describe("Check initialization", function () {
+    it("zero address validation", async function () {
+      const attempt = upgrades.deployProxy(this.runExecutorFactory, [ZERO_ADDRESS])
+      await expect(attempt).to.be.revertedWith("ZERO_COLLECTION_ADDR");
+    })
+  })
+
   describe("Run with two participants", function () {
     it("should perform a run successfully", async function () {
       await this.metarunCollection.mint(this.winner, this.winnerCharacterTokenId, 1);

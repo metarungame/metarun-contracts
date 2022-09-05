@@ -18,6 +18,7 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
 
     function initialize(address metarunCollectionAddress) public initializer {
         __AccessControl_init();
+        require(metarunCollectionAddress != address(0), "RunExecutor: ZERO_COLLECTION_ADDR");
         metarunCollection = MetarunCollection(metarunCollectionAddress);
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(EXECUTOR_ROLE, _msgSender());
@@ -61,6 +62,7 @@ contract RunExecutor is Initializable, AccessControlUpgradeable {
     }
 
     function handleRunParticipant(RunnerInfo memory participantInfo, MetarunCollection.Perks memory perks) internal {
+        require(participantInfo.adds != address(0), "RunExecutor: ZERO_REWARDEE");
         require(metarunCollection.isGameToken(participantInfo.tokenId), "RunExecutor: participant's token id should be game token");
         require(
             metarunCollection.balanceOf(participantInfo.adds, participantInfo.tokenId) == 1,
